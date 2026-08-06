@@ -50,6 +50,18 @@
 //      boss_yecha1      -> image/mode/boss/character/boss_yecha.jpg
 //      boss_zhuyin1     -> image/mode/boss/character/boss_zhuyin.jpg
 //      boss_xvzhu_hun   -> image/character/re_xuzhu.jpg
+//
+// 6. 修复关卡翻译覆盖失效（消除 duplicated translate 警告）
+//    content 在 package 合并前执行，此时 lib.translate 尚无包翻译，
+//    get.translation 找不到翻译时返回原样键，导致关卡覆盖写入
+//    "boss_shanhaizhiyiE" 之类的字面量，且 loadCharacter 合并时因键
+//    已存在而跳过，翻译永久停留在字面量。修复：
+//    a) content 中 14 处关卡翻译覆盖改为直接引用包翻译对象
+//       qinyin.translate['boss_xxx']（不再依赖加载顺序）；
+//    b) 被关卡覆盖的 6 个翻译键（boss_shanhaizhiyi / boss_shanhai_info /
+//       boss_shanhaif_info / boss_shanhaif1_info / boss_shanhaif /
+//       boss_shanhaif1）从包翻译表移除，改由 content 无条件设置默认值
+//       后再按关卡覆盖，避免 loadCharacter 合并时重复冲突。
 // ============================================================
 game.import("extension",function(lib,game,ui,get,ai,_status){
 var qinyin={
