@@ -5716,6 +5716,31 @@ var qinyin={
 	"init":true,
 	"intro":"游戏内添加手气卡。"
 	},
+	"sm_shuoming":{
+	name:'<div class="hth_menu">▶扩展说明</div>',
+	clear:true,
+	onclick:function(){
+	if(this.hth_more==undefined){
+	var more=ui.create.div('.hth_more',
+	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
+	'<br>玩法说明：'+
+	'<br>在山海关卡切换处可修改山海志异挑战的boss。'+
+	'<br>在朱果发放方式处可选择是否启用随机获得技能模式。'+
+	'<br>我方登场人数可自由设置为1-3人，推荐选择2人。'+
+	'<br><font color="yellow">素材声明：'+
+	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
+	'</font></div>');
+	this.parentNode.insertBefore(more,this.nextSibling);
+	this.hth_more=more;
+	this.innerHTML='<div class="hth_menu">▼扩展说明</div>';
+	}
+	else{
+	this.parentNode.removeChild(this.hth_more);
+	delete this.hth_more;
+	this.innerHTML='<div class="hth_menu">▶扩展说明</div>';
+	};
+	},
+	},
 	},
 	package:{
 	character: qinyin,
