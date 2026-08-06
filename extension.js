@@ -32,9 +32,6 @@
 //    武将包 translate 中新增 "山海志异" 键，用于武将包菜单显示。
 //
 // 5. 部分角色美术改用无名杀内置素材
-//    经原作者授权开源并核对外观后，以下 18 个角色的原画不再随扩展分发，
-//    改为通过 img: 前缀直接引用游戏本体内置素材（缺失时自动回退默认剪影，
-//    不影响游玩）：
 //      boss_baiwuchang1 -> image/mode/boss/character/boss_baiwuchang.jpg
 //      boss_caocao_hun  -> image/mode/boss/character/boss_caocao.jpg
 //      boss_chi1        -> image/mode/boss/character/boss_chi.jpg
@@ -5683,7 +5680,7 @@ var qinyin={
 	},
 	config:{
 	"zhuanshu_moshi":{
-	"name":"山海模式挑战",
+	"name":"朱果发放方式",
 	"intro":"游戏开始时，清空挑战方所有技能，每人从16个系统随机给出的技能中选择1项技能获得。模式①：当boss或队友阵亡时，挑战方每人从16个系统随机给出的技能中选择1项技能获得；模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从16个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。",
 	"init":'1',
 	"item":{
@@ -5698,7 +5695,7 @@ var qinyin={
 	"intro":"游戏内添加手气卡。"
 	},
 	"boss_jianyuantiaozhan":{
-	"name":'减员挑战',
+	"name":'我方登场人数',
 	"intro":'可改为双人挑战或单人挑战。',
 	"init":"1",
 	"item":{
@@ -5708,7 +5705,7 @@ var qinyin={
 	},
 	},
 	"boss_shanhaizhiyipian":{
-	"name":'山海志异',
+	"name":'山海关卡切换',
 	"intro":'可更改挑战模式中山海志异的关卡，其他详情请查看挑战模式中的山海志异。',
 	"init":'boss_huhushengwei',
 	"item":{
@@ -5735,8 +5732,8 @@ var qinyin={
 	translate:{
 	},
 	},
-	intro:"<font color=#FF00FF>长按下列功能可查看功能详情</font>",
-	author:"浪琴婊",
+	intro:"<font color = #FF2626>本扩展开源免费，严禁倒卖！</font><li><font color=#FF00FF>长按下列功能可查看功能详情</font>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.11</li>",
 	diskURL:"",
 	forumURL:"",
 	version:"1.11",
