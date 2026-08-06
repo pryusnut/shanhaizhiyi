@@ -1,5 +1,5 @@
 // ============================================================
-// 《山海志异挑战》现代化适配说明
+// 《山海志异》现代化适配说明
 // ------------------------------------------------------------
 // 本扩展在原作者「浪琴婊」版本基础上进行了以下修改，以兼容新版无名杀：
 //
@@ -29,7 +29,7 @@
 //      lib.config.characters.remove('qinyin') 旧式注册语句。
 //
 // 4. 新增武将包菜单名称翻译
-//    武将包 translate 中新增 "山海志异挑战" 键，用于武将包菜单显示。
+//    武将包 translate 中新增 "山海志异" 键，用于武将包菜单显示。
 //
 // 5. 部分角色美术改用无名杀内置素材
 //    经原作者授权开源并核对外观后，以下 18 个角色的原画不再随扩展分发，
@@ -288,7 +288,7 @@ var qinyin={
 	boss.storage.weizhi=2
 	if(boss.getFriends().contains(boss.previousSeat)) boss.previousSeat.storage.weizhi=1
 	}
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if((pian=="boss_ruilinjiangshi"&&!game.hasPlayer(function(current){
 	return current.name=="boss_qilin1"
 	}))||(pian=="boss_huhushengwei"&&!game.hasPlayer(function(current){
@@ -309,7 +309,7 @@ var qinyin={
 	}
 	}else event.goto(2)
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	var zhao
 	if(pian=="boss_ruilinjiangshi") zhao="boss_qilin1"
 	if(pian=="boss_huhushengwei") zhao="boss_xiaohu1"
@@ -321,7 +321,7 @@ var qinyin={
 	game.addVideo('setIdentity',fellow,'zhong');
 	"step 2"
 	player.smoothAvatar();
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
 	player.init(['boss_xvzhu_hun','boss_ganning_hun','boss_guanyv_hun','boss_diaochan_hun'].randomGet());
 	game.addVideo('reinit2',player,player.name);
@@ -378,7 +378,7 @@ var qinyin={
 	'step 0'
 	game.delay();
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
 	game.changeBoss(['boss_simayi_hun','boss_zhouyv_hun','boss_zhugeliang_hun'].randomGet());
 	}
@@ -415,7 +415,7 @@ var qinyin={
 	'step 0'
 	game.delay();
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
 	game.changeBoss(['boss_caocao_hun','boss_sunquan_hun','boss_liubei_hun','boss_lvbu_hun'].randomGet());
 	}
@@ -807,7 +807,7 @@ var qinyin={
 	filter:function(event,player){
 	if(lib.config.mode!='boss') return false;
 	if(player.side==game.boss.side) return false
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian!="boss_huhushengwei") return false;
 	if(!game.hasPlayer(function(current){
 	return !current.classList.contains('out')&&event.player!=current&&player.getEnemies().contains(current)
@@ -4186,7 +4186,7 @@ var qinyin={
 	current2.removeMark("boss_zhuguozi",4)
 	}
 	});
-	player.node.avatar.setBackgroundImage('extension/山海志异挑战/boss_xiaohu2.jpg');
+	player.node.avatar.setBackgroundImage('extension/山海志异/boss_xiaohu2.jpg');
 	player.addSkill('boss_zuoji')
 	}
 	},
@@ -4316,7 +4316,7 @@ var qinyin={
 	},//技能
 	// --------------------------------------武将/技能翻译------------------------------------------//
 	translate:{
-	"山海志异挑战":"<font color=#FFBB00>山海志异</font><font color=#FF3EFF>挑战</font>",
+	"山海志异":"<font color=#FFBB00>山海志异</font>",
 	"shzy":"山海志异",
 	"dypg":"地狱判官",
 	"sdqy":"圣诞奇遇",
@@ -4408,7 +4408,7 @@ var qinyin={
 	boss_kongbai:" ",
 	boss_kongbai_info:" ",
 	boss_shanhaif2:'&nbsp;选模式',
-	boss_shanhaif2_info:'山海志异挑战分三种模式，请打开扩展页面在山海志异的选择中选择自己想要挑战的模式。',
+	boss_shanhaif2_info:'山海志异分三种模式，请打开扩展页面在山海志异的选择中选择自己想要挑战的模式。',
 	boss_shanhai:'&nbsp;第一关',//兽1、魂2、鬼3
 	boss_shanhai_info:'挑战魑、魅、魍、魉中的随机一个。',
 	boss_shanhaiB_info:'挑战魂·许褚、魂·甘宁、魂·关羽、魂·貂蝉中的随机一个。',
@@ -4670,7 +4670,7 @@ var qinyin={
 	},//翻译
 	};
 	return {
-	name:"山海志异挑战",
+	name:"山海志异",
 	editable:false,
 	content:function (config,pack){
 	/*神，thunder 魏，water 蜀，soil 吴，wood 群，metal 主，fire
@@ -4687,7 +4687,7 @@ var qinyin={
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	if(get.mode()=='boss'){//减员挑战
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
 	lib.translate['boss_shanhai_info']=get.translation('boss_shanhaiB_info')
 	lib.translate['boss_shanhaif_info']=get.translation('boss_shanhaiBf_info')
@@ -4751,9 +4751,9 @@ var qinyin={
 	var next=game.me.chooseButton(dialog,true).set('onfree',true);
 	next._triggered=null;
 	next.custom.replace.target=event.customreplacetarget;
-	if(lib.config['extension_'+'山海志异挑战_'+'boss_jianyuantiaozhan']=="1") next.selectButton=[3,3];
-	if(lib.config['extension_'+'山海志异挑战_'+'boss_jianyuantiaozhan']=="2") next.selectButton=[2,2];
-	if(lib.config['extension_'+'山海志异挑战_'+'boss_jianyuantiaozhan']=="3") next.selectButton=[1,1];
+	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="1") next.selectButton=[3,3];
+	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="2") next.selectButton=[2,2];
+	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="3") next.selectButton=[1,1];
 	event.changeDialog=function(){
 	if(ui.cheat2&&ui.cheat2.dialog==_status.event.dialog){
 	return;
@@ -4897,7 +4897,7 @@ var qinyin={
 	loopType:1,
 	chongzheng:0,
 	loopFirst:function(){
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_huhushengwei") return game.boss
 	return game.boss.nextSeat;
 	},
@@ -5016,7 +5016,7 @@ var qinyin={
 	if(!player.getEnemies().contains(game.boss)) return false
 	if(player==game.boss) return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异挑战_'+'zhuanshu_moshi']
+	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
 	if(moshi=="0") return false;
 	return true;
 	},
@@ -5024,7 +5024,7 @@ var qinyin={
 	'step 0'
 	player.clearSkills();
 	lib.character[player.name][3]=[]
-	var pian=lib.config['extension_'+'山海志异挑战_'+'boss_shanhaizhiyipian']
+	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_huhushengwei"&&game.boss.name=='boss_shanhaizhiyi'){
 	player.maxHp=6 
 	player.hp=6
@@ -5094,7 +5094,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异挑战_'+'zhuanshu_moshi']
+	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
 	if(moshi!="1") return false;
 	if(player.side==game.boss.side) return false
 	return event.player.side!=game.boss.side||event.player==game.boss
@@ -5173,7 +5173,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异挑战_'+'zhuanshu_moshi']
+	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
 	if(moshi!="2") return false;
 	if(player.side==game.boss.side) return false
 	return player.countMark("boss_zhuguozi")>2
@@ -5464,7 +5464,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=lib.config['extension_'+'山海志异挑战_'+'zhuanshu_moshi']
+	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
 	if(moshi!="2") return false;
 	return player.side!=game.boss.side&&event.player.side==game.boss.side
 	},
@@ -5485,7 +5485,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=lib.config['extension_'+'山海志异挑战_'+'zhuanshu_moshi']
+	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
 	if(moshi!="2") return false;
 	if(player!=event.player) return false
 	return event.player.side==game.boss.side
@@ -5645,10 +5645,10 @@ var qinyin={
 	qinyin.character[i][4].push('img:'+bossArt[i]);
 	}
 	else if(lib.device||lib.node){
-	qinyin.character[i][4].push('ext:山海志异挑战/'+i+'.jpg');
+	qinyin.character[i][4].push('ext:山海志异/'+i+'.jpg');
 	}
 	else{
-	qinyin.character[i][4].push('db:extension-山海志异挑战:'+i+'.jpg');
+	qinyin.character[i][4].push('db:extension-山海志异:'+i+'.jpg');
 	}
 	}
 	// ---------------------------------------卡牌栏------------------------------------------//	
@@ -5675,7 +5675,7 @@ var qinyin={
 	};
 	return qinyin_equip;
 	});
-	lib.translate['qinyin_equip_card_config']='山海志异挑战';
+	lib.translate['qinyin_equip_card_config']='山海志异';
 	lib.config.all.cards.push('qinyin_equip');
 	if(!lib.config.cards.contains('qinyin_equip')) lib.config.cards.remove('qinyin_equip'); */
 	},
@@ -5739,5 +5739,5 @@ var qinyin={
 	author:"浪琴婊",
 	diskURL:"",
 	forumURL:"",
-	version:"1.108",
+	version:"1.11",
 	},files:{"character":[],"card":[],"skill":[]}}})
