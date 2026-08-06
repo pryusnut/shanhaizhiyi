@@ -4686,28 +4686,28 @@ var qinyin={
 	if(get.mode()=='boss'){//减员挑战
 	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
-	lib.translate['boss_shanhai_info']=get.translation('boss_shanhaiB_info')
-	lib.translate['boss_shanhaif_info']=get.translation('boss_shanhaiBf_info')
-	lib.translate['boss_shanhaif1_info']=get.translation('boss_shanhaiBf1_info')
-	lib.translate['boss_shanhaizhiyi']=get.translation('boss_shanhaizhiyiB')
+	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiB_info']
+	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiBf_info']
+	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiBf1_info']
+	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiB']
 	}
 	if(pian=="boss_qvguibixie"){
-	lib.translate['boss_shanhaif1_info']=get.translation('boss_shanhaiCf1_info')
-	lib.translate['boss_shanhaizhiyi']=get.translation('boss_shanhaizhiyiC')
+	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
+	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiC']
 	}
 	if(pian=="boss_ruilinjiangshi"){
-	lib.translate['boss_shanhai_info']=get.translation('boss_shanhaiC_info')
-	lib.translate['boss_shanhaif_info']=get.translation('boss_shanhaiCf_info')
-	lib.translate['boss_shanhaif1_info']=get.translation('boss_shanhaiDf1_info')
-	lib.translate['boss_shanhaizhiyi']=get.translation('boss_shanhaizhiyiD')
+	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiC_info']
+	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiCf_info']
+	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiDf1_info']
+	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiD']
 	}
 	if(pian=="boss_huhushengwei"){
-	lib.translate['boss_shanhai_info']=get.translation('boss_shanhaiD_info')
-	lib.translate['boss_shanhaif']=get.translation('boss_kongbai')
-	lib.translate['boss_shanhaif_info']=get.translation('boss_kongbai_info')
-	lib.translate['boss_shanhaif1']=get.translation('boss_kongbai')
-	lib.translate['boss_shanhaif1_info']=get.translation('boss_kongbai_info')
-	lib.translate['boss_shanhaizhiyi']=get.translation('boss_shanhaizhiyiE')
+	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiD_info']
+	lib.translate['boss_shanhaif']=qinyin.translate['boss_kongbai']
+	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_kongbai_info']
+	lib.translate['boss_shanhaif1']=qinyin.translate['boss_kongbai']
+	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_kongbai_info']
+	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiE']
 	}
 	lib.game.chooseCharacter=function(func){
 	var next=game.createEvent('chooseCharacter',false);
