@@ -4324,7 +4324,6 @@ var qinyin={
 	"qqzj":"青青子衿",
 	"djbs":"单将boss",
 	
-	"boss_shanhaizhiyi":"驱逐年兽",
 	"boss_shanhaizhiyiB":"将魂觉醒",
 	"boss_shanhaizhiyiC":"驱鬼辟邪",
 	"boss_shanhaizhiyiD":"瑞麟降世",
@@ -4407,17 +4406,12 @@ var qinyin={
 	boss_shanhaif2:'&nbsp;选模式',
 	boss_shanhaif2_info:'山海志异分三种模式，请打开扩展页面在山海志异的选择中选择自己想要挑战的模式。',
 	boss_shanhai:'&nbsp;第一关',//兽1、魂2、鬼3
-	boss_shanhai_info:'挑战魑、魅、魍、魉中的随机一个。',
 	boss_shanhaiB_info:'挑战魂·许褚、魂·甘宁、魂·关羽、魂·貂蝉中的随机一个。',
 	boss_shanhaiC_info:'挑战穷奇、混沌中的随机一个。游戏开始时召唤麒麟为我方助阵，击败敌人的同时也要保护好麒麟，若麒麟阵亡则直接判定挑战方败北。',
 	boss_shanhaiD_info:'挑战朱雀、玄武两位神兽，boss阵亡时会进入修整，再度复活变得更加强大，同时击杀两位神兽的真身才能获得胜利。游戏开始时会召唤小虎为我方助阵，击败敌人的同时也要保护好小虎，若小虎阵亡则直接判定挑战方败北。',
-	boss_shanhaif:'&nbsp;第二关',
-	boss_shanhaif_info:'挑战牛头、马面中的随机一个。',
 	boss_shanhaiBf_info:'挑战魂·司马懿、魂·周瑜、魂·诸葛亮中的随机一个。',
 	boss_shanhaiCf_info:'挑战饕餮、梼杌中的随机一个。',
-	boss_shanhaif1:'&nbsp;第三关',
 	boss_shanhaif1yi:'&nbsp;第三关',
-	boss_shanhaif1_info:'挑战年兽。',
 	boss_shanhaiBf1_info:'挑战魂·曹操、魂·孙权、魂·刘备、魂·神吕布中的随机一个。',
 	boss_shanhaiCf1_info:'挑战罗刹、夜叉、黑无常、白无常中的随机一个。',
 	boss_shanhaiDf1_info:'挑战逐阴。',
@@ -4684,6 +4678,12 @@ var qinyin={
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	if(get.mode()=='boss'){//减员挑战
+	lib.translate['boss_shanhai_info']='挑战魑、魅、魍、魉中的随机一个。'
+	lib.translate['boss_shanhaif_info']='挑战牛头、马面中的随机一个。'
+	lib.translate['boss_shanhaif1_info']='挑战年兽。'
+	lib.translate['boss_shanhaizhiyi']='驱逐年兽'
+	lib.translate['boss_shanhaif']='&nbsp;第二关'
+	lib.translate['boss_shanhaif1']='&nbsp;第三关'
 	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
 	if(pian=="boss_jianghunjuexing"){
 	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiB_info']
