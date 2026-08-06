@@ -5713,7 +5713,7 @@ var qinyin={
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
-	"init":false,
+	"init":true,
 	"intro":"游戏内添加手气卡。"
 	},
 	},
