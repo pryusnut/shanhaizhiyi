@@ -33,22 +33,30 @@
 //
 // 5. 部分角色美术改用无名杀内置素材
 //      boss_baiwuchang1 -> image/mode/boss/character/boss_baiwuchang.jpg
-//      boss_caocao_hun  -> image/mode/boss/character/boss_caocao.jpg
+//      boss_caocao_hun  -> image/character/re_caocao.jpg
 //      boss_chi1        -> image/mode/boss/character/boss_chi.jpg
+//      boss_diaochan_hun-> image/character/re_diaochan.jpg
+//      boss_ganning_hun -> image/character/re_ganning.jpg
+//      boss_guanyv_hun  -> image/character/re_guanyu.jpg
 //      boss_heiwuchang1 -> image/mode/boss/character/boss_heiwuchang.jpg
 //      boss_hundun1     -> image/mode/boss/character/boss_hundun.jpg
 //      boss_liang1      -> image/mode/boss/character/boss_liang.jpg
 //      boss_luocha1     -> image/mode/boss/character/boss_luocha.jpg
+//      boss_lvbu_hun    -> image/character/shen_lvbu.jpg
 //      boss_mamian1     -> image/mode/boss/character/boss_mamian.jpg
 //      boss_mei1        -> image/mode/boss/character/boss_mo.jpg
 //      boss_mengpoa     -> image/mode/boss/character/boss_mengpo.jpg
 //      boss_niutou1     -> image/mode/boss/character/boss_niutou.jpg
 //      boss_qiongqi1    -> image/mode/boss/character/boss_qiongqi.jpg
+//      boss_simayi_hun  -> image/character/re_simayi.jpg
+//      boss_sunquan_hun -> image/character/re_sunquan.jpg
 //      boss_taotie1     -> image/mode/boss/character/boss_taotie.jpg
 //      boss_taowu1      -> image/mode/boss/character/boss_taowu.jpg
 //      boss_wang1       -> image/mode/boss/character/boss_wang.jpg
 //      boss_yecha1      -> image/mode/boss/character/boss_yecha.jpg
+//      boss_zhugeliang_hun -> image/character/re_zhugeliang.jpg
 //      boss_zhuyin1     -> image/mode/boss/character/boss_zhuyin.jpg
+//      boss_zhouyv_hun  -> image/character/re_zhouyu.jpg
 //      boss_xvzhu_hun   -> image/character/re_xuzhu.jpg
 //
 // 6. 修复关卡翻译覆盖失效（消除 duplicated translate 警告）
@@ -5631,7 +5639,7 @@ var qinyin={
 	precontent:function (){
 	var bossArt={
 	boss_baiwuchang1:'image/mode/boss/character/boss_baiwuchang.jpg',
-	boss_caocao_hun:'image/mode/boss/character/boss_caocao.jpg',
+	boss_caocao_hun:'image/character/re_caocao.jpg',
 	boss_chi1:'image/mode/boss/character/boss_chi.jpg',
 	boss_heiwuchang1:'image/mode/boss/character/boss_heiwuchang.jpg',
 	boss_hundun1:'image/mode/boss/character/boss_hundun.jpg',
@@ -5648,6 +5656,14 @@ var qinyin={
 	boss_yecha1:'image/mode/boss/character/boss_yecha.jpg',
 	boss_zhuyin1:'image/mode/boss/character/boss_zhuyin.jpg',
 	boss_xvzhu_hun:'image/character/re_xuzhu.jpg',
+	boss_diaochan_hun:'image/character/re_diaochan.jpg',
+	boss_ganning_hun:'image/character/re_ganning.jpg',
+	boss_guanyv_hun:'image/character/re_guanyu.jpg',
+	boss_lvbu_hun:'image/character/shen_lvbu.jpg',
+	boss_simayi_hun:'image/character/re_simayi.jpg',
+	boss_sunquan_hun:'image/character/re_sunquan.jpg',
+	boss_zhouyv_hun:'image/character/re_zhouyu.jpg',
+	boss_zhugeliang_hun:'image/character/re_zhugeliang.jpg',
 	};
 	for(var i in qinyin.character){
 	if(bossArt[i]){
