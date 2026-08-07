@@ -4346,7 +4346,7 @@ var qinyin={
 	"djbs":"单将boss",
 	
 	"boss_shanhaizhiyiB":"将魂觉醒",
-	"boss_shanhaizhiyiC":"驱鬼辟邪",
+	"boss_shanhaizhiyiC":"荡邪庆新",
 	"boss_shanhaizhiyiD":"瑞麟降世",
 	"boss_shanhaizhiyiE":"虎虎生威",
 	"boss_diyvpanguan":"地狱判官",
@@ -5716,7 +5716,7 @@ var qinyin={
 	"item":{
 	"boss_jianghunjuexing":'将魂觉醒',
 	"boss_qvzhunianshou":'驱逐年兽',
-	"boss_qvguibixie":'驱鬼辟邪',
+	"boss_qvguibixie":'荡邪庆新',
 	"boss_ruilinjiangshi":'瑞麟降世',
 	"boss_huhushengwei":'虎虎生威',
 	},
