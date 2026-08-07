@@ -344,7 +344,7 @@ var qinyin={
 	player.init(['boss_xvzhu_hun','boss_ganning_hun','boss_guanyv_hun','boss_diaochan_hun'].randomGet());
 	game.addVideo('reinit2',player,player.name);
 	}
-	if(pian=="boss_qvzhunianshou"||pian=="boss_qvguibixie"){
+	if(pian=="boss_qvzhunianshou"||pian=="boss_dangxieqingxin"){
 	player.init(['boss_chi1','boss_mei1','boss_wang1','boss_liang1'].randomGet());
 	game.addVideo('reinit2',player,player.name);
 	}
@@ -400,7 +400,7 @@ var qinyin={
 	if(pian=="boss_jianghunjuexing"){
 	game.changeBoss(['boss_simayi_hun','boss_zhouyv_hun','boss_zhugeliang_hun'].randomGet());
 	}
-	if(pian=="boss_qvzhunianshou"||pian=="boss_qvguibixie"){
+	if(pian=="boss_qvzhunianshou"||pian=="boss_dangxieqingxin"){
 	game.changeBoss(['boss_mamian1','boss_niutou1'].randomGet());
 	}
 	if(pian=="boss_ruilinjiangshi"){
@@ -440,7 +440,7 @@ var qinyin={
 	if(pian=="boss_qvzhunianshou"){
 	game.changeBoss('boss_nianshou1');
 	}
-	if(pian=="boss_qvguibixie"){
+	if(pian=="boss_dangxieqingxin"){
 	game.changeBoss(['boss_luocha1','boss_yecha1','boss_heiwuchang1','boss_baiwuchang1'].randomGet());
 	}
 	if(pian=="boss_ruilinjiangshi"){
@@ -4712,7 +4712,7 @@ var qinyin={
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiBf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiB']
 	}
-	if(pian=="boss_qvguibixie"){
+	if(pian=="boss_dangxieqingxin"){
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiC']
 	}
@@ -5716,7 +5716,7 @@ var qinyin={
 	"item":{
 	"boss_jianghunjuexing":'将魂觉醒',
 	"boss_qvzhunianshou":'驱逐年兽',
-	"boss_qvguibixie":'荡邪庆新',
+	"boss_dangxieqingxin":'荡邪庆新',
 	"boss_ruilinjiangshi":'瑞麟降世',
 	"boss_huhushengwei":'虎虎生威',
 	},
