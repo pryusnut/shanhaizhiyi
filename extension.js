@@ -344,7 +344,7 @@ var qinyin={
 	player.init(['boss_xvzhu_hun','boss_ganning_hun','boss_guanyv_hun','boss_diaochan_hun'].randomGet());
 	game.addVideo('reinit2',player,player.name);
 	}
-	if(pian=="boss_qvzhunianshou"||pian=="boss_dangxieqingxin"){
+	if(pian=="boss_dangxieqingxin"||pian=="boss_qvguibixie"){
 	player.init(['boss_chi1','boss_mei1','boss_wang1','boss_liang1'].randomGet());
 	game.addVideo('reinit2',player,player.name);
 	}
@@ -400,7 +400,7 @@ var qinyin={
 	if(pian=="boss_jianghunjuexing"){
 	game.changeBoss(['boss_simayi_hun','boss_zhouyv_hun','boss_zhugeliang_hun'].randomGet());
 	}
-	if(pian=="boss_qvzhunianshou"||pian=="boss_dangxieqingxin"){
+	if(pian=="boss_dangxieqingxin"||pian=="boss_qvguibixie"){
 	game.changeBoss(['boss_mamian1','boss_niutou1'].randomGet());
 	}
 	if(pian=="boss_ruilinjiangshi"){
@@ -437,10 +437,10 @@ var qinyin={
 	if(pian=="boss_jianghunjuexing"){
 	game.changeBoss(['boss_caocao_hun','boss_sunquan_hun','boss_liubei_hun','boss_lvbu_hun'].randomGet());
 	}
-	if(pian=="boss_qvzhunianshou"){
+	if(pian=="boss_dangxieqingxin"){
 	game.changeBoss('boss_nianshou1');
 	}
-	if(pian=="boss_dangxieqingxin"){
+	if(pian=="boss_qvguibixie"){
 	game.changeBoss(['boss_luocha1','boss_yecha1','boss_heiwuchang1','boss_baiwuchang1'].randomGet());
 	}
 	if(pian=="boss_ruilinjiangshi"){
@@ -4346,7 +4346,7 @@ var qinyin={
 	"djbs":"单将boss",
 	
 	"boss_shanhaizhiyiB":"将魂觉醒",
-	"boss_shanhaizhiyiC":"荡邪庆新",
+	"boss_shanhaizhiyiC":"驱鬼辟邪",
 	"boss_shanhaizhiyiD":"瑞麟降世",
 	"boss_shanhaizhiyiE":"虎虎生威",
 	"boss_diyvpanguan":"地狱判官",
@@ -4702,7 +4702,7 @@ var qinyin={
 	lib.translate['boss_shanhai_info']='挑战魑、魅、魍、魉中的随机一个。'
 	lib.translate['boss_shanhaif_info']='挑战牛头、马面中的随机一个。'
 	lib.translate['boss_shanhaif1_info']='挑战年兽。'
-	lib.translate['boss_shanhaizhiyi']='驱逐年兽'
+	lib.translate['boss_shanhaizhiyi']='荡邪庆新'
 	lib.translate['boss_shanhaif']='&nbsp;第二关'
 	lib.translate['boss_shanhaif1']='&nbsp;第三关'
 	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
@@ -4712,7 +4712,7 @@ var qinyin={
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiBf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiB']
 	}
-	if(pian=="boss_dangxieqingxin"){
+	if(pian=="boss_qvguibixie"){
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiC']
 	}
@@ -5715,8 +5715,8 @@ var qinyin={
 	"init":'boss_huhushengwei',
 	"item":{
 	"boss_jianghunjuexing":'将魂觉醒',
-	"boss_qvzhunianshou":'驱逐年兽',
 	"boss_dangxieqingxin":'荡邪庆新',
+	"boss_qvguibixie":'驱鬼辟邪',
 	"boss_ruilinjiangshi":'瑞麟降世',
 	"boss_huhushengwei":'虎虎生威',
 	},
