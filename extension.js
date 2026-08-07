@@ -41,6 +41,7 @@
 //      boss_heiwuchang1 -> image/mode/boss/character/boss_heiwuchang.jpg
 //      boss_hundun1     -> image/mode/boss/character/boss_hundun.jpg
 //      boss_liang1      -> image/mode/boss/character/boss_liang.jpg
+//      boss_liubei_hun  -> image/character/re_liubei.jpg
 //      boss_luocha1     -> image/mode/boss/character/boss_luocha.jpg
 //      boss_lvbu_hun    -> image/character/shen_lvbu.jpg
 //      boss_mamian1     -> image/mode/boss/character/boss_mamian.jpg
@@ -5644,6 +5645,7 @@ var qinyin={
 	boss_heiwuchang1:'image/mode/boss/character/boss_heiwuchang.jpg',
 	boss_hundun1:'image/mode/boss/character/boss_hundun.jpg',
 	boss_liang1:'image/mode/boss/character/boss_liang.jpg',
+	boss_liubei_hun:'image/character/re_liubei.jpg',
 	boss_luocha1:'image/mode/boss/character/boss_luocha.jpg',
 	boss_mamian1:'image/mode/boss/character/boss_mamian.jpg',
 	boss_mei1:'image/mode/boss/character/boss_mo.jpg',
