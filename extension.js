@@ -4711,22 +4711,22 @@ var qinyin={
 	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiBf_info']
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiBf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiB']
-	lib.characterIntro['boss_shanhaizhiyi']='英魂试炼降临，齐心协力闯关'
+	lib.characterTitle['boss_shanhaizhiyi']='英魂试炼降临，齐心协力闯关'
 	}
 	if(pian=="boss_dangxieqingxin"){
-	lib.characterIntro['boss_shanhaizhiyi']='行山踏水值新岁，勇斗年兽挽救世危'
+	lib.characterTitle['boss_shanhaizhiyi']='行山踏水值新岁，勇斗年兽挽救世危'
 	}
 	if(pian=="boss_qvguibixie"){
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiC']
-	lib.characterIntro['boss_shanhaizhiyi']='满地纸钱香篆冷，更无真哭两三声'
+	lib.characterTitle['boss_shanhaizhiyi']='满地纸钱香篆冷，更无真哭两三声'
 	}
 	if(pian=="boss_ruilinjiangshi"){
 	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiC_info']
 	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiCf_info']
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiDf1_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiD']
-	lib.characterIntro['boss_shanhaizhiyi']='麒麟本是天上物，头角峥嵘光五色'
+	lib.characterTitle['boss_shanhaizhiyi']='麒麟本是天上物，头角峥嵘光五色'
 	}
 	if(pian=="boss_huhushengwei"){
 	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiD_info']
@@ -4735,7 +4735,7 @@ var qinyin={
 	lib.translate['boss_shanhaif1']=qinyin.translate['boss_kongbai']
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_kongbai_info']
 	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiE']
-	lib.characterIntro['boss_shanhaizhiyi']='勇发看鸷击，愤来听虎吟'
+	lib.characterTitle['boss_shanhaizhiyi']='勇发看鸷击，愤来听虎吟'
 	}
 	lib.game.chooseCharacter=function(func){
 	var next=game.createEvent('chooseCharacter',false);
