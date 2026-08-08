@@ -4204,7 +4204,7 @@ var qinyin={
 	current2.removeMark("boss_zhuguozi",4)
 	}
 	});
-	player.node.avatar.setBackgroundImage('image/character/boss_xiaohu2.jpg');
+	player.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_xiaohu2.jpg');
 	player.addSkill('boss_zuoji')
 	}
 	},
@@ -5679,7 +5679,7 @@ var qinyin={
 	qinyin.character[i][4].push('img:'+bossArt[i]);
 	}
 	else{
-	qinyin.character[i][4].push('img:image/character/'+i+'.jpg');
+	qinyin.character[i][4].push('ext:山海志异/resources/image/character/'+i+'.jpg');
 	}
 	}
 	// ---------------------------------------卡牌栏------------------------------------------//	
