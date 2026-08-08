@@ -1565,7 +1565,7 @@ var qinyin={
 	player.chooseToDiscard('h')
 	trigger.directHit=true;
 	player.logSkill('boss_suoxue');
-	game.playMY('new_jiangchi');
+	game.playSkillAudio('new_jiangchi');
 	}
 	else{
 	event.draw=true;
@@ -1575,7 +1575,7 @@ var qinyin={
 	"step 1"
 	if(result.bool){
 	if(event.draw){
-	game.playMY('new_jiangchi');//语音
+	game.playSkillAudio('new_jiangchi');//语音
 	player.logSkill('boss_suoxue',trigger.target);
 	player.draw(event.num);
 	}
