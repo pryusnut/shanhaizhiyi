@@ -1420,7 +1420,7 @@ var qinyin={
 	if(player.getFriends().contains(event.player)) return false;
 	if(event.cards){
 	for(var i=0;i<event.cards.length;i++){
-	if(get.color(event.cards[i],'black')=='black') return true;
+	if(get.color(event.cards[i])=='black') return true;
 	}
 	}
 	return false;
