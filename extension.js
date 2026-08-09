@@ -35,6 +35,7 @@
 //      boss_baiwuchang1 -> image/mode/boss/character/boss_baiwuchang.jpg
 //      boss_caocao_hun  -> image/character/re_caocao.jpg
 //      boss_chi1        -> image/mode/boss/character/boss_chi.jpg
+//      boss_diyvpanguan -> extension/山海志异/resources/image/character/boss_yanluowanga.jpg
 //      boss_diaochan_hun-> image/character/re_diaochan.jpg
 //      boss_ganning_hun -> image/character/re_ganning.jpg
 //      boss_guanyv_hun  -> image/character/re_guanyu.jpg
@@ -4714,7 +4715,7 @@ var qinyin={
 	lib.characterTitle['boss_shanhaizhiyi']='英魂试炼降临，齐心协力闯关'
 	}
 	if(pian=="boss_dangxieqingxin"){
-	lib.characterTitle['boss_shanhaizhiyi']='行山踏水值新岁<br>勇斗年兽救世危'
+	lib.characterTitle['boss_shanhaizhiyi']='行山踏水值新岁<br>勇斗年兽挽世危'
 	}
 	if(pian=="boss_qvguibixie"){
 	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
@@ -5649,6 +5650,7 @@ var qinyin={
 	boss_baiwuchang1:'image/mode/boss/character/boss_baiwuchang.jpg',
 	boss_caocao_hun:'image/character/re_caocao.jpg',
 	boss_chi1:'image/mode/boss/character/boss_chi.jpg',
+	boss_diyvpanguan:'extension/山海志异/resources/image/character/boss_yanluowanga.jpg',
 	boss_heiwuchang1:'image/mode/boss/character/boss_heiwuchang.jpg',
 	boss_hundun1:'image/mode/boss/character/boss_hundun.jpg',
 	boss_liang1:'image/mode/boss/character/boss_liang.jpg',
