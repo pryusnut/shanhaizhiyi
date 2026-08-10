@@ -72,6 +72,21 @@
 //       boss_shanhaif_info / boss_shanhaif1_info / boss_shanhaif /
 //       boss_shanhaif1）从包翻译表移除，改由 content 无条件设置默认值
 //       后再按关卡覆盖，避免 loadCharacter 合并时重复冲突。
+//
+// 7. 山海志异关卡拆分重构（参考官方捉鬼驱邪关卡设计）
+//    原方案为单个 boss_shanhaizhiyi 关卡壳 + 配置项切换 5 种流程；
+//    现拆分为 5 个独立 boss 关卡（boss_shzy_<关卡拼音>），直接在挑战
+//    模式 boss 列表中展示，删除"山海关卡切换"配置项：
+//    a) 每个关卡一个主 boss 壳（hp 0），技能 = 开场技能（gameStart 时
+//       init 第一阶段角色，参考官方 boss_bianshen 写法）+ "第一关/第二关/
+//       第三关"展示技能（nobracket，翻译静态化），虎虎生威仅第一关；
+//    b) 阶段切换沿用 boss_shanhai2x/3x（阶段角色身上的 dieBegin 隐藏 +
+//       global dieAfter 链），目标选择由 pian 配置判断改为读取
+//       game.shzy_guanka（开场技能写入的关卡标记）；
+//    c) 翻译/称号全部静态化到包 translate 与 characterTitle，删除
+//       content 中按 pian 的动态覆盖块；
+//    d) 5 个关卡使用独立封面（resources/image/cover/ 下 4 张新封面，
+//       瑞麟降世复用 boss_qilin1.jpg），删除原 boss_shanhaizhiyi 封面。
 // ============================================================
 game.import("extension",function(lib,game,ui,get,ai,_status){
 var qinyin={
@@ -88,12 +103,17 @@ var qinyin={
 	"alhg":["boss_alhg_qidala","boss_alhg_qijiasi","boss_alhg_jingzishibing","boss_alhg_xiruonuosi","boss_alhg_xiruonuosizuoshou","boss_alhg_xiruonuosiyoushou","boss_alhg_sheshenyi","boss_alhg_dazi","boss_alhg_zhishen"],
 	"qqzj":["boss_caocao_qqzj","boss_simayi_qqzj","boss_lvbu_qqzj","boss_dongzhuo_qqzj","boss_zhangjiao_qqzj","boss_yuanshu_qqzj"],
 	"djbs":["boss_zhangrang1","boss_machao1","boss_ling"],
+	"shzygx":["boss_shzy_huhushengwei","boss_shzy_dangxieqingxin","boss_shzy_jianghunjuexing","boss_shzy_quguibixie","boss_shzy_ruilinjiangshi"],
 	
 	},
 	},
 	// --------------------------------------武将资料--------浪琴婊----------------------------------//
 	character:{
-	"boss_shanhaizhiyi":['male','',0,["boss_shanhaif2","boss_shanhai","boss_shanhaif","boss_shanhaif1"],['boss','unseen'],'qun'],
+	"boss_shzy_huhushengwei":['male','',0,["boss_shzy_huhushengwei_1"],['boss','unseen'],'qun'],
+	"boss_shzy_dangxieqingxin":['male','',0,["boss_shzy_dangxieqingxin_1","boss_shzy_dangxieqingxin_2","boss_shzy_dangxieqingxin_3"],['boss','unseen'],'qun'],
+	"boss_shzy_jianghunjuexing":['male','',0,["boss_shzy_jianghunjuexing_1","boss_shzy_jianghunjuexing_2","boss_shzy_jianghunjuexing_3"],['boss','unseen'],'qun'],
+	"boss_shzy_quguibixie":['male','',0,["boss_shzy_quguibixie_1","boss_shzy_quguibixie_2","boss_shzy_quguibixie_3"],['boss','unseen'],'qun'],
+	"boss_shzy_ruilinjiangshi":['male','',0,["boss_shzy_ruilinjiangshi_1","boss_shzy_ruilinjiangshi_2","boss_shzy_ruilinjiangshi_3"],['boss','unseen'],'qun'],
 	"boss_diyvpanguan":["male","",0,["boss_yvguan","boss_yvguanf","boss_yvguanf1","boss_yvguanf2"],['boss','unseen'],'wei'],
 	"boss_aolihagang":["male","",0,["boss_aogang","boss_aogangf","boss_aogangf1","boss_aogangf2"],['boss','unseen'],'shu'],
 	"boss_qingqingzijin":["male","",0,["boss_qqzijin","boss_qqzijinf"],['boss','unseen'],'qun'],
@@ -179,14 +199,16 @@ var qinyin={
 	"boss_machao1":"#b千面猫设计",
 	"boss_zhuquejiangling":"#b朱雀，是中国古代神话中的天之四灵之一，于五行主火，象征四象中的老阳。朱雀玄武命脉相连，当一方受到伤害，另一方将会摸牌。两者拥有不死之身，其阵亡后，经历短暂休整便会复活并变得更加强大。只有让两者同时阵亡才能获得胜利。",
 	"boss_xuanwujiangling":"#b玄武，是中国古代神话中的天之四灵之一，于五行主水，象征四象中的老阴。朱雀玄武命脉相连，当一方受到伤害，另一方将会摸牌。两者拥有不死之身，其阵亡后，经历短暂休整便会复活并变得更加强大。只有让两者同时阵亡才能获得胜利。",
+	"boss_shzy_huhushengwei":"勇发看鸷击，愤来听虎吟",
+	"boss_shzy_dangxieqingxin":"行山踏水值新岁<br>勇斗年兽挽世危",
+	"boss_shzy_jianghunjuexing":"英魂试炼降临，齐心协力闯关",
+	"boss_shzy_quguibixie":"满地纸钱香篆冷<br>更无真哭两三声",
+	"boss_shzy_ruilinjiangshi":"麒麟本是天上物<br>头角峥嵘光五色",
 	
 	
 	},
 	// --------------------------------------武将技能------------------------------------------//
 	skill:{
-	boss_shanhaif:{nobracket:true},
-	boss_shanhaif1:{nobracket:true},
-	boss_shanhaif2:{nobracket:true},
 	boss_yvguanf:{nobracket:true},
 	boss_yvguanf1:{nobracket:true},
 	boss_yvguanf2:{nobracket:true},
@@ -290,7 +312,7 @@ var qinyin={
 	},
 	},
 	},
-	"boss_shanhai":{
+	"boss_shzy_huhushengwei_1":{
 	nobracket:true,
 	trigger:{global:'gameStart'},
 	forced:true,
@@ -307,12 +329,9 @@ var qinyin={
 	boss.storage.weizhi=2
 	if(boss.getFriends().contains(boss.previousSeat)) boss.previousSeat.storage.weizhi=1
 	}
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if((pian=="boss_ruilinjiangshi"&&!game.hasPlayer(function(current){
-	return current.name=="boss_qilin1"
-	}))||(pian=="boss_huhushengwei"&&!game.hasPlayer(function(current){
+	if(!game.hasPlayer(function(current){
 	return current.name=="boss_xiaohu1"
-	}))){
+	})){
 	if(player.nextSeat==player.previousSeat){
 	player.nextSeat.storage.weizhi=1
 	} else if(player.nextSeat.nextSeat.nextSeat!=player){
@@ -328,11 +347,7 @@ var qinyin={
 	}
 	}else event.goto(2)
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	var zhao
-	if(pian=="boss_ruilinjiangshi") zhao="boss_qilin1"
-	if(pian=="boss_huhushengwei") zhao="boss_xiaohu1"
-	var fellow=game.addFellow(game.me==game.boss?3:2,zhao,'zoominanim');
+	var fellow=game.addFellow(game.me==game.boss?3:2,"boss_xiaohu1",'zoominanim');
 	fellow.storage.weizhi=2
 	fellow.side=false;
 	fellow.identity='zhong';
@@ -340,26 +355,11 @@ var qinyin={
 	game.addVideo('setIdentity',fellow,'zhong');
 	"step 2"
 	player.smoothAvatar();
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_jianghunjuexing"){
-	player.init(['boss_xvzhu_hun','boss_ganning_hun','boss_guanyv_hun','boss_diaochan_hun'].randomGet());
-	game.addVideo('reinit2',player,player.name);
-	}
-	if(pian=="boss_dangxieqingxin"||pian=="boss_qvguibixie"){
-	player.init(['boss_chi1','boss_mei1','boss_wang1','boss_liang1'].randomGet());
-	game.addVideo('reinit2',player,player.name);
-	}
-	if(pian=="boss_ruilinjiangshi"){
-	player.init(['boss_qiongqi1','boss_hundun1'].randomGet());
-	game.addVideo('reinit2',player,player.name);
-	if(game.me==game.boss) game.boss.previousSeat.changeSeat(5);
-	}
-	if(pian=="boss_huhushengwei"){
 	player.init("boss_xuanwujiangling");
 	player.clearSkills();
 	player.addSkill("boss_xiongqv2")
+	game.shzy_guanka='boss_shzy_huhushengwei';
 	if(game.me==game.boss){
-	//game.boss.nextSeat.changeSeat(2);
 	game.boss.previousSeat.changeSeat(5);
 	}
 	var fellow=game.addFellow(game.me==game.boss?7:6,"boss_zhuquejiangling",'zoominanim');
@@ -370,9 +370,104 @@ var qinyin={
 	fellow.setIdentity('zhu');
 	game.addVideo('setIdentity',fellow,'zhong');
 	}
+	},
+	boss_shzy_dangxieqingxin_1:{
+	nobracket:true,
+	trigger:{global:'gameStart'},
+	forced:true,
+	popup:false,
+	priority:-20,
+	content:function(){
+	player.smoothAvatar();
+	player.init(['boss_chi1','boss_mei1','boss_wang1','boss_liang1'].randomGet());
+	game.shzy_guanka='boss_shzy_dangxieqingxin';
+	game.addVideo('reinit2',player,player.name);
 	}
 	},
-	boss_shanhai2:{
+	boss_shzy_dangxieqingxin_2:{nobracket:true},
+	boss_shzy_dangxieqingxin_3:{nobracket:true},
+	boss_shzy_jianghunjuexing_1:{
+	nobracket:true,
+	trigger:{global:'gameStart'},
+	forced:true,
+	popup:false,
+	priority:-20,
+	content:function(){
+	player.smoothAvatar();
+	player.init(['boss_xvzhu_hun','boss_ganning_hun','boss_guanyv_hun','boss_diaochan_hun'].randomGet());
+	game.shzy_guanka='boss_shzy_jianghunjuexing';
+	game.addVideo('reinit2',player,player.name);
+	}
+	},
+	boss_shzy_jianghunjuexing_2:{nobracket:true},
+	boss_shzy_jianghunjuexing_3:{nobracket:true},
+	boss_shzy_quguibixie_1:{
+	nobracket:true,
+	trigger:{global:'gameStart'},
+	forced:true,
+	popup:false,
+	priority:-20,
+	content:function(){
+	player.smoothAvatar();
+	player.init(['boss_chi1','boss_mei1','boss_wang1','boss_liang1'].randomGet());
+	game.shzy_guanka='boss_shzy_quguibixie';
+	game.addVideo('reinit2',player,player.name);
+	}
+	},
+	boss_shzy_quguibixie_2:{nobracket:true},
+	boss_shzy_quguibixie_3:{nobracket:true},
+	boss_shzy_ruilinjiangshi_1:{
+	nobracket:true,
+	trigger:{global:'gameStart'},
+	forced:true,
+	popup:false,
+	priority:-20,
+	content:function(){
+	'step 0'
+	var boss=game.findPlayer(function(current){
+	return current.name=="boss_xiaohu1"||current.name=="boss_qilin1"
+	});
+	if(boss){
+	if(boss.getFriends().contains(boss.nextSeat.nextSeat)) boss.nextSeat.nextSeat.storage.weizhi=4
+	if(boss.getFriends().contains(boss.nextSeat)) boss.nextSeat.storage.weizhi=3
+	boss.storage.weizhi=2
+	if(boss.getFriends().contains(boss.previousSeat)) boss.previousSeat.storage.weizhi=1
+	}
+	if(!game.hasPlayer(function(current){
+	return current.name=="boss_qilin1"
+	})){
+	if(player.nextSeat==player.previousSeat){
+	player.nextSeat.storage.weizhi=1
+	} else if(player.nextSeat.nextSeat.nextSeat!=player){
+	player.nextSeat.nextSeat.nextSeat.storage.weizhi=4
+	player.nextSeat.nextSeat.nextSeat.changeSeat(game.me==game.boss?6:4);
+	player.nextSeat.nextSeat.storage.weizhi=3
+	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.storage.weizhi=1
+	} else if(player.nextSeat.nextSeat!=player){
+	player.nextSeat.nextSeat.storage.weizhi=3
+	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.storage.weizhi=1
+	}
+	}else event.goto(2)
+	'step 1'
+	var fellow=game.addFellow(game.me==game.boss?3:2,"boss_qilin1",'zoominanim');
+	fellow.storage.weizhi=2
+	fellow.side=false;
+	fellow.identity='zhong';
+	fellow.setIdentity('盟');
+	game.addVideo('setIdentity',fellow,'zhong');
+	"step 2"
+	player.smoothAvatar();
+	player.init(['boss_qiongqi1','boss_hundun1'].randomGet());
+	game.shzy_guanka='boss_shzy_ruilinjiangshi';
+	game.addVideo('reinit2',player,player.name);
+	if(game.me==game.boss) game.boss.previousSeat.changeSeat(5);
+	}
+	},
+	boss_shzy_ruilinjiangshi_2:{nobracket:true},
+	boss_shzy_ruilinjiangshi_3:{nobracket:true},
+		boss_shanhai2:{
 	mode:['boss'],
 	fixed:true,
 	global:'boss_shanhai2x',
@@ -397,14 +492,14 @@ var qinyin={
 	'step 0'
 	game.delay();
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_jianghunjuexing"){
+	var guanka=game.shzy_guanka
+	if(guanka=="boss_shzy_jianghunjuexing"){
 	game.changeBoss(['boss_simayi_hun','boss_zhouyv_hun','boss_zhugeliang_hun'].randomGet());
 	}
-	if(pian=="boss_dangxieqingxin"||pian=="boss_qvguibixie"){
+	if(guanka=="boss_shzy_dangxieqingxin"||guanka=="boss_shzy_quguibixie"){
 	game.changeBoss(['boss_mamian1','boss_niutou1'].randomGet());
 	}
-	if(pian=="boss_ruilinjiangshi"){
+	if(guanka=="boss_shzy_ruilinjiangshi"){
 	game.changeBoss(['boss_taowu1','boss_taotie1'].randomGet());
 	}
 	}
@@ -434,17 +529,17 @@ var qinyin={
 	'step 0'
 	game.delay();
 	'step 1'
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_jianghunjuexing"){
+	var guanka=game.shzy_guanka
+	if(guanka=="boss_shzy_jianghunjuexing"){
 	game.changeBoss(['boss_caocao_hun','boss_sunquan_hun','boss_liubei_hun','boss_lvbu_hun'].randomGet());
 	}
-	if(pian=="boss_dangxieqingxin"){
+	if(guanka=="boss_shzy_dangxieqingxin"){
 	game.changeBoss('boss_nianshou1');
 	}
-	if(pian=="boss_qvguibixie"){
+	if(guanka=="boss_shzy_quguibixie"){
 	game.changeBoss(['boss_luocha1','boss_yecha1','boss_heiwuchang1','boss_baiwuchang1'].randomGet());
 	}
-	if(pian=="boss_ruilinjiangshi"){
+	if(guanka=="boss_shzy_ruilinjiangshi"){
 	game.changeBoss('boss_zhuyin1');
 	}
 	}
@@ -826,8 +921,7 @@ var qinyin={
 	filter:function(event,player){
 	if(lib.config.mode!='boss') return false;
 	if(player.side==game.boss.side) return false
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian!="boss_huhushengwei") return false;
+	if(game.shzy_guanka!="boss_shzy_huhushengwei") return false;
 	if(!game.hasPlayer(function(current){
 	return !current.classList.contains('out')&&event.player!=current&&player.getEnemies().contains(current)
 	})) return true
@@ -4346,10 +4440,6 @@ var qinyin={
 	"qqzj":"青青子衿",
 	"djbs":"单将boss",
 	
-	"boss_shanhaizhiyiB":"将魂觉醒",
-	"boss_shanhaizhiyiC":"驱鬼辟邪",
-	"boss_shanhaizhiyiD":"瑞麟降世",
-	"boss_shanhaizhiyiE":"虎虎生威",
 	"boss_diyvpanguan":"地狱判官",
 	"boss_aolihagang":"奥利哈刚",
 	"boss_qingqingzijin":"青青子衿",
@@ -4423,20 +4513,37 @@ var qinyin={
 	"boss_xiaohu1":"小虎",
 	"boss_ling":"靈",
 	
-	boss_kongbai:" ",
-	boss_kongbai_info:" ",
-	boss_shanhaif2:'&nbsp;选模式',
-	boss_shanhaif2_info:'山海志异分三种模式，请打开扩展页面在山海志异的选择中选择自己想要挑战的模式。',
-	boss_shanhai:'&nbsp;第一关',//兽1、魂2、鬼3
-	boss_shanhaiB_info:'挑战魂·许褚、魂·甘宁、魂·关羽、魂·貂蝉中的随机一个。',
-	boss_shanhaiC_info:'挑战穷奇、混沌中的随机一个。游戏开始时召唤麒麟为我方助阵，击败敌人的同时也要保护好麒麟，若麒麟阵亡则直接判定挑战方败北。',
-	boss_shanhaiD_info:'挑战朱雀、玄武两位神兽，boss阵亡时会进入修整，再度复活变得更加强大，同时击杀两位神兽的真身才能获得胜利。游戏开始时会召唤小虎为我方助阵，击败敌人的同时也要保护好小虎，若小虎阵亡则直接判定挑战方败北。',
-	boss_shanhaiBf_info:'挑战魂·司马懿、魂·周瑜、魂·诸葛亮中的随机一个。',
-	boss_shanhaiCf_info:'挑战饕餮、梼杌中的随机一个。',
-	boss_shanhaif1yi:'&nbsp;第三关',
-	boss_shanhaiBf1_info:'挑战魂·曹操、魂·孙权、魂·刘备、魂·神吕布中的随机一个。',
-	boss_shanhaiCf1_info:'挑战罗刹、夜叉、黑无常、白无常中的随机一个。',
-	boss_shanhaiDf1_info:'挑战逐阴。',
+	"boss_shzy_huhushengwei":"虎虎生威",
+	"boss_shzy_dangxieqingxin":"荡邪庆新",
+	"boss_shzy_jianghunjuexing":"将魂觉醒",
+	"boss_shzy_quguibixie":"驱鬼辟邪",
+	"boss_shzy_ruilinjiangshi":"瑞麟降世",
+	boss_shzy_huhushengwei_1:'&nbsp;第一关',
+	boss_shzy_huhushengwei_1_info:'挑战朱雀、玄武两位神兽，boss阵亡时会进入修整，再度复活变得更加强大，同时击杀两位神兽的真身才能获得胜利。游戏开始时会召唤小虎为我方助阵，击败敌人的同时也要保护好小虎，若小虎阵亡则直接判定挑战方败北。',
+	boss_shzy_dangxieqingxin_1:'&nbsp;第一关',
+	boss_shzy_dangxieqingxin_1_info:'挑战魑、魅、魍、魉中的随机一个。',
+	boss_shzy_dangxieqingxin_2:'&nbsp;第二关',
+	boss_shzy_dangxieqingxin_2_info:'挑战牛头、马面中的随机一个。',
+	boss_shzy_dangxieqingxin_3:'&nbsp;第三关',
+	boss_shzy_dangxieqingxin_3_info:'挑战年兽。',
+	boss_shzy_jianghunjuexing_1:'&nbsp;第一关',
+	boss_shzy_jianghunjuexing_1_info:'挑战魂·许褚、魂·甘宁、魂·关羽、魂·貂蝉中的随机一个。',
+	boss_shzy_jianghunjuexing_2:'&nbsp;第二关',
+	boss_shzy_jianghunjuexing_2_info:'挑战魂·司马懿、魂·周瑜、魂·诸葛亮中的随机一个。',
+	boss_shzy_jianghunjuexing_3:'&nbsp;第三关',
+	boss_shzy_jianghunjuexing_3_info:'挑战魂·曹操、魂·孙权、魂·刘备、魂·神吕布中的随机一个。',
+	boss_shzy_quguibixie_1:'&nbsp;第一关',
+	boss_shzy_quguibixie_1_info:'挑战魑、魅、魍、魉中的随机一个。',
+	boss_shzy_quguibixie_2:'&nbsp;第二关',
+	boss_shzy_quguibixie_2_info:'挑战牛头、马面中的随机一个。',
+	boss_shzy_quguibixie_3:'&nbsp;第三关',
+	boss_shzy_quguibixie_3_info:'挑战罗刹、夜叉、黑无常、白无常中的随机一个。',
+	boss_shzy_ruilinjiangshi_1:'&nbsp;第一关',
+	boss_shzy_ruilinjiangshi_1_info:'挑战穷奇、混沌中的随机一个。游戏开始时召唤麒麟为我方助阵，击败敌人的同时也要保护好麒麟，若麒麟阵亡则直接判定挑战方败北。',
+	boss_shzy_ruilinjiangshi_2:'&nbsp;第二关',
+	boss_shzy_ruilinjiangshi_2_info:'挑战饕餮、梼杌中的随机一个。',
+	boss_shzy_ruilinjiangshi_3:'&nbsp;第三关',
+	boss_shzy_ruilinjiangshi_3_info:'挑战逐阴。',
 	boss_yvguan:'&nbsp;第一关',
 	boss_yvguan_info:'挑战孟婆。',
 	boss_yvguanf:'&nbsp;第二关',
@@ -4700,45 +4807,97 @@ var qinyin={
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	if(get.mode()=='boss'){//减员挑战
-	lib.translate['boss_shanhai_info']='挑战魑、魅、魍、魉中的随机一个。'
-	lib.translate['boss_shanhaif_info']='挑战牛头、马面中的随机一个。'
-	lib.translate['boss_shanhaif1_info']='挑战年兽。'
-	lib.translate['boss_shanhaizhiyi']='荡邪庆新'
-	lib.translate['boss_shanhaif']='&nbsp;第二关'
-	lib.translate['boss_shanhaif1']='&nbsp;第三关'
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_jianghunjuexing"){
-	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiB_info']
-	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiBf_info']
-	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiBf1_info']
-	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiB']
-	lib.characterTitle['boss_shanhaizhiyi']='英魂试炼降临，齐心协力闯关'
+	lib.boss.boss_shzy_huhushengwei={
+	loopType:1,
+	chongzheng:0,
+	loopFirst:function(){
+	return game.boss;
+	},
+	checkResult:function(player){
+	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
+	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
+	return false;
 	}
-	if(pian=="boss_dangxieqingxin"){
-	lib.characterTitle['boss_shanhaizhiyi']='行山踏水值新岁<br>勇斗年兽挽世危'
+	},
+	init:function(){
+	_status.additionalReward=function(){
+	return 500;
 	}
-	if(pian=="boss_qvguibixie"){
-	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiCf1_info']
-	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiC']
-	lib.characterTitle['boss_shanhaizhiyi']='满地纸钱香篆冷<br>更无真哭两三声'
 	}
-	if(pian=="boss_ruilinjiangshi"){
-	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiC_info']
-	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_shanhaiCf_info']
-	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_shanhaiDf1_info']
-	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiD']
-	lib.characterTitle['boss_shanhaizhiyi']='麒麟本是天上物<br>头角峥嵘光五色'
 	}
-	if(pian=="boss_huhushengwei"){
-	lib.translate['boss_shanhai_info']=qinyin.translate['boss_shanhaiD_info']
-	lib.translate['boss_shanhaif']=qinyin.translate['boss_kongbai']
-	lib.translate['boss_shanhaif_info']=qinyin.translate['boss_kongbai_info']
-	lib.translate['boss_shanhaif1']=qinyin.translate['boss_kongbai']
-	lib.translate['boss_shanhaif1_info']=qinyin.translate['boss_kongbai_info']
-	lib.translate['boss_shanhaizhiyi']=qinyin.translate['boss_shanhaizhiyiE']
-	lib.characterTitle['boss_shanhaizhiyi']='勇发看鸷击，愤来听虎吟'
+	lib.boss.boss_shzy_dangxieqingxin={
+	loopType:1,
+	chongzheng:0,
+	loopFirst:function(){
+	return game.boss.nextSeat;
+	},
+	checkResult:function(player){
+	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
+	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
+	return false;
 	}
-	lib.game.chooseCharacter=function(func){
+	},
+	init:function(){
+	_status.additionalReward=function(){
+	return 500;
+	}
+	}
+	}
+	lib.boss.boss_shzy_jianghunjuexing={
+	loopType:1,
+	chongzheng:0,
+	loopFirst:function(){
+	return game.boss.nextSeat;
+	},
+	checkResult:function(player){
+	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
+	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
+	return false;
+	}
+	},
+	init:function(){
+	_status.additionalReward=function(){
+	return 500;
+	}
+	}
+	}
+	lib.boss.boss_shzy_quguibixie={
+	loopType:1,
+	chongzheng:0,
+	loopFirst:function(){
+	return game.boss.nextSeat;
+	},
+	checkResult:function(player){
+	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
+	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
+	return false;
+	}
+	},
+	init:function(){
+	_status.additionalReward=function(){
+	return 500;
+	}
+	}
+	}
+	lib.boss.boss_shzy_ruilinjiangshi={
+	loopType:1,
+	chongzheng:0,
+	loopFirst:function(){
+	return game.boss.nextSeat;
+	},
+	checkResult:function(player){
+	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
+	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
+	return false;
+	}
+	},
+	init:function(){
+	_status.additionalReward=function(){
+	return 500;
+	}
+	}
+	}
+		lib.game.chooseCharacter=function(func){
 	var next=game.createEvent('chooseCharacter',false);
 	next.showConfig=true;
 	next.customreplacetarget=func;
@@ -4919,34 +5078,6 @@ var qinyin={
 	return next;
 	}
 	};
-	lib.boss.boss_shanhaizhiyi={//山海志异
-	loopType:1,
-	chongzheng:0,
-	loopFirst:function(){
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_huhushengwei") return game.boss
-	return game.boss.nextSeat;
-	},
-	/*
-	gameDraw:function(player){
-	return player==game.boss?8:4;
-	},
-	minion:{
-	'2':'xdz_modaohong',
-	'8':'xdz_modaolv',
-	},*/
-	checkResult:function(player){
-	if(player==game.boss&&game.boss.name!='boss_nianshou1'&&game.boss.name!='boss_caocao_hun'&&game.boss.name!='boss_sunquan_hun'&&game.boss.name!='boss_liubei_hun'&&game.boss.name!='boss_lvbu_hun'&&
-	game.boss.name!='boss_luocha1'&&game.boss.name!='boss_yecha1'&&game.boss.name!='boss_baiwuchang1'&&game.boss.name!='boss_heiwuchang1'&&game.boss.name!='boss_zhuyin1'){
-	return false;
-	}
-	},
-	init:function(){
-	_status.additionalReward=function(){
-	return 500;
-	}
-	}
-	}
 	lib.boss.boss_diyvpanguan={//地狱
 	loopType:1,
 	chongzheng:0,
@@ -5050,8 +5181,7 @@ var qinyin={
 	'step 0'
 	player.clearSkills();
 	lib.character[player.name][3]=[]
-	var pian=lib.config['extension_'+'山海志异_'+'boss_shanhaizhiyipian']
-	if(pian=="boss_huhushengwei"&&game.boss.name=='boss_shanhaizhiyi'){
+	if(game.shzy_guanka=="boss_shzy_huhushengwei"){
 	player.maxHp=6 
 	player.hp=6
 	}
@@ -5675,6 +5805,11 @@ var qinyin={
 	boss_sunquan_hun:'image/character/re_sunquan.jpg',
 	boss_zhouyv_hun:'image/character/re_zhouyu.jpg',
 	boss_zhugeliang_hun:'image/character/re_zhugeliang.jpg',
+	boss_shzy_huhushengwei:'extension/山海志异/resources/image/cover/cover_huhushengwei.jpg',
+	boss_shzy_dangxieqingxin:'extension/山海志异/resources/image/cover/cover_dangxieqingxin.jpg',
+	boss_shzy_jianghunjuexing:'extension/山海志异/resources/image/cover/cover_jianghunjuexing.jpg',
+	boss_shzy_quguibixie:'extension/山海志异/resources/image/cover/cover_quguibixie.jpg',
+	boss_shzy_ruilinjiangshi:'extension/山海志异/resources/image/character/boss_qilin1.jpg',
 	};
 	for(var i in qinyin.character){
 	if(bossArt[i]){
@@ -5715,18 +5850,6 @@ var qinyin={
 	help:{
 	},
 	config:{
-	"boss_shanhaizhiyipian":{
-	"name":'山海关卡切换',
-	"intro":'可更改挑战模式中山海志异的关卡，其他详情请查看挑战模式中的山海志异。',
-	"init":'boss_huhushengwei',
-	"item":{
-	"boss_jianghunjuexing":'将魂觉醒',
-	"boss_dangxieqingxin":'荡邪庆新',
-	"boss_qvguibixie":'驱鬼辟邪',
-	"boss_ruilinjiangshi":'瑞麟降世',
-	"boss_huhushengwei":'虎虎生威',
-	},
-	},
 	"zhuanshu_moshi":{
 	"name":"朱果发放方式",
 	"intro":"游戏开始时，清空挑战方所有技能，每人从16个系统随机给出的技能中选择1项技能获得。模式①：当boss或队友阵亡时，挑战方每人从16个系统随机给出的技能中选择1项技能获得；模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从16个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。",
