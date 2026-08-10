@@ -4,7 +4,32 @@
 
 本扩展在原作者「浪琴婊」v1.108 基础上进行现代化适配，兼容新版无名杀引擎。
 
-## [1.11] - 现代化适配版
+## [Unreleased]
+
+### 修复
+
+- **修复索穴（boss_suoxue）技能报错与卡死**：旧语音播放 API `game.playMY` 在现代无名杀中已删除，技能内两处调用导致 `TypeError: game.playMY is not a function` 并使游戏卡死；替换为现代 API `game.playSkillAudio('new_jiangchi')`。
+- **修复断厄（boss_duane）技能报错与卡死**：`get.color(card, 'black')` 将颜色字符串误传为第二参数（应为 `player`），进入 `checkMod` 后因最后参数非 Player 抛出 `skills.forEach is not a function`；改为单参数 `get.color(card)`。
+
+### 重构
+
+- **山海志异关卡拆分重构**（参考官方捉鬼驱邪关卡设计）。
+  - 原方案为单个 `boss_shanhaizhiyi` 关卡壳 + 配置项切换 5 种流程；现拆分为 5 个独立 boss 关卡（`boss_shzy_<关卡拼音>`），直接在挑战模式 boss 列表中展示，删除"山海关卡切换"配置项：
+    - a) 每个关卡一个主 boss 壳（hp 0），技能 = 开场技能（gameStart 时 init 第一阶段角色，参考官方 `boss_bianshen` 写法）+ "第一关/第二关/第三关"展示技能（nobracket，翻译静态化），虎虎生威仅第一关；
+    - b) 阶段切换沿用 `boss_shanhai2x/3x`（阶段角色身上的 `dieBegin` 隐藏 + global `dieAfter` 链），目标选择由 `pian` 配置判断改为读取 `game.shzy_guanka`（开场技能写入的关卡标记），解决荡邪/驱鬼共用阶段角色的目标歧义；
+    - c) 翻译/称号全部静态化到包 translate 与 characterTitle，删除 content 中按 `pian` 的动态覆盖块；
+    - d) 5 个关卡使用独立封面（`resources/image/cover/` 下 4 张新封面，瑞麟降世复用 `boss_qilin1.jpg`），删除原 `boss_shanhaizhiyi` 封面。
+- **素材存放结构整理**：美术素材统一移入扩展内 `resources/image/character/` 子目录，寻址统一改为 `ext:` 前缀；地狱判官封面 `boss_diyvpanguan` 改为直接复用 `boss_yanluowanga` 素材并删除重复文件。
+- **变更记录迁移**：新增本 CHANGELOG，重要修改说明从 extension.js 文件头注释迁移至此。
+
+## [1.113] - 2026-08-08
+
+### 新增
+
+- 添加更新地址：`info.json` 与 `package` 的 `diskURL` 指向 GitHub Releases 页面。
+- 版本号 1.11 → 1.113（含菜单 author 栏中的版本显示同步）。
+
+## [1.11] - 现代化适配版（首个发布版本）
 
 ### 修复
 
@@ -27,19 +52,17 @@
 
 ### 重构
 
-- **山海志异关卡拆分重构**（参考官方捉鬼驱邪关卡设计）。
-  - 原方案为单个 `boss_shanhaizhiyi` 关卡壳 + 配置项切换 5 种流程；现拆分为 5 个独立 boss 关卡（`boss_shzy_<关卡拼音>`），直接在挑战模式 boss 列表中展示，删除"山海关卡切换"配置项：
-    - a) 每个关卡一个主 boss 壳（hp 0），技能 = 开场技能（gameStart 时 init 第一阶段角色，参考官方 `boss_bianshen` 写法）+ "第一关/第二关/第三关"展示技能（nobracket，翻译静态化），虎虎生威仅第一关；
-    - b) 阶段切换沿用 `boss_shanhai2x/3x`（阶段角色身上的 `dieBegin` 隐藏 + global `dieAfter` 链），目标选择由 `pian` 配置判断改为读取 `game.shzy_guanka`（开场技能写入的关卡标记）；
-    - c) 翻译/称号全部静态化到包 translate 与 characterTitle，删除 content 中按 `pian` 的动态覆盖块；
-    - d) 5 个关卡使用独立封面（`resources/image/cover/` 下 4 张新封面，瑞麟降世复用 `boss_qilin1.jpg`），删除原 `boss_shanhaizhiyi` 封面。
 - **移除失效代码**：
   - content 末尾依赖 `lib.characterPack['qinyin']` 的 config.qinyin 死代码块（`forbidai` 标记已由引擎自动处理）；
   - precontent 中失效的 `lib.config.all.characters.push('qinyin')`、`lib.config.characters.remove('qinyin')` 旧式注册语句。
+- **扩展更名**：扩展名由「浪吟(挑战)」更改为「山海志异」（原「山海志异挑战」6 字名称对菜单支持较差，改为 4 字），同步更新配置键、图片路径与菜单翻译。
 
 ### 新增
 
 - 新增武将包菜单名称翻译：武将包 translate 中新增 `山海志异` 键，用于武将包菜单显示。
+- 菜单呈现调整：author 栏显示作者/原作者/版本三行信息；扩展介绍顶部添加开源声明；配置项更名（山海模式挑战→朱果发放方式、减员挑战→我方登场人数、山海志异→山海关卡切换，后已随关卡拆分删除）；"启用手气卡"默认开启；新增"扩展说明"点击展开交互项。
+- 为山海志异 5 个关卡添加 boss 列表长按称号（如"勇发看鸷击，愤来听虎吟"），部分称号在逗号后换行显示。
+- 开源配套：添加 GPL-3.0 LICENSE 与 README（功能简介、安装方法、素材版权声明）。
 
 ### 优化
 
@@ -50,7 +73,6 @@
 | boss_baiwuchang1 | image/mode/boss/character/boss_baiwuchang.jpg |
 | boss_caocao_hun | image/character/re_caocao.jpg |
 | boss_chi1 | image/mode/boss/character/boss_chi.jpg |
-| boss_diyvpanguan | extension/山海志异/resources/image/character/boss_yanluowanga.jpg |
 | boss_diaochan_hun | image/character/re_diaochan.jpg |
 | boss_ganning_hun | image/character/re_ganning.jpg |
 | boss_guanyv_hun | image/character/re_guanyu.jpg |
@@ -76,7 +98,9 @@
 | boss_zhouyv_hun | image/character/re_zhouyu.jpg |
 | boss_xvzhu_hun | image/character/re_xuzhu.jpg |
 
+- 关卡名称调整：驱鬼辟邪相关标识符统一（`qvguibixie`）；"驱逐年兽"关卡更名为"荡邪庆新"（含标识符 `dangxieqingxin`）。
+
 ## 格式约定
 
-- 每次发版时在顶部新增版本小节，并在 git 中打 tag（如 `git tag v1.12`）
-- 更细粒度的变更请查阅 git 提交记录
+- 每次发版时在顶部新增版本小节，并在 git 中打 tag（如 `git tag v1.113`）。
+- 更细粒度的变更请查阅 git 提交记录。
