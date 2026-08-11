@@ -10,6 +10,7 @@
 
 - **修复索穴（boss_suoxue）技能报错与卡死**：旧语音播放 API `game.playMY` 在现代无名杀中已删除，技能内两处调用导致 `TypeError: game.playMY is not a function` 并使游戏卡死；替换为现代 API `game.playSkillAudio('new_jiangchi')`。
 - **修复断厄（boss_duane）技能报错与卡死**：`get.color(card, 'black')` 将颜色字符串误传为第二参数（应为 `player`），进入 `checkMod` 后因最后参数非 Player 抛出 `skills.forEach is not a function`；改为单参数 `get.color(card)`。
+- **修复灵（boss_ling）灭吴（boss_miewua）不发动**：现代无名杀将内置「不屈」重做，"创"的存储由 `player.storage.buqu` 改为武将牌上的 expansion（`addToExpansion` + `gaintag:"buqu"`，读取用 `getExpansions("buqu")`）；灭吴仍读取旧 `storage.buqu` 导致 filter 恒假、技能永不发动。已改为 `getExpansions("buqu")` 读取，弃"创"改用 `loseToDiscardpile`，移除 `syncStorage/unmarkSkill/updateMarks` 旧存储操作。
 
 ### 重构
 

@@ -4230,7 +4230,7 @@ var qinyin={
 	audio:"spmiewu",
 	enable:['chooseToUse','chooseToRespond'],
 	filter:function(event,player){
-	if(!player.storage.buqu||!player.storage.buqu.length||!player.countCards('hse')||player.hasSkill('boss_miewua2')) return false;
+	if(!player.getExpansions('buqu').length||!player.countCards('hse')||player.hasSkill('boss_miewua2')) return false;
 	for(var i of lib.inpile){
 	var type=get.type2(i);
 	if((type=='basic'||type=='trick')&&lib.filter.filterCard({name:i},player,event)) return true;
@@ -4285,15 +4285,9 @@ var qinyin={
 	viewAs:{name:links[0][2],nature:links[0][3]},
 	precontent:function(){
 	player.addTempSkill('boss_miewua2');
-	var carda=player.storage.buqu.randomGet()
+	var carda=player.getExpansions('buqu').randomGet()
 	player.$throw(carda);
-	player.storage.buqu.remove(carda);
-	game.cardsDiscard(player.storage.buqu);
-	player.syncStorage('buqu');
-	if(!player.storage.buqu.length){
-	player.unmarkSkill('buqu');
-	}
-	else player.updateMarks('buqu');
+	player.loseToDiscardpile(carda);
 	},
 	}
 	},
@@ -4303,14 +4297,14 @@ var qinyin={
 	},
 	hiddenCard:function(player,name){
 	var type=get.type2(name);
-	return (type=='basic'||type=='trick')&&player.storage.buqu&&player.storage.buqu.length>0&&player.countCards('she')>0&&!player.hasSkill('boss_miewua2');
+	return (type=='basic'||type=='trick')&&player.getExpansions('buqu').length>0&&player.countCards('she')>0&&!player.hasSkill('boss_miewua2');
 	},
 	ai:{
 	fireAttack:true,
 	respondSha:true,
 	respondShan:true,
 	skillTagFilter:function(player){
-	if((player.storage.buqu&&!player.storage.buqu.length)||!player.countCards('hse')||player.hasSkill('boss_miewua2')) return false;
+	if(!player.getExpansions('buqu').length||!player.countCards('hse')||player.hasSkill('boss_miewua2')) return false;
 	},
 	order:1,
 	result:{
