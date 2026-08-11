@@ -3486,7 +3486,7 @@ var qinyin={
 	}
 	}
 	"step 2"
-	if(result.bool&&result.links&&result.links.length) cards=result.links.slice(0);
+	var cards=result.links||[];
 	while(cards.length){
 	var card=cards.pop();
 	if(get.position(card,true)=='o'){
@@ -3564,11 +3564,11 @@ var qinyin={
 	return '其他'
 	}).set('prompt','###【喵呜】###猜测一种类型，若猜对则你不死亡'); 
 	'step 1' 
-	game.log(player,'猜测的类型为',get.translation(result.control)||result.control,'牌')
-	player.showCards(card);
+	event.choice=result.control;
+	game.log(player,'猜测的类型为',get.translation(event.choice)||event.choice,'牌')
 	player.gain(card,'draw2')
 	'step 2' 
-	if(result.control=='其他'&&get.type(card,'trick')!='basic'&&get.type(card,'trick')!='trick'&&get.type(card,'trick')!='equip'||get.type(card,'trick')==result.control){
+	if((event.choice=='其他'&&get.type(card,'trick')!='basic'&&get.type(card,'trick')!='trick'&&get.type(card,'trick')!='equip')||get.type(card,'trick')==event.choice){
 	player.popup('洗具','metal');
 	trigger.cancel();
 	player.maxHp=2;

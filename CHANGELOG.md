@@ -11,6 +11,8 @@
 - **修复索穴（boss_suoxue）技能报错与卡死**：旧语音播放 API `game.playMY` 在现代无名杀中已删除，技能内两处调用导致 `TypeError: game.playMY is not a function` 并使游戏卡死；替换为现代 API `game.playSkillAudio('new_jiangchi')`。
 - **修复断厄（boss_duane）技能报错与卡死**：`get.color(card, 'black')` 将颜色字符串误传为第二参数（应为 `player`），进入 `checkMod` 后因最后参数非 Player 抛出 `skills.forEach is not a function`；改为单参数 `get.color(card)`。
 - **修复灵（boss_ling）灭吴（boss_miewua）不发动**：现代无名杀将内置「不屈」重做，"创"的存储由 `player.storage.buqu` 改为武将牌上的 expansion（`addToExpansion` + `gaintag:"buqu"`，读取用 `getExpansions("buqu")`）；灭吴仍读取旧 `storage.buqu` 导致 filter 恒假、技能永不发动。已改为 `getExpansions("buqu")` 读取，弃"创"改用 `loseToDiscardpile`，移除 `syncStorage/unmarkSkill/updateMarks` 旧存储操作。
+- **修复浪琴婊（boss_langqinbiao）喵呜（boss_miaowu）无法猜中类型**：step 机制下每一步结束后子事件结果会写入 `_result`，喵呜 step 1 的 `player.gain(card,'draw2')` 覆盖了 `_result`，step 2 读取 `result.control` 时已为 `undefined`，判定恒失败导致必然死亡。修复：step 1 开头将选择保存为 `event.choice`，step 2 改用 `event.choice` 判定。
+- **修复浪琴婊（boss_langqinbiao）嘤嘤（boss_yingying）单牌时技能报错**：当置牌堆底仅一张牌时，step 2 的 `while(cards.length)` 在 `cards` 未初始化的情况下执行导致 ReferenceError；修复为 `var cards=result.links||[];` 初始化。
 
 ### 重构
 
