@@ -13,6 +13,27 @@
 - **修复灵（boss_ling）灭吴（boss_miewua）不发动**：现代无名杀将内置「不屈」重做，"创"的存储由 `player.storage.buqu` 改为武将牌上的 expansion（`addToExpansion` + `gaintag:"buqu"`，读取用 `getExpansions("buqu")`）；灭吴仍读取旧 `storage.buqu` 导致 filter 恒假、技能永不发动。已改为 `getExpansions("buqu")` 读取，弃"创"改用 `loseToDiscardpile`，移除 `syncStorage/unmarkSkill/updateMarks` 旧存储操作。
 - **修复浪琴婊（boss_langqinbiao）喵呜（boss_miaowu）无法猜中类型**：step 机制下每一步结束后子事件结果会写入 `_result`，喵呜 step 1 的 `player.gain(card,'draw2')` 覆盖了 `_result`，step 2 读取 `result.control` 时已为 `undefined`，判定恒失败导致必然死亡。修复：step 1 开头将选择保存为 `event.choice`，step 2 改用 `event.choice` 判定。
 - **修复浪琴婊（boss_langqinbiao）嘤嘤（boss_yingying）单牌时技能报错**：当置牌堆底仅一张牌时，step 2 的 `while(cards.length)` 在 `cards` 未初始化的情况下执行导致 ReferenceError；修复为 `var cards=result.links||[];` 初始化。
+- **修复浪琴婊（boss_langqinbiao）嘤嘤（boss_yingying）单张牌置底失效**：嘤嘤一次处理一张牌时（最常见场景），step 2 读取 `result.links` 取到的是 step 0 的结果——非浪琴婊回合为 `chooseToDiscard` 结果（`links` 为空数组）、浪琴婊回合为 `chooseControl` 结果（无 `links` 键）——均无实际选择值，导致牌从未置入牌堆底、记忆栈从未入栈，连带喵呜 AI 因栈空而随机猜测（人机"猜错类型"）。修复：step 2 改为 `var cards=(result.links&&result.links.length)?result.links:(event.cards||[]);`——单张牌时回退使用 step 1 已筛选的 `event.cards` 置底入栈，多张牌仍按玩家选择顺序。
+- **修复浪琴婊（boss_langqinbiao）AI 开卷问题**：原喵呜 AI 直接读取牌堆底第一张牌的真实类型再"猜中"，配合嘤嘤置底，AI 必中且无限复活，玩家无解。新增"记忆栈"机制（`player.storage.boss_miaowu_stack`，栈深上限 160、满时 FIFO 淘汰），AI 只能按记忆猜测：
+  - 入栈：嘤嘤成功置牌堆底时按放置顺序记录牌名（栈顶即当前最底牌）；
+  - 出栈：阿巴翻底、喵呜取底后各出栈一条；新增全局监听技能 `boss_langqinbiao_draw`（`trigger:{global:["draw","washCard"]}`）——任何角色从牌堆底摸牌（draw 事件 `bottom` 标记）时按摸牌张数出栈，洗牌（washCard 时机）时清空栈；
+  - 随机分支：栈空时喵呜 AI 在 `['basic','trick','equip']` 中等概率随机猜测（忽略"其他"）；
+  - 防御：出栈前判空，栈空不报错。
+  - 玩家破局路径：压牌断供（栈趋空后 AI 随机）或主动摸空牌堆触发洗牌清栈。
+
+### 新增
+
+- **浪琴婊新增调试技能"记牌"（boss_yingying_check）**：出牌阶段点击"记牌"按钮，弹出对话框显示当前记忆栈顶牌名（含翻译与牌名 ID）及栈内记录数（`n/160`），点确定或取消退出。用于调试验证记忆栈与牌堆底的对应关系。
+- **扩展菜单新增关卡显示开关**：在"启用手气卡"下方按分组显示（分组标题居中显示，参考将灵扩展"玩家设置"样式；开关行样式与"启用手气卡"一致，长按显示"在挑战模式列表中显示该关卡"）：
+  - "山海志异"组：驱鬼辟邪、荡邪庆新、将魂觉醒、虎虎生威、瑞麟降世；
+  - "作者原创"组：奥利哈刚、浪琴婊、十常侍张让、永远的神、灵；
+  - "其他关卡"组：地狱判官、青青子衿。
+  - 关闭某开关后，content 启动时从该角色定义标记中移除 `boss`（`isBoss` 不再成立），挑战模式 boss 列表（遍历 `lib.character` 中 `isBoss` 角色）即不再显示该关卡；默认全部开启。
+  - 修复开关不生效问题：扩展配置在 `lib.config` 中的存储键名带 `extension_山海志异_` 前缀（引擎 loadExtension 处理），content 内直接读 `lib.config[配置键]` 恒为 `undefined` 导致永不隐藏；改为读取 content 函数的 `config` 参数（引擎已剥前缀后传入），与引擎官方机制一致。
+- **虎虎生威小虎升级改名**：小虎（boss_xiaohu1）发动威虎（boss_weihu）升级（插画由 `boss_xiaohu1.jpg` 切换为 `boss_xiaohu2.jpg`）时，名称同步由"小虎"改为"大虎"（直接更新名称节点并保持竖排格式，不修改翻译表以免影响后续对局）。
+- **虎虎生威朱雀/玄武复活换插画**：朱雀降灵（boss_zhuquejiangling）出生时使用 `boss_zhuque_1.jpg`，复活依次切换为 `boss_zhuque_2.jpg`（法相）、`boss_zhuque_3.jpg`（真身，此后保持）；玄武降灵（boss_xuanwujiangling）同理依次使用 `boss_xuanwu_1/2/3.jpg`。插画在复活分支（法相/真身切换）与出生处（init/addFellow 后）直接设置，与既有小虎升级换图写法一致。
+- **修复朱雀/玄武复活后名称横排**：复活分支原硬编码 `'朱<br>雀<br>法<br>相'` 手动换行，而现代引擎名称节点为 CSS 竖排（writing-mode），`<br>` 在竖排模式下转为横向换行，导致"法相/真身"名称从右往左横排；改为纯文本 `'朱雀法相'` 等（竖排由引擎 CSS 自动处理，与出场时一致）。
+- **修复朱雀/玄武复活后死亡音效/立绘资源报错**：复活时原代码将 `playerx.name` 改为 `boss_zhuquefaxiang` 等**未定义的角色名**（`lib.character` 中无这些角色），引擎解析死亡音效时抛 `ReferenceError: Cannot find ... when parsing die audio`，并产生 `image/character/boss_zhuquefaxiang.jpg`、`audio/die/boss_zhuquefaxiang.mp3` 等 404。修复：复活不再改名（角色名保持 `boss_zhuquejiangling`/`boss_xuanwujiangling`），改用 `player.storage.zhuque_fuhuo`/`xuanwu_fuhuo` 复活计数区分阶段（1=法相、2=真身、≥3 保持），显示名与插画仍照常切换；"进入修整"的双真身联动判断同步改为计数比较。注：`extension/山海志异/boss_zhuquejiangling.mp3` 404 为扩展无死亡音效文件的既有问题（引擎自动注册 die 标记），不影响游戏运行。
 
 ### 重构
 

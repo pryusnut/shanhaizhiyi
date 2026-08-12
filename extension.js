@@ -71,7 +71,7 @@ var qinyin={
 	"boss_baowei":["male","qun",9,["boss_yinsha","boss_eli","boss_guimeib","boss_yvguan3"],['qun','hiddenboss','bossallowed']],
 	"boss_guiwang":["male","qun",30,["boss_jizhou1","boss_danshi","boss_tiemianhong","boss_chihu","boss_yvguan4"],['qun','hiddenboss','bossallowed']],
 	
-	"boss_langqinbiao":["female","shen",2,["boss_yingying","boss_abaaba","boss_miaowu","boss_chiliu"],['shen','boss','bossallowed'],'zhu'],
+	"boss_langqinbiao":["female","shen",2,["boss_yingying","boss_yingying_check","boss_abaaba","boss_miaowu","boss_chiliu","boss_langqinbiao_draw"],['shen','boss','bossallowed'],'zhu'],
 	
 	"boss_zhangrang1":["male","qun",80,["boss_guanshi","boss_huoluan","boss_xvmou","boss_jiquan","boss_luanzheng"],['qun','boss','bossallowed'],'qun'],
 	"boss_machao1":["male","shen",25,["boss_tieji1","boss_xiongshi","boss_mashu1","boss_qianji"],['shen','boss','bossallowed'],'zhu'],
@@ -268,6 +268,7 @@ var qinyin={
 	player.init("boss_xuanwujiangling");
 	player.clearSkills();
 	player.addSkill("boss_xiongqv2")
+	player.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_xuanwu_1.jpg');
 	game.shzy_guanka='boss_shzy_huhushengwei';
 	if(game.me==game.boss){
 	game.boss.previousSeat.changeSeat(5);
@@ -278,6 +279,7 @@ var qinyin={
 	fellow.side=true;
 	fellow.identity='zhong';
 	fellow.setIdentity('zhu');
+	fellow.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_zhuque_1.jpg');
 	game.addVideo('setIdentity',fellow,'zhong');
 	}
 	},
@@ -3434,6 +3436,12 @@ var qinyin={
 	direct:true,
 	superCharlotte:true,
 	charlotte:true,
+	init:function(player){
+	player.storage.boss_miaowu_stack=player.storage.boss_miaowu_stack||[];
+	},
+	onremove:function(player){
+	delete player.storage.boss_miaowu_stack;
+	},
 	trigger:{
 	global:"useCardAfter",
 	},
@@ -3486,13 +3494,15 @@ var qinyin={
 	}
 	}
 	"step 2"
-	var cards=result.links||[];
+	var cards=(result.links&&result.links.length)?result.links:(event.cards||[]);
 	while(cards.length){
 	var card=cards.pop();
 	if(get.position(card,true)=='o'){
 	card.fix();
 	ui.cardPile.appendChild(card,ui.cardPile.firstChild);
 	game.log(player,'将',card,'置于牌堆底');
+	player.storage.boss_miaowu_stack.push(card.name);
+	if(player.storage.boss_miaowu_stack.length>160) player.storage.boss_miaowu_stack.shift();
 	}
 	}
 	game.updateRoundNumber();
@@ -3516,6 +3526,23 @@ var qinyin={
 	},
 	},
 	},
+	"boss_yingying_check":{
+	enable:"chooseToUse",
+	filter:function(){
+	return true;
+	},
+	prompt:function(){
+	return '记牌（调试）：查看记忆栈顶';
+	},
+	content:function(){
+	var stack=player.storage.boss_miaowu_stack||[];
+	var top=stack.length?stack[stack.length-1]:null;
+	var str=top?('栈顶牌名：'+get.translation(top)+'（'+top+'）'):'栈为空';
+	str+='（栈内记录数：'+stack.length+'/160）';
+	player.chooseControl('确定','cancel2').set('prompt','###记牌（调试）###'+str).set('ai',function(){return 'cancel2'});
+	},
+	ai:{order:1,result:{player:0}},
+	},
 	"boss_abaaba":{
 	trigger:{
 	player:"phaseAfter",
@@ -3531,6 +3558,7 @@ var qinyin={
 	'step 1'
 	var card=get.bottomCards()[0];
 	event.card=card
+	if(player.storage.boss_miaowu_stack&&player.storage.boss_miaowu_stack.length) player.storage.boss_miaowu_stack.pop();
 	player.showCards(card);
 	if(!player.hasUseTarget(card)){
 	player.gain(card)
@@ -3558,15 +3586,21 @@ var qinyin={
 	var card=get.bottomCards()[0];
 	event.card=card;
 	player.chooseControl('basic','trick','equip','其他').set('ai',function(){ 
-	if(get.type(card)=='basic') return 'basic';
-	if(get.type(card,'trick')=='trick') return 'trick';
-	if(get.type(card)=='equip') return 'equip';
-	return '其他'
-	}).set('prompt','###【喵呜】###猜测一种类型，若猜对则你不死亡'); 
+	var stack=player.storage.boss_miaowu_stack;
+	if(stack&&stack.length){
+	var type=get.type(stack[stack.length-1],'trick');
+	if(type=='basic') return 'basic';
+	if(type=='trick') return 'trick';
+	if(type=='equip') return 'equip';
+	}
+	return ['basic','trick','equip'].randomGet();
+	}).set('prompt','###【喵呜】###猜测一种类型，若猜对则你不死亡'); 
 	'step 1' 
 	event.choice=result.control;
 	game.log(player,'猜测的类型为',get.translation(event.choice)||event.choice,'牌')
+	player.showCards(card);
 	player.gain(card,'draw2')
+	if(player.storage.boss_miaowu_stack&&player.storage.boss_miaowu_stack.length) player.storage.boss_miaowu_stack.pop();
 	'step 2' 
 	if((event.choice=='其他'&&get.type(card,'trick')!='basic'&&get.type(card,'trick')!='trick'&&get.type(card,'trick')!='equip')||get.type(card,'trick')==event.choice){
 	player.popup('洗具','metal');
@@ -3578,6 +3612,25 @@ var qinyin={
 	}
 	player.draw();
 	} else event.finish()
+	},
+	},
+	"boss_langqinbiao_draw":{
+	trigger:{global:["draw","washCard"]},
+	forced:true,
+	silent:true,
+	popup:false,
+	filter:function(event,player){
+	if(event.name=='washCard') return true;
+	return event.bottom===true;
+	},
+	content:function(){
+	if(trigger.name=='washCard'){
+	player.storage.boss_miaowu_stack=[];
+	return;
+	}
+	var num=trigger.num||1;
+	var stack=player.storage.boss_miaowu_stack;
+	if(stack) while(num--&&stack.length) stack.pop();
 	},
 	},
 	"boss_chiliu":{
@@ -4210,6 +4263,7 @@ var qinyin={
 	}
 	});
 	player.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_xiaohu2.jpg');
+	player.node.name.innerHTML=get.verticalStr('大虎',true);
 	player.addSkill('boss_zuoji')
 	}
 	},
@@ -4549,10 +4603,12 @@ var qinyin={
 	"boss_beiminga_info":"锁定技，当你死亡时，你令杀死你的角色弃置所有手牌。",
 	"boss_yingying":"嘤嘤",
 	"boss_yingying_info":"当一名角色使用非装备牌后，你可以将此牌置于牌堆底，若当前回合不为你的回合，则你需要先弃置一张牌。",
+	"boss_yingying_check":"记牌",
 	"boss_abaaba":"阿巴",
 	"boss_abaaba_info":"锁定技，你的回合结束时，你展示牌堆底的一张牌并使用之。若如此做，你重复此流程，直到你以此法展示的牌无法使用为止，然后你获得那张牌。",
 	"boss_miaowu":"喵呜",
 	"boss_miaowu_info":"锁定技，当你死亡时，你选择一种类型（基本/锦囊/装备/其他），然后翻开牌堆底的一张牌并获得之，若那张牌的类型和你选择的类型一样，则你不死亡，将体力值上限变成2，体力值回复至2，并摸一张牌。",
+	"boss_langqinbiao_draw":"感知",
 	"boss_chiliu":"哧溜",
 	"boss_chiliu_info":"锁定技，你进入濒死状态时，立即死亡，你不会被翻面，与其他角色计算的距离-1，手牌上限+2；你的回合开始时，你受到一点雷属性伤害。并获得判定区里的所有牌。",
 	"boss_guihuoa":"鬼火",
@@ -4710,6 +4766,25 @@ var qinyin={
 	});*/
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
+	var gk_list=[
+	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
+	["boss_shzy_dangxieqingxin","shzy_gk_dangxieqingxin"],
+	["boss_shzy_jianghunjuexing","shzy_gk_jianghunjuexing"],
+	["boss_shzy_huhushengwei","shzy_gk_huhushengwei"],
+	["boss_shzy_ruilinjiangshi","shzy_gk_ruilinjiangshi"],
+	["boss_aolihagang","shzy_gk_aolihagang"],
+	["boss_langqinbiao","shzy_gk_langqinbiao"],
+	["boss_zhangrang1","shzy_gk_zhangrang1"],
+	["boss_machao1","shzy_gk_machao1"],
+	["boss_ling","shzy_gk_ling"],
+	["boss_diyvpanguan","shzy_gk_diyvpanguan"],
+	["boss_qingqingzijin","shzy_gk_qingqingzijin"],
+	];
+	for(var i=0;i<gk_list.length;i++){
+	if(config[gk_list[i][1]]===false&&qinyin.character[gk_list[i][0]]){
+	qinyin.character[gk_list[i][0]][4].remove('boss');
+	}
+	}
 	if(get.mode()=='boss'){//减员挑战
 	lib.boss.boss_shzy_huhushengwei={
 	loopType:1,
@@ -5383,10 +5458,10 @@ var qinyin={
 	priority:-20,
 	content:function (){
 	'step 0'
-	if((trigger.player.name=="boss_zhuquezhenshen"&&game.hasPlayer(function(current){
-	return current.name=="boss_xuanwuzhenshen"
-	}))||(trigger.player.name=="boss_xuanwuzhenshen"&&game.hasPlayer(function(current){
-	return current.name=="boss_zhuquezhenshen"
+	if((((trigger.player.storage.zhuque_fuhuo||0)>=2)&&game.hasPlayer(function(current){
+	return (current.storage.xuanwu_fuhuo||0)>=2
+	}))||(((trigger.player.storage.xuanwu_fuhuo||0)>=2)&&game.hasPlayer(function(current){
+	return (current.storage.zhuque_fuhuo||0)>=2
 	}))){
 	game.addGlobalSkill('boss_hhshengweix');
 	}
@@ -5449,25 +5524,26 @@ var qinyin={
 	if(event.count==1&&playerx.classList.contains('out')&&playerx.hasSkill('boss_xiongqv1')){
 	playerx.classList.remove('out');
 	playerx.directgain(get.cards(4))
-	if(playerx.name=="boss_zhuquejiangling"){
-	playerx.name="boss_zhuquefaxiang"
-	playerx.node.name.innerHTML='朱<br>雀<br>法<br>相';
+	playerx.storage.zhuque_fuhuo=(playerx.storage.zhuque_fuhuo||0)+1
+	if(playerx.storage.zhuque_fuhuo==1){
+	playerx.node.name.innerHTML='朱雀法相';
+	playerx.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_zhuque_2.jpg');
 	playerx.maxHp=9
 	playerx.hp=playerx.maxHp
 	playerx.addSkill('boss_lihuo');
 	playerx.update();
 	}
-	else if(playerx.name=="boss_zhuquefaxiang"){
-	playerx.name="boss_zhuquezhenshen"
-	playerx.node.name.innerHTML='朱<br>雀<br>真<br>身';
+	else if(playerx.storage.zhuque_fuhuo==2){
+	playerx.node.name.innerHTML='朱雀真身';
+	playerx.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_zhuque_3.jpg');
 	playerx.maxHp=10
 	playerx.hp=playerx.maxHp
 	playerx.addSkill('boss_fengxinga');
 	playerx.addSkill('boss_beiminga');
 	playerx.update();
-	if(player.name=="boss_xuanwuzhenshen") game.addGlobalSkill('boss_hhshengweix');
+	if((player.storage.xuanwu_fuhuo||0)>=2) game.addGlobalSkill('boss_hhshengweix');
 	}
-	else if(playerx.name=="boss_zhuquezhenshen"){
+	else if(playerx.storage.zhuque_fuhuo>=3){
 	playerx.maxHp=10
 	playerx.hp=playerx.maxHp
 	playerx.update();
@@ -5488,29 +5564,30 @@ var qinyin={
 	return true;
 	},
 	content:function (){
-	if(player==_status.currentPhase&&player.nextSeat.classList.contains('out')&&(player.name=="boss_zhuquejiangling"||player.name=="boss_zhuquefaxiang"||player.name=="boss_zhuquezhenshen")){
+	if(player==_status.currentPhase&&player.nextSeat.classList.contains('out')&&(player.name=="boss_zhuquejiangling"||player.name=="boss_xuanwujiangling")){
 	var playerx=player.nextSeat
 	playerx.classList.remove('out');
 	playerx.directgain(get.cards(4))
-	if(playerx.name=="boss_xuanwujiangling"){
-	playerx.name="boss_xuanwufaxiang"
-	playerx.node.name.innerHTML='玄<br>武<br>法<br>相';
+	playerx.storage.xuanwu_fuhuo=(playerx.storage.xuanwu_fuhuo||0)+1
+	if(playerx.storage.xuanwu_fuhuo==1){
+	playerx.node.name.innerHTML='玄武法相';
+	playerx.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_xuanwu_2.jpg');
 	playerx.maxHp=9
 	playerx.hp=playerx.maxHp
 	playerx.addSkill('boss_zhenlei');
 	playerx.update();
 	}
-	else if(playerx.name=="boss_xuanwufaxiang"){
-	playerx.name="boss_xuanwuzhenshen"
-	playerx.node.name.innerHTML='玄<br>武<br>真<br>身';
+	else if(playerx.storage.xuanwu_fuhuo==2){
+	playerx.node.name.innerHTML='玄武真身';
+	playerx.node.avatar.setBackgroundImage('extension/山海志异/resources/image/character/boss_xuanwu_3.jpg');
 	playerx.maxHp=10
 	playerx.hp=playerx.maxHp
 	playerx.addSkill('boss_leilia');
 	playerx.addSkill('boss_lingsia');
 	playerx.update();
-	if(player.name=="boss_zhuquezhenshen") game.addGlobalSkill('boss_hhshengweix');
+	if((player.storage.zhuque_fuhuo||0)>=2) game.addGlobalSkill('boss_hhshengweix');
 	}
-	else if(playerx.name=="boss_xuanwuzhenshen"){
+	else if(playerx.storage.xuanwu_fuhuo>=3){
 	playerx.maxHp=10
 	playerx.hp=playerx.maxHp
 	playerx.update();
@@ -5778,6 +5855,81 @@ var qinyin={
 	"name":"启用手气卡",
 	"init":true,
 	"intro":"游戏内添加手气卡。"
+	},
+	"shzy_gk_title1":{
+	name:'<b><p align=center><span style="font-size:18px">山海志异</span></b>',
+	clear:true,
+	nopointer:true,
+	},
+	"shzy_gk_quguibixie":{
+	"name":"驱鬼辟邪",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_dangxieqingxin":{
+	"name":"荡邪庆新",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_jianghunjuexing":{
+	"name":"将魂觉醒",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_huhushengwei":{
+	"name":"虎虎生威",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_ruilinjiangshi":{
+	"name":"瑞麟降世",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_title2":{
+	name:'<b><p align=center><span style="font-size:18px">作者原创</span></b>',
+	clear:true,
+	nopointer:true,
+	},
+	"shzy_gk_aolihagang":{
+	"name":"奥利哈刚",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_langqinbiao":{
+	"name":"浪琴婊",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_zhangrang1":{
+	"name":"十常侍张让",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_machao1":{
+	"name":"永远的神",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_ling":{
+	"name":"灵",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_title3":{
+	name:'<b><p align=center><span style="font-size:18px">其他关卡</span></b>',
+	clear:true,
+	nopointer:true,
+	},
+	"shzy_gk_diyvpanguan":{
+	"name":"地狱判官",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
+	},
+	"shzy_gk_qingqingzijin":{
+	"name":"青青子衿",
+	"init":true,
+	"intro":"在挑战模式列表中显示该关卡"
 	},
 	"sm_shuoming":{
 	name:'<div class="hth_menu">▶扩展说明</div>',
