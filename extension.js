@@ -56,8 +56,8 @@ var qinyin={
 	"boss_taotie1":["male","qun",13,["boss_xiemei","boss_taoyuan","boss_duoling","boss_shanhai3"],['qun','hiddenboss','bossallowed']],
 	"boss_zhuyin1":["male","qun",15,["xinjushou","boss_jingxin","rezhiyi","boss_yazi"],['qun','hiddenboss','bossallowed']],
 	"boss_qilin1":["male","qun",3,["boss_xiangruia"],['qun','hiddenboss','bossallowed']],
-	"boss_zhuquejiangling":["male","qun",8,["boss_xiongqv","boss_lihuo","boss_fengxinga","boss_beiminga"],['qun','hiddenboss','bossallowed']],
-	"boss_xuanwujiangling":["female","qun",8,["boss_xiongqv","boss_zhenlei","boss_leilia","boss_lingsia"],['qun','hiddenboss','bossallowed']],
+	"boss_zhuquejiangling":["male","qun",8,["boss_xiongqv","boss_lihuo","boss_fengxinga","boss_beiminga"],['qun','hiddenboss','bossallowed','img:extension/山海志异/resources/image/character/boss_zhuque_3.jpg']],
+	"boss_xuanwujiangling":["female","qun",8,["boss_xiongqv","boss_zhenlei","boss_leilia","boss_lingsia"],['qun','hiddenboss','bossallowed','img:extension/山海志异/resources/image/character/boss_xuanwu_3.jpg']],
 	"boss_xiaohu1":["male","qun",6,["boss_yvtu","boss_wuyou","boss_xiongqv","boss_weihu"],['qun','hiddenboss','bossallowed']],
 	
 	"boss_yanluowanga":["male","qun",18,["boss_tiemianhong","boss_difua","boss_zhennub","boss_xingpan","boss_dianwei","boss_xuanpan"],['qun','hiddenboss','bossallowed']],
