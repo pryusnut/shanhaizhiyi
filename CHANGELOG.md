@@ -4,7 +4,7 @@
 
 本扩展在原作者「浪琴婊」v1.108 基础上进行现代化适配，兼容新版无名杀引擎。
 
-## [Unreleased]
+## [1.20] - 2026-08-13
 
 ### 修复
 
@@ -20,6 +20,8 @@
   - 随机分支：栈空时喵呜 AI 在 `['basic','trick','equip']` 中等概率随机猜测（忽略"其他"）；
   - 防御：出栈前判空，栈空不报错。
   - 玩家破局路径：压牌断供（栈趋空后 AI 随机）或主动摸空牌堆触发洗牌清栈。
+- **修复朱雀/玄武复活后名称横排**：复活分支原硬编码 `'朱<br>雀<br>法<br>相'` 手动换行，而现代引擎名称节点为 CSS 竖排（writing-mode），`<br>` 在竖排模式下转为横向换行，导致"法相/真身"名称从右往左横排；改为纯文本 `'朱雀法相'` 等（竖排由引擎 CSS 自动处理，与出场时一致）。
+- **修复朱雀/玄武复活后死亡音效/立绘资源报错**：复活时原代码将 `playerx.name` 改为 `boss_zhuquefaxiang` 等**未定义的角色名**（`lib.character` 中无这些角色），引擎解析死亡音效时抛 `ReferenceError: Cannot find ... when parsing die audio`，并产生 `image/character/boss_zhuquefaxiang.jpg`、`audio/die/boss_zhuquefaxiang.mp3` 等 404。修复：复活不再改名（角色名保持 `boss_zhuquejiangling`/`boss_xuanwujiangling`），改用 `player.storage.zhuque_fuhuo`/`xuanwu_fuhuo` 复活计数区分阶段（1=法相、2=真身、≥3 保持），显示名与插画仍照常切换；"进入修整"的双真身联动判断同步改为计数比较。注：`extension/山海志异/boss_zhuquejiangling.mp3` 404 为扩展无死亡音效文件的既有问题（引擎自动注册 die 标记），不影响游戏运行。
 
 ### 新增
 
@@ -32,8 +34,7 @@
   - 修复开关不生效问题：扩展配置在 `lib.config` 中的存储键名带 `extension_山海志异_` 前缀（引擎 loadExtension 处理），content 内直接读 `lib.config[配置键]` 恒为 `undefined` 导致永不隐藏；改为读取 content 函数的 `config` 参数（引擎已剥前缀后传入），与引擎官方机制一致。
 - **虎虎生威小虎升级改名**：小虎（boss_xiaohu1）发动威虎（boss_weihu）升级（插画由 `boss_xiaohu1.jpg` 切换为 `boss_xiaohu2.jpg`）时，名称同步由"小虎"改为"大虎"（直接更新名称节点并保持竖排格式，不修改翻译表以免影响后续对局）。
 - **虎虎生威朱雀/玄武复活换插画**：朱雀降灵（boss_zhuquejiangling）出生时使用 `boss_zhuque_1.jpg`，复活依次切换为 `boss_zhuque_2.jpg`（法相）、`boss_zhuque_3.jpg`（真身，此后保持）；玄武降灵（boss_xuanwujiangling）同理依次使用 `boss_xuanwu_1/2/3.jpg`。插画在复活分支（法相/真身切换）与出生处（init/addFellow 后）直接设置，与既有小虎升级换图写法一致。
-- **修复朱雀/玄武复活后名称横排**：复活分支原硬编码 `'朱<br>雀<br>法<br>相'` 手动换行，而现代引擎名称节点为 CSS 竖排（writing-mode），`<br>` 在竖排模式下转为横向换行，导致"法相/真身"名称从右往左横排；改为纯文本 `'朱雀法相'` 等（竖排由引擎 CSS 自动处理，与出场时一致）。
-- **修复朱雀/玄武复活后死亡音效/立绘资源报错**：复活时原代码将 `playerx.name` 改为 `boss_zhuquefaxiang` 等**未定义的角色名**（`lib.character` 中无这些角色），引擎解析死亡音效时抛 `ReferenceError: Cannot find ... when parsing die audio`，并产生 `image/character/boss_zhuquefaxiang.jpg`、`audio/die/boss_zhuquefaxiang.mp3` 等 404。修复：复活不再改名（角色名保持 `boss_zhuquejiangling`/`boss_xuanwujiangling`），改用 `player.storage.zhuque_fuhuo`/`xuanwu_fuhuo` 复活计数区分阶段（1=法相、2=真身、≥3 保持），显示名与插画仍照常切换；"进入修整"的双真身联动判断同步改为计数比较。注：`extension/山海志异/boss_zhuquejiangling.mp3` 404 为扩展无死亡音效文件的既有问题（引擎自动注册 die 标记），不影响游戏运行。
+- **朱雀/玄武默认插画改用 3 号图**：`boss_zhuquejiangling` / `boss_xuanwujiangling` 角色定义显式添加 `img:` 标记指向 `boss_zhuque_3.jpg` / `boss_xuanwu_3.jpg`（原 jiangling 图即将废弃），避免引擎自动注册默认 ext 路径。
 
 ### 重构
 
@@ -46,12 +47,21 @@
 - **素材存放结构整理**：美术素材统一移入扩展内 `resources/image/character/` 子目录，寻址统一改为 `ext:` 前缀；地狱判官封面 `boss_diyvpanguan` 改为直接复用 `boss_yanluowanga` 素材并删除重复文件。
 - **变更记录迁移**：新增本 CHANGELOG，重要修改说明从 extension.js 文件头注释迁移至此。
 
+### 优化
+
+- 优化了大量素材表现
+
 ## [1.113] - 2026-08-08
 
 ### 新增
 
 - 添加更新地址：`info.json` 与 `package` 的 `diskURL` 指向 GitHub Releases 页面。
 - 版本号 1.11 → 1.113（含菜单 author 栏中的版本显示同步）。
+- 新增武将包菜单名称翻译：武将包 translate 中新增 `山海志异` 键，用于武将包菜单显示。
+
+### 优化
+- 关卡名称调整："驱逐年兽"关卡更名为"荡邪庆新"（含标识符 `dangxieqingxin`）。
+- 优化了素材表现
 
 ## [1.11] - 现代化适配版（首个发布版本）
 
@@ -83,9 +93,7 @@
 
 ### 新增
 
-- 新增武将包菜单名称翻译：武将包 translate 中新增 `山海志异` 键，用于武将包菜单显示。
 - 菜单呈现调整：author 栏显示作者/原作者/版本三行信息；扩展介绍顶部添加开源声明；配置项更名（山海模式挑战→朱果发放方式、减员挑战→我方登场人数、山海志异→山海关卡切换，后已随关卡拆分删除）；"启用手气卡"默认开启；新增"扩展说明"点击展开交互项。
-- 为山海志异 5 个关卡添加 boss 列表长按称号（如"勇发看鸷击，愤来听虎吟"），部分称号在逗号后换行显示。
 - 开源配套：添加 GPL-3.0 LICENSE 与 README（功能简介、安装方法、素材版权声明）。
 
 ### 优化
@@ -122,7 +130,6 @@
 | boss_zhouyv_hun | image/character/re_zhouyu.jpg |
 | boss_xvzhu_hun | image/character/re_xuzhu.jpg |
 
-- 关卡名称调整：驱鬼辟邪相关标识符统一（`qvguibixie`）；"驱逐年兽"关卡更名为"荡邪庆新"（含标识符 `dangxieqingxin`）。
 
 ## 格式约定
 

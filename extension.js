@@ -5939,9 +5939,9 @@ var qinyin={
 	var more=ui.create.div('.hth_more',
 	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
 	'<br>玩法说明：'+
-	'<br>在山海关卡切换处可修改山海志异挑战的boss。'+
 	'<br>在朱果发放方式处可选择是否启用随机获得技能模式。'+
 	'<br>我方登场人数可自由设置为1-3人，推荐选择2人。'+
+	'<br>在本菜单中可自由开关关卡是否显示在挑战BOSS目录中'+
 	'<br><font color="yellow">素材声明：'+
 	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
 	'</font></div>');
@@ -5973,8 +5973,8 @@ var qinyin={
 	},
 	},
 	intro:"<font color = #FF2626>本扩展开源免费，严禁倒卖！</font><li><font color=#FF00FF>长按下列功能可查看功能详情</font>",
-	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.113</li>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.20</li>",
 	diskURL:"https://github.com/pryusnut/shanhaizhiyi/releases",
 	forumURL:"",
-	version:"1.113",
+	version:"1.20",
 	},files:{"character":[],"card":[],"skill":[]}}})
