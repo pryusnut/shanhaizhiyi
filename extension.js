@@ -4767,24 +4767,30 @@ var qinyin={
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	var shzy_guanka_preset={//本扩展 12 个关卡预设（占位，待定稿）
-	boss_shzy_huhushengwei:{moshi:'1'},
-	boss_shzy_quguibixie:{moshi:'1'},
-	boss_shzy_dangxieqingxin:{moshi:'1'},
-	boss_shzy_jianghunjuexing:{moshi:'1'},
-	boss_shzy_ruilinjiangshi:{moshi:'1'},
-	boss_aolihagang:{moshi:'1'},
-	boss_langqinbiao:{moshi:'1'},
-	boss_zhangrang1:{moshi:'1'},
-	boss_machao1:{moshi:'1'},
-	boss_ling:{moshi:'1'},
-	boss_diyvpanguan:{moshi:'1'},
-	boss_qingqingzijin:{moshi:'1'},
+	boss_shzy_huhushengwei:{moshi:'1',renshu:'1'},
+	boss_shzy_quguibixie:{moshi:'1',renshu:'1'},
+	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'1'},
+	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'1'},
+	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'1'},
+	boss_aolihagang:{moshi:'1',renshu:'1'},
+	boss_langqinbiao:{moshi:'1',renshu:'1'},
+	boss_zhangrang1:{moshi:'1',renshu:'1'},
+	boss_machao1:{moshi:'1',renshu:'1'},
+	boss_ling:{moshi:'1',renshu:'1'},
+	boss_diyvpanguan:{moshi:'1',renshu:'1'},
+	boss_qingqingzijin:{moshi:'1',renshu:'1'},
 	};
 	function shzy_moshi(){
 	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
 	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].moshi;
 	return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
+	}
+	function shzy_renshu(){
+	var over=lib.config['extension_'+'山海志异_'+'boss_override'];
+	if(over) return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
+	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].renshu;
+	return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
 	}
 	var gk_list=[
 	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
@@ -4935,9 +4941,11 @@ var qinyin={
 	var next=game.me.chooseButton(dialog,true).set('onfree',true);
 	next._triggered=null;
 	next.custom.replace.target=event.customreplacetarget;
-	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="1") next.selectButton=[3,3];
-	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="2") next.selectButton=[2,2];
-	if(lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan']=="3") next.selectButton=[1,1];
+	var renshu=shzy_renshu();
+	if(renshu=="1") next.selectButton=[3,3];
+	if(renshu=="2") next.selectButton=[2,2];
+	if(renshu=="3") next.selectButton=[1,1];
+	if(renshu=="4") next.selectButton=[4,4];
 	event.changeDialog=function(){
 	if(ui.cheat2&&ui.cheat2.dialog==_status.event.dialog){
 	return;
@@ -5879,7 +5887,13 @@ var qinyin={
 	"1":'三人挑战',
 	"2":'双人挑战',
 	"3":'单人挑战',
+	"4":'四人挑战',
 	},
+	},
+	"boss_override":{
+	"name":"登场人数全局覆盖",
+	"init":false,
+	"intro":"人数开关"
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
