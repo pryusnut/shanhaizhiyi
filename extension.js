@@ -4766,6 +4766,26 @@ var qinyin={
 	});*/
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
+	var shzy_guanka_preset={//本扩展 12 个关卡预设（占位，待定稿）
+	boss_shzy_huhushengwei:{moshi:'1'},
+	boss_shzy_quguibixie:{moshi:'1'},
+	boss_shzy_dangxieqingxin:{moshi:'1'},
+	boss_shzy_jianghunjuexing:{moshi:'1'},
+	boss_shzy_ruilinjiangshi:{moshi:'1'},
+	boss_aolihagang:{moshi:'1'},
+	boss_langqinbiao:{moshi:'1'},
+	boss_zhangrang1:{moshi:'1'},
+	boss_machao1:{moshi:'1'},
+	boss_ling:{moshi:'1'},
+	boss_diyvpanguan:{moshi:'1'},
+	boss_qingqingzijin:{moshi:'1'},
+	};
+	function shzy_moshi(){
+	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
+	if(over) return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
+	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].moshi;
+	return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
+	}
 	var gk_list=[
 	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
 	["boss_shzy_dangxieqingxin","shzy_gk_dangxieqingxin"],
@@ -5152,7 +5172,7 @@ var qinyin={
 	if(!player.getEnemies().contains(game.boss)) return false
 	if(player==game.boss) return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
+	var moshi=shzy_moshi()
 	if(moshi=="0") return false;
 	return true;
 	},
@@ -5229,7 +5249,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
+	var moshi=shzy_moshi()
 	if(moshi!="1") return false;
 	if(player.side==game.boss.side) return false
 	return event.player.side!=game.boss.side||event.player==game.boss
@@ -5308,7 +5328,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
+	var moshi=shzy_moshi()
 	if(moshi!="2") return false;
 	if(player.side==game.boss.side) return false
 	return player.countMark("boss_zhuguozi")>2
@@ -5601,7 +5621,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
+	var moshi=shzy_moshi()
 	if(moshi!="2") return false;
 	return player.side!=game.boss.side&&event.player.side==game.boss.side
 	},
@@ -5622,7 +5642,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=lib.config['extension_'+'山海志异_'+'zhuanshu_moshi']
+	var moshi=shzy_moshi()
 	if(moshi!="2") return false;
 	if(player!=event.player) return false
 	return event.player.side==game.boss.side
@@ -5831,6 +5851,11 @@ var qinyin={
 	help:{
 	},
 	config:{
+	"shzy_title_setting":{
+	name:'<b><p align=center><span style="font-size:18px">扩展设置</span></b>',
+	clear:true,
+	nopointer:true,
+	},
 	"zhuanshu_moshi":{
 	"name":"朱果发放方式",
 	"intro":"游戏开始时，清空挑战方所有技能，每人从16个系统随机给出的技能中选择1项技能获得。模式①：当boss或队友阵亡时，挑战方每人从16个系统随机给出的技能中选择1项技能获得；模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从16个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。",
@@ -5840,6 +5865,11 @@ var qinyin={
 	"1":'模式①',
 	"2":'模式②',
 	},
+	},
+	"zhuanshu_override":{
+	"name":"朱果获取全局覆盖",
+	"init":false,
+	"intro":"朱果获取全局覆盖："
 	},
 	"boss_jianyuantiaozhan":{
 	"name":'我方登场人数',
