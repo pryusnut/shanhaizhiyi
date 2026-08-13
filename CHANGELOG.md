@@ -9,7 +9,7 @@
 ### 修复
 
 - **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。
-- **修复关卡预设未生效（全局覆盖开关关闭时仍全局影响）**：预设解析依赖 `game.boss.name` 识别关卡，但两个时机不成立——①选将（chooseCharacter）阶段 `game.boss` 尚未创建（boss.js 在选将后才创建）→ 人数解析走全局；②gameStart 后开场技能将 `game.boss` init 为阶段角色（如玄武）→ 朱果方式解析走全局。修复：新增 `game.shzy_gk_name()` 关卡识别函数，按序尝试 `game.boss.name` → `game.shzy_guanka`（开场技能写入的关卡标记）→ `_status.bosschoice.name` → `lib.storage.current`（boss 选择回调保存的壳名，选将时即可用），4 个解析函数（朱果方式/人数/候选数/上限）统一经其识别关卡。
+- **修复关卡预设未生效（全局覆盖开关关闭时仍全局影响）**：三处根因叠加——①扩展覆写的是 `lib.game.chooseCharacter`，而挑战模式实际调用 `game.chooseCharacter`（mode 注入，写死三人选将）→ 选将人数配置从未生效；②关卡识别曾误用 `lib.storage.current`（实为"继续游戏用的参战武将名"，非 boss 名，且用户后续改动中误加依赖）；③对局中 `game.boss.name` 会因开场技能 init 为阶段角色（如玄武）而不再是关卡壳名。修复：扩展改覆写 `game.chooseCharacter`；选参战阶段在 content 开头用 `event.getParent().current.name`（bosslist 高亮的 boss 节点名）提前写入 `game.shzy_guanka` 关卡标记；`game.shzy_gk_name()` 按序尝试 `game.boss.name` → `game.shzy_guanka` → `_status.bosschoice.name`（移除不可靠的 `lib.storage.current`），4 个解析函数统一经其识别关卡。
 
 ### 新增
 

@@ -4784,7 +4784,6 @@ var qinyin={
 	if(game.boss&&shzy_guanka_preset[game.boss.name]) return game.boss.name;
 	if(game.shzy_guanka&&shzy_guanka_preset[game.shzy_guanka]) return game.shzy_guanka;
 	if(_status.bosschoice&&shzy_guanka_preset[_status.bosschoice.name]) return _status.bosschoice.name;
-	if(lib.storage.current&&shzy_guanka_preset[lib.storage.current]) return lib.storage.current;
 	return null;
 	};
 	game.shzy_moshi=function(){
@@ -4925,7 +4924,7 @@ var qinyin={
 	}
 	}
 	}
-		lib.game.chooseCharacter=function(func){
+		game.chooseCharacter=function(func){
 	var next=game.createEvent('chooseCharacter',false);
 	next.showConfig=true;
 	next.customreplacetarget=func;
@@ -4939,6 +4938,10 @@ var qinyin={
 	}
 	next.setContent(function(){
 	"step 0"
+	var parent=event.getParent();
+	if(parent&&parent.current&&parent.current.name&&shzy_guanka_preset[parent.current.name]){
+	game.shzy_guanka=parent.current.name;
+	}
 	var i;
 	var list=[];
 	event.list=list;
