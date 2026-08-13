@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### 修复
+
+- **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。
+
 ### 新增
 
 - **扩展菜单新增"扩展设置"分组与"朱果获取全局覆盖"开关**：菜单顶部新增居中标题"扩展设置"（样式同"作者原创"等分组行）；"朱果发放方式"下方新增开关"朱果获取全局覆盖"（样式同"启用手气卡"，长按显示说明，intro 文本待完善）。开关效果：关闭时朱果发放方式仅作用于本扩展**以外**的挑战关卡——本扩展 12 个关卡（5 个山海志异关卡 + 奥利哈刚/浪琴婊/十常侍张让/永远的神/灵/地狱判官/青青子衿 7 个其他关卡）均视为扩展提供关卡，使用各自预设（预设表已建立待填具体值）；打开时朱果发放方式覆盖所有挑战关卡（含"关闭"档全覆盖）。实现：content 新增 `shzy_guanka_preset` 预设表（12 关）与 `shzy_moshi()` 解析函数（覆盖开关 → 预设 → 全局值），5 处朱果方式读取统一改为 `shzy_moshi()`。

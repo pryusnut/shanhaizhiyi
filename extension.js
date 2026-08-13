@@ -4780,18 +4780,18 @@ var qinyin={
 	boss_diyvpanguan:{moshi:'1',renshu:'1'},
 	boss_qingqingzijin:{moshi:'1',renshu:'1'},
 	};
-	function shzy_moshi(){
+	game.shzy_moshi=function(){
 	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
 	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].moshi;
 	return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
-	}
-	function shzy_renshu(){
+	};
+	game.shzy_renshu=function(){
 	var over=lib.config['extension_'+'山海志异_'+'boss_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
 	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].renshu;
 	return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
-	}
+	};
 	var gk_list=[
 	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
 	["boss_shzy_dangxieqingxin","shzy_gk_dangxieqingxin"],
@@ -4941,7 +4941,7 @@ var qinyin={
 	var next=game.me.chooseButton(dialog,true).set('onfree',true);
 	next._triggered=null;
 	next.custom.replace.target=event.customreplacetarget;
-	var renshu=shzy_renshu();
+	var renshu=game.shzy_renshu();
 	if(renshu=="1") next.selectButton=[3,3];
 	if(renshu=="2") next.selectButton=[2,2];
 	if(renshu=="3") next.selectButton=[1,1];
@@ -5180,7 +5180,7 @@ var qinyin={
 	if(!player.getEnemies().contains(game.boss)) return false
 	if(player==game.boss) return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=shzy_moshi()
+	var moshi=game.shzy_moshi()
 	if(moshi=="0") return false;
 	return true;
 	},
@@ -5257,7 +5257,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=shzy_moshi()
+	var moshi=game.shzy_moshi()
 	if(moshi!="1") return false;
 	if(player.side==game.boss.side) return false
 	return event.player.side!=game.boss.side||event.player==game.boss
@@ -5336,7 +5336,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
-	var moshi=shzy_moshi()
+	var moshi=game.shzy_moshi()
 	if(moshi!="2") return false;
 	if(player.side==game.boss.side) return false
 	return player.countMark("boss_zhuguozi")>2
@@ -5629,7 +5629,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=shzy_moshi()
+	var moshi=game.shzy_moshi()
 	if(moshi!="2") return false;
 	return player.side!=game.boss.side&&event.player.side==game.boss.side
 	},
@@ -5650,7 +5650,7 @@ var qinyin={
 	},
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
-	var moshi=shzy_moshi()
+	var moshi=game.shzy_moshi()
 	if(moshi!="2") return false;
 	if(player!=event.player) return false
 	return event.player.side==game.boss.side
