@@ -4766,19 +4766,19 @@ var qinyin={
 	});*/
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
-	var shzy_guanka_preset={//本扩展 12 个关卡预设（占位，待定稿）
-	boss_shzy_huhushengwei:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_shzy_quguibixie:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_aolihagang:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_langqinbiao:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_zhangrang1:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_machao1:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_ling:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_diyvpanguan:{moshi:'1',renshu:'1',num:10,limit:4},
-	boss_qingqingzijin:{moshi:'1',renshu:'1',num:10,limit:4},
+	var shzy_guanka_preset={//本扩展 12 个关卡预设
+	boss_shzy_huhushengwei:{moshi:'2',renshu:'2',num:3,limit:3},
+	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'2',num:3,limit:4},
+	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'2',num:3,limit:4},
+	boss_shzy_quguibixie:{moshi:'1',renshu:'2',num:3,limit:4},
+	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'2',num:3,limit:4},
+	boss_diyvpanguan:{moshi:'2',renshu:'1',num:10,limit:4},
+	boss_aolihagang:{moshi:'2',renshu:'1',num:15,limit:5},
+	boss_qingqingzijin:{moshi:'2',renshu:'1',num:16,limit:6},
+	boss_langqinbiao:{moshi:'2',renshu:'1',num:15,limit:4},
+	boss_zhangrang1:{moshi:'2',renshu:'1',num:15,limit:4},
+	boss_machao1:{moshi:'2',renshu:'1',num:15,limit:4},
+	boss_ling:{moshi:'2',renshu:'2',num:10,limit:4},
 	};
 	game.shzy_moshi=function(){
 	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
