@@ -9,6 +9,7 @@
 ### 修复
 
 - **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。
+- **修复虎虎生威/瑞麟降世小虎/麒麟登场座位重叠与排序**：挑战模式玩家座位为 `i+1`（4 人 = 1,2,3,4），原 `addFellow(2)` 使小虎/麒麟与玩家 B（2 号位）座位冲突导致立绘重叠、视觉上"小虎插在 A、B 之间"；且 `addFellow` 不更新 `ui.arena.dataset.number`（人数布局 CSS 未切换）。修复：小虎/麒麟固定 `addFellow(3)`，4 人分支玩家 C→4 号、D→5 号（3 人分支 C→4 号，顺带消除 3 人场景 B/小虎潜在冲突），addFellow 后补 `ui.arena.setNumber(game.players.length)`（虎虎生威朱雀登场处同样补充）——玩家视角 4 人排序为 **AB小虎CD**、3 人为 **AB小虎C**，无座位冲突。
 
 ### 新增
 

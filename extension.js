@@ -246,18 +246,19 @@ var qinyin={
 	player.nextSeat.storage.weizhi=1
 	} else if(player.nextSeat.nextSeat.nextSeat!=player){
 	player.nextSeat.nextSeat.nextSeat.storage.weizhi=4
-	player.nextSeat.nextSeat.nextSeat.changeSeat(game.me==game.boss?6:4);
+	player.nextSeat.nextSeat.nextSeat.changeSeat(game.me==game.boss?6:5);
 	player.nextSeat.nextSeat.storage.weizhi=3
-	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.nextSeat.changeSeat(4);
 	player.nextSeat.storage.weizhi=1
 	} else if(player.nextSeat.nextSeat!=player){
 	player.nextSeat.nextSeat.storage.weizhi=3
-	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.nextSeat.changeSeat(4);
 	player.nextSeat.storage.weizhi=1
 	}
 	}else event.goto(2)
 	'step 1'
-	var fellow=game.addFellow(game.me==game.boss?3:2,"boss_xiaohu1",'zoominanim');
+	var fellow=game.addFellow(3,"boss_xiaohu1",'zoominanim');
+	ui.arena.setNumber(game.players.length);
 	fellow.storage.weizhi=2
 	fellow.side=false;
 	fellow.identity='zhong';
@@ -274,6 +275,7 @@ var qinyin={
 	game.boss.previousSeat.changeSeat(5);
 	}
 	var fellow=game.addFellow(game.me==game.boss?7:6,"boss_zhuquejiangling",'zoominanim');
+	ui.arena.setNumber(game.players.length);
 	fellow.clearSkills();
 	fellow.addSkill("boss_xiongqv1")
 	fellow.side=true;
@@ -352,18 +354,19 @@ var qinyin={
 	player.nextSeat.storage.weizhi=1
 	} else if(player.nextSeat.nextSeat.nextSeat!=player){
 	player.nextSeat.nextSeat.nextSeat.storage.weizhi=4
-	player.nextSeat.nextSeat.nextSeat.changeSeat(game.me==game.boss?6:4);
+	player.nextSeat.nextSeat.nextSeat.changeSeat(game.me==game.boss?6:5);
 	player.nextSeat.nextSeat.storage.weizhi=3
-	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.nextSeat.changeSeat(4);
 	player.nextSeat.storage.weizhi=1
 	} else if(player.nextSeat.nextSeat!=player){
 	player.nextSeat.nextSeat.storage.weizhi=3
-	player.nextSeat.nextSeat.changeSeat(game.me==game.boss?4:3);
+	player.nextSeat.nextSeat.changeSeat(4);
 	player.nextSeat.storage.weizhi=1
 	}
 	}else event.goto(2)
 	'step 1'
-	var fellow=game.addFellow(game.me==game.boss?3:2,"boss_qilin1",'zoominanim');
+	var fellow=game.addFellow(3,"boss_qilin1",'zoominanim');
+	ui.arena.setNumber(game.players.length);
 	fellow.storage.weizhi=2
 	fellow.side=false;
 	fellow.identity='zhong';
