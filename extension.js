@@ -4780,28 +4780,39 @@ var qinyin={
 	boss_machao1:{moshi:'2',renshu:'1',num:15,limit:4},
 	boss_ling:{moshi:'2',renshu:'2',num:10,limit:4},
 	};
+	game.shzy_gk_name=function(){
+	if(game.boss&&shzy_guanka_preset[game.boss.name]) return game.boss.name;
+	if(game.shzy_guanka&&shzy_guanka_preset[game.shzy_guanka]) return game.shzy_guanka;
+	if(_status.bosschoice&&shzy_guanka_preset[_status.bosschoice.name]) return _status.bosschoice.name;
+	if(lib.storage.current&&shzy_guanka_preset[lib.storage.current]) return lib.storage.current;
+	return null;
+	};
 	game.shzy_moshi=function(){
 	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
-	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].moshi;
+	var name=game.shzy_gk_name();
+	if(name) return shzy_guanka_preset[name].moshi;
 	return lib.config['extension_'+'山海志异_'+'zhuanshu_moshi'];
 	};
 	game.shzy_renshu=function(){
 	var over=lib.config['extension_'+'山海志异_'+'boss_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
-	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].renshu;
+	var name=game.shzy_gk_name();
+	if(name) return shzy_guanka_preset[name].renshu;
 	return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
 	};
 	game.shzy_jiawei_num=function(){
 	var over=lib.config['extension_'+'山海志异_'+'jiawei_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'jiawei_num']||10;
-	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].num||10;
+	var name=game.shzy_gk_name();
+	if(name) return shzy_guanka_preset[name].num||10;
 	return lib.config['extension_'+'山海志异_'+'jiawei_num']||10;
 	};
 	game.shzy_jiawei_limit=function(){
 	var over=lib.config['extension_'+'山海志异_'+'jiawei_limit_override'];
 	if(over) return lib.config['extension_'+'山海志异_'+'jiawei_limit']||4;
-	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].limit||4;
+	var name=game.shzy_gk_name();
+	if(name) return shzy_guanka_preset[name].limit||4;
 	return lib.config['extension_'+'山海志异_'+'jiawei_limit']||4;
 	};
 	var gk_list=[
