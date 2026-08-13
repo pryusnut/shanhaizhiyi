@@ -4767,18 +4767,18 @@ var qinyin={
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	var shzy_guanka_preset={//本扩展 12 个关卡预设（占位，待定稿）
-	boss_shzy_huhushengwei:{moshi:'1',renshu:'1'},
-	boss_shzy_quguibixie:{moshi:'1',renshu:'1'},
-	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'1'},
-	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'1'},
-	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'1'},
-	boss_aolihagang:{moshi:'1',renshu:'1'},
-	boss_langqinbiao:{moshi:'1',renshu:'1'},
-	boss_zhangrang1:{moshi:'1',renshu:'1'},
-	boss_machao1:{moshi:'1',renshu:'1'},
-	boss_ling:{moshi:'1',renshu:'1'},
-	boss_diyvpanguan:{moshi:'1',renshu:'1'},
-	boss_qingqingzijin:{moshi:'1',renshu:'1'},
+	boss_shzy_huhushengwei:{moshi:'1',renshu:'1',num:10},
+	boss_shzy_quguibixie:{moshi:'1',renshu:'1',num:10},
+	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'1',num:10},
+	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'1',num:10},
+	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'1',num:10},
+	boss_aolihagang:{moshi:'1',renshu:'1',num:10},
+	boss_langqinbiao:{moshi:'1',renshu:'1',num:10},
+	boss_zhangrang1:{moshi:'1',renshu:'1',num:10},
+	boss_machao1:{moshi:'1',renshu:'1',num:10},
+	boss_ling:{moshi:'1',renshu:'1',num:10},
+	boss_diyvpanguan:{moshi:'1',renshu:'1',num:10},
+	boss_qingqingzijin:{moshi:'1',renshu:'1',num:10},
 	};
 	game.shzy_moshi=function(){
 	var over=lib.config['extension_'+'山海志异_'+'zhuanshu_override'];
@@ -4791,6 +4791,12 @@ var qinyin={
 	if(over) return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
 	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].renshu;
 	return lib.config['extension_'+'山海志异_'+'boss_jianyuantiaozhan'];
+	};
+	game.shzy_jiawei_num=function(){
+	var over=lib.config['extension_'+'山海志异_'+'jiawei_override'];
+	if(over) return lib.config['extension_'+'山海志异_'+'jiawei_num']||10;
+	if(game.boss&&shzy_guanka_preset[game.boss.name]) return shzy_guanka_preset[game.boss.name].num||10;
+	return lib.config['extension_'+'山海志异_'+'jiawei_num']||10;
 	};
 	var gk_list=[
 	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
@@ -5233,7 +5239,7 @@ var qinyin={
 	}
 	event.skills=skills;
 	'step 2'
-	var list=event.skills.randomGets(16);
+	var list=event.skills.randomGets(game.shzy_jiawei_num());
 	for(var i=0;i<list.length;i++){
 	list[i]=['','','skillCard_'+list[i]];
 	}
@@ -5303,7 +5309,7 @@ var qinyin={
 	if(event.skills.contains(c[k])) event.skills.remove(c[k]);
 	}
 	'step 1'
-	var list=event.skills.randomGets(16);
+	var list=event.skills.randomGets(game.shzy_jiawei_num());
 	for(var i=0;i<list.length;i++){
 	list[i]=['','','skillCard_'+list[i]];
 	}
@@ -5387,7 +5393,7 @@ var qinyin={
 	if(event.skills.contains(c[k])) event.skills.remove(c[k]);
 	}
 	'step 1'
-	var list=event.skills.randomGets(16);
+	var list=event.skills.randomGets(game.shzy_jiawei_num());
 	for(var i=0;i<list.length;i++){
 	list[i]=['','','skillCard_'+list[i]];
 	}
@@ -5892,6 +5898,27 @@ var qinyin={
 	"name":"登场人数全局覆盖",
 	"init":false,
 	"intro":"人数开关"
+	},
+	"jiawei_num":{
+	"name":"假威候选技能数",
+	"init":10,
+	"input":true,
+	"onblur":function(e){
+	var text=e.target,
+	num=Number(text.innerText);
+	if(isNaN(num)||num<1){
+	num=1;
+	}else if(!Number.isInteger(num)){
+	num=Math.round(num);
+	}
+	text.innerText=num;
+	game.saveConfig('extension_'+'山海志异_'+'jiawei_num',num);
+	}
+	},
+	"jiawei_override":{
+	"name":"候选数量全局覆盖",
+	"init":false,
+	"intro":"数量开关"
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
