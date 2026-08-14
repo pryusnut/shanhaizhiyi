@@ -4939,7 +4939,7 @@ var qinyin={
 	next.setContent(function(){
 	"step 0"
 	var parent=event.getParent();
-	if(parent&&parent.current&&parent.current.name&&shzy_guanka_preset[parent.current.name]){
+	if(parent&&parent.current&&parent.current.name){
 	game.shzy_guanka=parent.current.name;
 	}
 	var i;
