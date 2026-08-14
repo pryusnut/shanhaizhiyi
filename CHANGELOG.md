@@ -9,7 +9,7 @@
 ### 修复
 
 - **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。
-- **修复关卡预设未生效（全局覆盖开关关闭时仍全局影响）**：三处根因叠加——①扩展覆写的是 `lib.game.chooseCharacter`，而挑战模式实际调用 `game.chooseCharacter`（mode 注入，写死三人选将）→ 选将人数配置从未生效；②关卡识别曾误用 `lib.storage.current`（实为"继续游戏用的参战武将名"，非 boss 名，且用户后续改动中误加依赖）；③对局中 `game.boss.name` 会因开场技能 init 为阶段角色（如玄武）而不再是关卡壳名。修复：扩展改覆写 `game.chooseCharacter`；选参战阶段在 content 开头用 `event.getParent().current.name`（bosslist 高亮的 boss 节点名）提前写入 `game.shzy_guanka` 关卡标记；`game.shzy_gk_name()` 按序尝试 `game.boss.name` → `game.shzy_guanka` → `_status.bosschoice.name`（移除不可靠的 `lib.storage.current`），4 个解析函数统一经其识别关卡。
+- **修复关卡预设未生效（全局覆盖开关关闭时仍全局影响）**：经推倒重来分析确认——①预设值与 selectButton 映射（`'1'`→[3,3] 三人、`'2'`→[2,2] 双人、`'3'`→[1,1] 单人）均无误（与原扩展一致）；②原扩展覆写 `lib.game.chooseCharacter`（旧引擎 game.chooseCharacter 委托 lib.game，有效）；③现代引擎 `game.chooseCharacter` 为 mode 注入的独立函数，`lib.game` 覆写失效，须改覆写 `game.chooseCharacter`（全局生效，含原版关卡，符合预期）；④选参战阶段 `event.getParent().current` 不可靠（未点击时高亮为 `lib.storage.current` 匹配或 bosslist 首个角色的兜底值），导致关卡识别恒为固定关卡。修复：`game.chooseCharacter` 覆写开头从 `_status.event.bosslist` 取高亮 boss 初始化 `game.shzy_guanka`，并为所有 boss player 绑定点击（点击即更新关卡标记，防重复绑定）；选参战 content 中不再猜测关卡名。引擎本身支持不同关卡配置不同上场人数（selectButton 由选参战内容决定）。
 
 ### 新增
 

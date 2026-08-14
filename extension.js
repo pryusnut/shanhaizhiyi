@@ -4925,6 +4925,21 @@ var qinyin={
 	}
 	}
 		game.chooseCharacter=function(func){
+	var pe=_status.event;
+	if(pe&&pe.bosslist){
+	var hl=pe.bosslist.querySelector('.highlight');
+	if(hl&&hl.name) game.shzy_guanka=hl.name;
+	var ps=pe.bosslist.querySelectorAll('.bossplayer');
+	for(var i=0;i<ps.length;i++){
+	(function(p){
+	if(p._shzy_gk_bound) return;
+	p._shzy_gk_bound=true;
+	p.addEventListener('click',function(){
+	game.shzy_guanka=p.name;
+	});
+	})(ps[i]);
+	}
+	}
 	var next=game.createEvent('chooseCharacter',false);
 	next.showConfig=true;
 	next.customreplacetarget=func;
@@ -4938,10 +4953,6 @@ var qinyin={
 	}
 	next.setContent(function(){
 	"step 0"
-	var parent=event.getParent();
-	if(parent&&parent.current&&parent.current.name){
-	game.shzy_guanka=parent.current.name;
-	}
 	var i;
 	var list=[];
 	event.list=list;
