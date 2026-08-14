@@ -10,6 +10,7 @@
 
 - **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。
 - **修复关卡预设未生效（全局覆盖开关关闭时仍全局影响）**：经推倒重来分析确认——①预设值与 selectButton 映射（`'1'`→[3,3] 三人、`'2'`→[2,2] 双人、`'3'`→[1,1] 单人）均无误（与原扩展一致）；②原扩展覆写 `lib.game.chooseCharacter`（旧引擎 game.chooseCharacter 委托 lib.game，有效）；③现代引擎 `game.chooseCharacter` 为 mode 注入的独立函数，`lib.game` 覆写失效，须改覆写 `game.chooseCharacter`（全局生效，含原版关卡，符合预期）；④选参战阶段 `event.getParent().current` 不可靠（未点击时高亮为 `lib.storage.current` 匹配或 bosslist 首个角色的兜底值），导致关卡识别恒为固定关卡。修复：`game.chooseCharacter` 覆写开头从 `_status.event.bosslist` 取高亮 boss 初始化 `game.shzy_guanka`，并为所有 boss player 绑定点击（点击即更新关卡标记，防重复绑定）；选参战 content 中不再猜测关卡名。引擎本身支持不同关卡配置不同上场人数（selectButton 由选参战内容决定）。
+- **修复 bosslist 点击绑定在触摸屏环境失效**：玩家节点的点击事件为 `lib.config.touchscreen ? "touchend" : "click"`（player.js buildEventListener），仅绑定 `click` 在触摸屏/触屏设备上不触发，导致点击关卡后 `game.shzy_guanka` 不更新（重启后才因 `lib.storage.current` 高亮匹配生效、且此后一直残留上次关卡）。修复：bosslist 的 boss player 同时绑定 `click` 与 `touchend` 两种事件更新关卡标记。
 
 ### 新增
 

@@ -4934,9 +4934,11 @@ var qinyin={
 	(function(p){
 	if(p._shzy_gk_bound) return;
 	p._shzy_gk_bound=true;
-	p.addEventListener('click',function(){
+	var fn=function(){
 	game.shzy_guanka=p.name;
-	});
+	};
+	p.addEventListener('click',fn);
+	p.addEventListener('touchend',fn);
 	})(ps[i]);
 	}
 	}
