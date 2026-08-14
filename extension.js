@@ -4925,23 +4925,6 @@ var qinyin={
 	}
 	}
 		game.chooseCharacter=function(func){
-	var pe=_status.event;
-	if(pe&&pe.bosslist){
-	var hl=pe.bosslist.querySelector('.highlight');
-	if(hl&&hl.name) game.shzy_guanka=hl.name;
-	var ps=pe.bosslist.querySelectorAll('.bossplayer');
-	for(var i=0;i<ps.length;i++){
-	(function(p){
-	if(p._shzy_gk_bound) return;
-	p._shzy_gk_bound=true;
-	var fn=function(){
-	game.shzy_guanka=p.name;
-	};
-	p.addEventListener('click',fn);
-	p.addEventListener('touchend',fn);
-	})(ps[i]);
-	}
-	}
 	var next=game.createEvent('chooseCharacter',false);
 	next.showConfig=true;
 	next.customreplacetarget=func;
@@ -4955,6 +4938,10 @@ var qinyin={
 	}
 	next.setContent(function(){
 	"step 0"
+	var parent=event.getParent("game");
+	if(parent&&parent.current&&parent.current.name){
+	game.shzy_guanka=parent.current.name;
+	}
 	var i;
 	var list=[];
 	event.list=list;
@@ -4980,10 +4967,17 @@ var qinyin={
 	var next=game.me.chooseButton(dialog,true).set('onfree',true);
 	next._triggered=null;
 	next.custom.replace.target=event.customreplacetarget;
+	next.filterButton=function(button){
+	var pe=event.getParent("game");
+	if(pe&&pe.current&&pe.current.name){
+	game.shzy_guanka=pe.current.name;
+	}
 	var renshu=game.shzy_renshu();
 	if(renshu=="1") next.selectButton=[3,3];
 	if(renshu=="2") next.selectButton=[2,2];
 	if(renshu=="3") next.selectButton=[1,1];
+	return true;
+	};
 	event.changeDialog=function(){
 	if(ui.cheat2&&ui.cheat2.dialog==_status.event.dialog){
 	return;
