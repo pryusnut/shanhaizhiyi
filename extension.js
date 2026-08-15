@@ -5930,18 +5930,19 @@ var qinyin={
 	if(this.hth_more==undefined){
 	var more=ui.create.div('.hth_more',
 	'<div style="border: 1px solid white;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word"><font size=3px>'+
-	'玩法简介：'+
+	'<font color= #F012F0>玩法简介：</font>'+
 	'<br>游戏开始时会清空我方所有技能并将血量调整为4，随后在局内随机获得技能，具体获得方式请参看下方扩展设置内的详细说明。'+
 	'<br>如果仅想挑战扩展内BOSS不需要随机获得技能的玩法，也可前往下方扩展设置处调整。'+
-	'<br>挑战提示：'+
-	'<br><font color="green">为获得较好游玩体验建议禁用非界限突破及其他下水道武将，可有效降低刷到过弱技能概率！</font>'+
+	'<br><font color= #F012F0>挑战提示：</font>'+
+	'<br><font color= #46FF28>为获得较好游玩体验建议禁用非界限突破及其他下水道武将，可有效降低刷到过弱技能概率！</font>'+
 	'<br>目前青青子衿关卡由于原版带将灵因此难度较大，建议配合将灵扩展游玩，后续作者可能会重制将灵扩展。'+
 	'<br>原版山海志异关卡每次待选技能数为3，考虑到无名杀技能较繁杂因此默认调整到4或5，想要体验原版可前往扩展设置自行修改。'+
-	'<br>更新地址：'+
+	'<br><font color= #F012F0>更新地址：</font>'+
 	'<br>https://github.com/pryusnut/shanhaizhiyi/releases'+
 	'<br>如遇到BUG或有建议也可前往反馈！'+
-	'<br><font color="yellow">素材声明：'+
-	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
+	'<br>在QQ无名杀频道扩展论坛也会以较低频率更新。'+
+	'<br><font color= #FFCD00>素材声明：'+
+	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请联系删除。</font>'+
 	'</font></div>');
 	this.parentNode.insertBefore(more,this.nextSibling);
 	this.hth_more=more;
@@ -5966,7 +5967,10 @@ var qinyin={
 	if(this.hth_more==undefined){
 	var more=ui.create.div('.hth_more',
 	'<div style="border: 1px solid white;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word"><font size=3px>'+
-	'请输入文本'+
+	'在扩展设置中可调节随机获得技能方式及其配套数值。修改数值能有效调节挑战关卡难易程度。'+
+	'<br><font color= #46FF28>长按或鼠标右键扩展设置内左侧功能的文字即可显示对应的详细说明。</font>'+
+	'<br><font color = #FFCD00>本扩展自带关卡已经有默认配置，一般情况无需再调整。设置仅影响扩展自带关卡外的挑战模式其他关卡。如有需要可打开对应的全局覆盖开关实现配置影响全部挑战关卡。</font>'+
+	'<br><font color = #F82828>某些设置可能需要重启游戏才能生效!（无需重启无名杀APP，当然这么做也行）</font>'+
 	'</font></div>');
 	this.parentNode.insertBefore(more,this.nextSibling);
 	this.hth_more=more;
@@ -5980,9 +5984,9 @@ var qinyin={
 	},
 	},
 	"zhuanshu_moshi":{
-	"name":"朱果发放方式",
-	"intro":"游戏开始时，清空挑战方所有技能，每人从16个系统随机给出的技能中选择1项技能获得。模式①：当boss或队友阵亡时，挑战方每人从16个系统随机给出的技能中选择1项技能获得；模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从16个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。",
-	"init":'1',
+	"name":"技能发放方式",
+	"intro":"游戏开始时，清空挑战方所有技能，每人从5个系统随机给出的技能中选择1项技能获得。<br>模式①：当boss或队友阵亡时，挑战方每人从5个系统随机给出的技能中选择1项技能获得；<br>模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从5个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。<br>关闭：局内不再随机获得技能，使用角色自带技能进行原版挑战。<br><font color= #46FF28>推荐设置为模式②</font><br><font color = #FFCD00>注：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>",
+	"init":'2',
 	"item":{
 	"0":'关闭',
 	"1":'模式①',
@@ -5990,13 +5994,13 @@ var qinyin={
 	},
 	},
 	"zhuanshu_override":{
-	"name":"朱果获取全局覆盖",
+	"name":"发放模式全局覆盖",
 	"init":false,
-	"intro":"朱果获取全局覆盖："
+	"intro":"关闭时技能发放方式设置仅影响本扩展内置关卡外的挑战模式关卡；<br>打开时将技能发放方式配置覆盖挑战模式全部关卡，即使扩展自带关卡已经有默认配置。<br><font color= #46FF28>推荐关闭</font><br><font color = #FFCD00>注：将技能发放方式设置为关闭并打开本开关可实现在原版挑战下游玩本扩展内置关卡的功能。</font>"
 	},
 	"boss_jianyuantiaozhan":{
-	"name":'我方登场人数',
-	"intro":'可改为双人挑战或单人挑战。',
+	"name":'挑战方登场人数',
+	"intro":'可在1-3人挑战间切换。<br><font color= #46FF28>推荐设置为双人</font><br><font color = #FFCD00>注：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>',
 	"init":"1",
 	"item":{
 	"1":'三人挑战',
@@ -6007,11 +6011,12 @@ var qinyin={
 	"boss_override":{
 	"name":"登场人数全局覆盖",
 	"init":false,
-	"intro":"人数开关"
+	"intro":"关闭时登场人数设置仅影响本扩展内置关卡外的挑战模式关卡；<br>打开时将登场人数设置覆盖挑战模式全部关卡，即使扩展自带关卡已经有默认配置。<br><font color= #46FF28>推荐关闭</font>"
 	},
 	"jiawei_num":{
-	"name":"假威候选技能数",
-	"init":10,
+	"name":"每次候选技能数",
+	"init":5,
+	"intro":"设置每次随机获得技能时候选的技能数。<br><font color= #46FF28>默认为5，越多越爽，但太多看不过来</font><br><font color = #FFCD00>注：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>",
 	"input":true,
 	"onblur":function(e){
 	var text=e.target,
@@ -6028,11 +6033,12 @@ var qinyin={
 	"jiawei_override":{
 	"name":"候选数量全局覆盖",
 	"init":false,
-	"intro":"数量开关"
+	"intro":"关闭时候选技能数设置仅影响本扩展内置关卡外的挑战模式关卡；<br>打开时将候选技能数设置覆盖挑战模式全部关卡，即使扩展自带关卡已经有默认配置。<br><font color= #46FF28>推荐关闭</font>"
 	},
 	"jiawei_limit":{
 	"name":"拥有最大技能数",
 	"init":4,
+	"intro":"设置最多可以通过随机获得技能同时拥有的技能数，当超过此数值时再次随机获得技能后需要先选择失去一个技能。<br><font color= #46FF28>推荐设置为4，可根据关卡难易调整</font><br><font color = #FFCD00>注1：通过觉醒技等方式额外获得的技能不占用此数值。<br>注2：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>",
 	"input":true,
 	"onblur":function(e){
 	var text=e.target,
@@ -6049,12 +6055,12 @@ var qinyin={
 	"jiawei_limit_override":{
 	"name":"技能数量全局覆盖",
 	"init":false,
-	"intro":"技能开关"
+	"intro":"关闭时最大技能数设置仅影响本扩展内置关卡外的挑战模式关卡；<br>打开时将最大技能数设置覆盖挑战模式全部关卡，即使扩展自带关卡已经有默认配置。<br><font color= #46FF28>推荐关闭</font>"
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
 	"init":true,
-	"intro":"游戏内添加手气卡。"
+	"intro":"游戏开始前可使用手气卡。<br><font color= #46FF28>推荐开启</font><br><font color = #FFCD00>注：该设置影响挑战模式全部关卡！</font>"
 	},
 	"shzy_gk_title1":{
 	name:'<b><p align=center><span style="font-size:18px">山海志异</span></b>',
@@ -6147,9 +6153,9 @@ var qinyin={
 	translate:{
 	},
 	},
-	intro:"<font color = #FF2626>本扩展开源免费，严禁倒卖！</font><li><font color=#FF00FF>长按下列功能可查看功能详情</font>",
-	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.20</li>",
+	intro:"<font color = #F82828>本扩展开源免费，严禁倒卖！</font><li><font color= #F012F0>长按下列功能可查看功能详情</font>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21</li>",
 	diskURL:"https://github.com/pryusnut/shanhaizhiyi/releases",
 	forumURL:"",
-	version:"1.20",
+	version:"1.21",
 	},files:{"character":[],"card":[],"skill":[]}}})

@@ -1,8 +1,8 @@
 {
 	"name": "山海志异",
-	"author": "pryusnut<li>原作者：浪琴婊</li><li>版本：1.20</li>",
+	"author": "pryusnut<li>原作者：浪琴婊</li><li>版本：1.21</li>",
 	"intro": "<font color = #FF2626>本扩展开源免费，严禁倒卖！</font><li>在挑战模式中添加了各种版本的山海志异活动场挑战及地狱判官、青青子衿等活动场PVE模式。保留了原作者自创的奥利哈刚、浪琴婊、灵、十常侍张让、永远的神五个挑战BOSS。</li><li>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</li>",
-	"version": "1.20",
+	"version": "1.21",
 	"diskURL": "https://github.com/pryusnut/shanhaizhiyi/releases",
 	"forumURL": ""
 }
