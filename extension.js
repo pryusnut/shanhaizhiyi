@@ -5929,11 +5929,17 @@ var qinyin={
 	onclick:function(){
 	if(this.hth_more==undefined){
 	var more=ui.create.div('.hth_more',
-	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
-	'<br>玩法说明：'+
-	'<br>在朱果发放方式处可选择是否启用随机获得技能模式。'+
-	'<br>我方登场人数可自由设置为1-3人，推荐选择2人。'+
-	'<br>在本菜单中可自由开关关卡是否显示在挑战BOSS目录中'+
+	'<div style="border: 1px solid white;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word"><font size=3px>'+
+	'玩法简介：'+
+	'<br>游戏开始时会清空我方所有技能并将血量调整为4，随后在局内随机获得技能，具体获得方式请参看下方扩展设置内的详细说明。'+
+	'<br>如果仅想挑战扩展内BOSS不需要随机获得技能的玩法，也可前往下方扩展设置处调整。'+
+	'<br>挑战提示：'+
+	'<br><font color="green">为获得较好游玩体验建议禁用非界限突破及其他下水道武将，可有效降低刷到过弱技能概率！</font>'+
+	'<br>目前青青子衿关卡由于原版带将灵因此难度较大，建议配合将灵扩展游玩，后续作者可能会重制将灵扩展。'+
+	'<br>原版山海志异关卡每次待选技能数为3，考虑到无名杀技能较繁杂因此默认调整到4或5，想要体验原版可前往扩展设置自行修改。'+
+	'<br>更新地址：'+
+	'<br>https://github.com/pryusnut/shanhaizhiyi/releases'+
+	'<br>如遇到BUG或有建议也可前往反馈！'+
 	'<br><font color="yellow">素材声明：'+
 	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
 	'</font></div>');
@@ -5959,7 +5965,7 @@ var qinyin={
 	onclick:function(){
 	if(this.hth_more==undefined){
 	var more=ui.create.div('.hth_more',
-	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
+	'<div style="border: 1px solid white;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word"><font size=3px>'+
 	'请输入文本'+
 	'</font></div>');
 	this.parentNode.insertBefore(more,this.nextSibling);
