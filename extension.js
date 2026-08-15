@@ -5470,6 +5470,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_qilin2={//上限
+	persevereSkill:true,
 	trigger:{
 	global:"dieEnd",
 	},
@@ -5486,6 +5487,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_lqb_yvguandraw={//狱官出场摸牌
+	persevereSkill:true,
 	trigger:{
 	global:["boss_yvguan2xEnd","boss_yvguan3xEnd","boss_yvguan4xEnd"],
 	},
@@ -5500,6 +5502,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_alhg_qijia={//奇甲斯复活
+	persevereSkill:true,
 	trigger:{
 	player:"phaseAfter",
 	},
@@ -5527,6 +5530,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_xiuzheng={//进入修整
+	persevereSkill:true,
 	trigger:{
 	global:"dieAfter",
 	},
@@ -5562,6 +5566,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_xiuzhengyi={//脱离修整
+	persevereSkill:true,
 	trigger:{
 	player:["phaseAfter","dieBegin"],
 	},
@@ -5636,6 +5641,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_xiuzhenger={//脱离修整
+	persevereSkill:true,
 	trigger:{
 	player:["phaseAfter","dieBegin"],
 	},
@@ -5722,6 +5728,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_teshubai={//败北
+	persevereSkill:true,
 	trigger:{global:'die'},
 	forced:true,
 	priority:-20,
@@ -5768,6 +5775,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_teshubaiyi={//败北
+	persevereSkill:true,
 	trigger:{global:'die'},
 	forced:true,
 	priority:-20,
@@ -5816,6 +5824,7 @@ var qinyin={
 	},
 	}
 	lib.skill._boss_shanhaidraw={//摸牌
+	persevereSkill:true,
 	trigger:{
 	global:"damageBegin",
 	},
