@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### 新增
+
+- **扩展菜单结构调整**："扩展说明"移至菜单首位（"长按下列功能可查看功能详情"下一行）；"扩展设置"标题下新增与"扩展说明"表现完全相同的"设置说明"展开项（展开文本暂为占位"请输入文本"）。
+
 ### 修复
 
 - **修复 shzy_moshi/shzy_renshu 在 step 技能中 ReferenceError**：step 写法的技能 content 由引擎 StepCompiler 经 `new Function` 在独立作用域编译（仅注入 `topVars/event/trigger/player`），content 闭包中定义的解析函数不可见，导致 `shzy_renshu is not defined`。修复：解析函数改挂全局 `game` 对象（`game.shzy_moshi`/`game.shzy_renshu`，函数闭包仍可访问预设表），6 处调用点统一改为 `game.shzy_*()`。

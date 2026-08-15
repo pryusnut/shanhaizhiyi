@@ -5923,10 +5923,55 @@ var qinyin={
 	help:{
 	},
 	config:{
+	"sm_shuoming":{
+	name:'<div class="hth_menu">▶扩展说明</div>',
+	clear:true,
+	onclick:function(){
+	if(this.hth_more==undefined){
+	var more=ui.create.div('.hth_more',
+	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
+	'<br>玩法说明：'+
+	'<br>在朱果发放方式处可选择是否启用随机获得技能模式。'+
+	'<br>我方登场人数可自由设置为1-3人，推荐选择2人。'+
+	'<br>在本菜单中可自由开关关卡是否显示在挑战BOSS目录中'+
+	'<br><font color="yellow">素材声明：'+
+	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
+	'</font></div>');
+	this.parentNode.insertBefore(more,this.nextSibling);
+	this.hth_more=more;
+	this.innerHTML='<div class="hth_menu">▼扩展说明</div>';
+	}
+	else{
+	this.parentNode.removeChild(this.hth_more);
+	delete this.hth_more;
+	this.innerHTML='<div class="hth_menu">▶扩展说明</div>';
+	};
+	},
+	},
 	"shzy_title_setting":{
 	name:'<b><p align=center><span style="font-size:18px">扩展设置</span></b>',
 	clear:true,
 	nopointer:true,
+	},
+	"sm_setting_shuoming":{
+	name:'<div class="hth_menu">▶设置说明</div>',
+	clear:true,
+	onclick:function(){
+	if(this.hth_more==undefined){
+	var more=ui.create.div('.hth_more',
+	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
+	'请输入文本'+
+	'</font></div>');
+	this.parentNode.insertBefore(more,this.nextSibling);
+	this.hth_more=more;
+	this.innerHTML='<div class="hth_menu">▼设置说明</div>';
+	}
+	else{
+	this.parentNode.removeChild(this.hth_more);
+	delete this.hth_more;
+	this.innerHTML='<div class="hth_menu">▶设置说明</div>';
+	};
+	},
 	},
 	"zhuanshu_moshi":{
 	"name":"朱果发放方式",
@@ -6079,31 +6124,6 @@ var qinyin={
 	"name":"青青子衿",
 	"init":true,
 	"intro":"在挑战模式列表中显示该关卡"
-	},
-	"sm_shuoming":{
-	name:'<div class="hth_menu">▶扩展说明</div>',
-	clear:true,
-	onclick:function(){
-	if(this.hth_more==undefined){
-	var more=ui.create.div('.hth_more',
-	'<div style="border: 1px solid white;text-align:left"><font size=3px>'+
-	'<br>玩法说明：'+
-	'<br>在朱果发放方式处可选择是否启用随机获得技能模式。'+
-	'<br>我方登场人数可自由设置为1-3人，推荐选择2人。'+
-	'<br>在本菜单中可自由开关关卡是否显示在挑战BOSS目录中'+
-	'<br><font color="yellow">素材声明：'+
-	'<br>本扩展美术素材搜集自互联网，仅限个人研究学习使用，如有侵权请自行删除。</font>'+
-	'</font></div>');
-	this.parentNode.insertBefore(more,this.nextSibling);
-	this.hth_more=more;
-	this.innerHTML='<div class="hth_menu">▼扩展说明</div>';
-	}
-	else{
-	this.parentNode.removeChild(this.hth_more);
-	delete this.hth_more;
-	this.innerHTML='<div class="hth_menu">▶扩展说明</div>';
-	};
-	},
 	},
 	},
 	package:{
