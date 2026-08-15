@@ -380,6 +380,7 @@ var qinyin={
 	boss_shzy_ruilinjiangshi_2:{nobracket:true},
 	boss_shzy_ruilinjiangshi_3:{nobracket:true},
 		boss_shanhai2:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_shanhai2x',
@@ -391,6 +392,7 @@ var qinyin={
 	}
 	},
 	boss_shanhai2x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -417,6 +419,7 @@ var qinyin={
 	}
 	},
 	boss_shanhai3:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_shanhai3x',
@@ -428,6 +431,7 @@ var qinyin={
 	}
 	},
 	boss_shanhai3x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -469,6 +473,7 @@ var qinyin={
 	}
 	},
 	boss_aogang2:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_aogang2x',
@@ -486,6 +491,7 @@ var qinyin={
 	}
 	},
 	boss_aogang2x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -528,6 +534,7 @@ var qinyin={
 	}
 	},
 	boss_aogang3:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_aogang3x',
@@ -553,6 +560,7 @@ var qinyin={
 	}
 	},
 	boss_aogang3x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -589,6 +597,7 @@ var qinyin={
 	}
 	},
 	boss_aogang4:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_aogang4x',
@@ -610,6 +619,7 @@ var qinyin={
 	}
 	},
 	boss_aogang4x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -652,6 +662,7 @@ var qinyin={
 	},
 	},
 	boss_yvguan2:{
+	persevereSkill:true,
 	mode:['boss'],
 	global:'boss_yvguan2x',
 	trigger:{player:'dieBegin'},
@@ -667,6 +678,7 @@ var qinyin={
 	}
 	},
 	boss_yvguan2x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-10,
@@ -696,6 +708,7 @@ var qinyin={
 	}
 	},
 	boss_yvguan3:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_yvguan3x',
@@ -707,6 +720,7 @@ var qinyin={
 	}
 	},
 	boss_yvguan3x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -726,6 +740,7 @@ var qinyin={
 	}
 	},
 	boss_yvguan4:{
+	persevereSkill:true,
 	mode:['boss'],
 	fixed:true,
 	global:'boss_yvguan4x',
@@ -737,6 +752,7 @@ var qinyin={
 	}
 	},
 	boss_yvguan4x:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	priority:-20,
@@ -782,6 +798,7 @@ var qinyin={
 	},
 	},
 	boss_qqzijinx:{
+	persevereSkill:true,
 	trigger:{global:'die'},
 	forced:true,
 	priority:-20,
@@ -830,6 +847,7 @@ var qinyin={
 	},
 	},
 	boss_hhshengweix:{
+	persevereSkill:true,
 	trigger:{global:'dieAfter'},
 	forced:true,
 	popup:false,
