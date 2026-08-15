@@ -571,13 +571,11 @@ var qinyin={
 	'step 2'
 	game.changeBoss('boss_alhg_sheshenyi',game.boss.nextSeat);
 	'step 3'
-	console.log('[shzy-dbg] aogang3x step3 前: event.name=',_status.event.name,'| boss=',game.boss.name,'| players=',game.players.map(function(p){return p.name}).join(','));
 	var _ev=_status.event,_cnt=0;
 	while(_ev&&_ev.name!='phaseLoop'){
 	_ev=_ev.parent;_cnt++;
-	if(_cnt>200){console.log('[shzy-dbg] 回溯超过200级, name=',_ev&&_ev.name);break;}
+	if(_cnt>200) break;
 	}
-	console.log('[shzy-dbg] 回溯结果: found=',_ev&&_ev.name,'| 层级=',_cnt);
 	_status.event=_ev;
 	game.resetSkills();
 	_status.paused=false;
