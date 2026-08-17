@@ -5257,6 +5257,7 @@ var qinyin={
 	},
 	content:function(){
 	'step 0'
+	if(!_status.characterlist) game.initCharacterList();
 	player.clearSkills();
 	lib.character[player.name][3]=[]
 	if(game.boss.name=="boss_shzy_huhushengwei"){
