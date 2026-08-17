@@ -5160,7 +5160,7 @@ var qinyin={
 	loopType:1,
 	chongzheng:0,
 	gameDraw:function(player){
-	return player==game.boss?10:4;
+	return player==game.boss?6:4;
 	},
 	checkResult:function(player){
 	if(player==game.boss&&game.boss.name!='boss_yanluowanga'){
@@ -5523,9 +5523,9 @@ var qinyin={
 	priority:9999,
 	content:function(){
 	var d=player.name
-	if(d=="boss_heibaiwuchang"||d=="boss_riyeyoushen"||d=="boss_niutoumamian") player.directgain(get.cards(6))
-	if(d=="boss_huangfeng"||d=="boss_niaozui"||d=="boss_baowei"||d=="boss_yvsai") player.directgain(get.cards(4))
-	if(d=="boss_yanluowanga"||d=="boss_guiwang") player.directgain(get.cards(8))
+	if(d=="boss_heibaiwuchang"||d=="boss_riyeyoushen"||d=="boss_niutoumamian") player.directgain(get.cards(4))
+	if(d=="boss_huangfeng"||d=="boss_niaozui"||d=="boss_baowei"||d=="boss_yvsai") player.directgain(get.cards(2))
+	if(d=="boss_yanluowanga"||d=="boss_guiwang") player.directgain(get.cards(6))
 	},
 	}
 	lib.skill._boss_alhg_qijia={//奇甲斯复活
