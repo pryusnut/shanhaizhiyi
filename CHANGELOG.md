@@ -10,6 +10,7 @@
 
 - **随机选技能支持屏蔽限定技/觉醒技（含 4 个菜单开关）**："技能数量全局覆盖"下方新增 4 个开关——"特定关卡屏蔽限定技"（默认开）、"特定关卡屏蔽觉醒技"（默认开）控制荡邪庆新/将魂觉醒/驱鬼辟邪/瑞麟降世 4 关；"全局屏蔽限定技"（默认关）、"全局屏蔽觉醒技"（默认关）控制挑战模式全部关卡（含扩展内置）。技能池收集（开局/模式①/假威 3 处）过滤条件按 `info.limited`/`info.juexingji` 动态判断，经 `game.shzy_limit_enabled()`/`game.shzy_juexingji_enabled()` 解析（全局开关优先 → 特定 4 关开关 → 其余关卡不屏蔽）。
 - **技能发放方式新增模式③/模式④**：模式③与模式①相同（死亡/阵亡时随机选技能），模式④与模式②相同（朱果+假威机制），二者共同点：**游戏开始时不再清空挑战方武将技能、不修改武将血量、不发放开局技能**（使用角色自带技能开局，中后期按模式机制获得技能）。实现：开局选技能技能（_boss_lqb_zhuanshu）filter 排除模式③④；模式①机制（_boss_lqb_zhuanshuyi）接受模式③；模式②机制（_boss_lqb_zhuanshuer/_boss_zhuguo/_boss_zhuguoyi）接受模式④。
+- **修复模式③/④下死亡选技能报错（Cannot read properties of undefined (reading 'push')）**：`_boss_lqb_zhuanshuyi`（死亡选技能）与 `_boss_lqb_zhuanshuer`（假威）的 step 2 直接 `player.storage.zhuanshuhz.push(...)`、step 3 直接 `b.length`——此前模式①/②开局总会先初始化 `zhuanshuhz`（开局技能 step 3 有防御），模式③/④开局不发放技能导致从未初始化 → 报错。修复：两处 step 2 push 前补 `if(!player.storage.zhuanshuhz) player.storage.zhuanshuhz=[]`，step 3 读取补 `||[]` 防御。
 
 ## [1.21] - 2026-08-16
 

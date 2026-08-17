@@ -5388,12 +5388,13 @@ var qinyin={
 	'step 2'
 	for(var i=0;i<result.links.length;i++){
 	player.addSkill(result.links[i][2].slice(10));
+	if(!player.storage.zhuanshuhz) player.storage.zhuanshuhz=[]
 	player.storage.zhuanshuhz.push(result.links[i][2].slice(10));
 	}
 	'step 3'
 	var d=[]
 	var a=player.getSkills(true,false).slice(0)
-	var b=player.storage.zhuanshuhz
+	var b=player.storage.zhuanshuhz||[]
 	for(var l=0;l<b.length;l++){
 	if(b[l].name==a.name) d.push(b[l]);
 	}
@@ -5474,12 +5475,13 @@ var qinyin={
 	'step 2'
 	for(var i=0;i<result.links.length;i++){
 	player.addSkill(result.links[i][2].slice(10));
+	if(!player.storage.zhuanshuhz) player.storage.zhuanshuhz=[]
 	player.storage.zhuanshuhz.push(result.links[i][2].slice(10));
 	}
 	'step 3'
 	var d=[]
 	var a=player.getSkills(true,false).slice(0)
-	var b=player.storage.zhuanshuhz
+	var b=player.storage.zhuanshuhz||[]
 	for(var l=0;l<b.length;l++){
 	if(b[l].name==a.name) d.push(b[l]);
 	}
