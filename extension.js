@@ -5525,7 +5525,8 @@ var qinyin={
 	var d=player.name
 	if(d=="boss_heibaiwuchang"||d=="boss_riyeyoushen"||d=="boss_niutoumamian") player.directgain(get.cards(4))
 	if(d=="boss_huangfeng"||d=="boss_niaozui"||d=="boss_baowei"||d=="boss_yvsai") player.directgain(get.cards(2))
-	if(d=="boss_yanluowanga"||d=="boss_guiwang") player.directgain(get.cards(6))
+	if(d=="boss_guiwang") player.directgain(get.cards(6))
+	if(d=="boss_yanluowanga") player.directgain(get.cards(8))
 	},
 	}
 	lib.skill._boss_alhg_qijia={//奇甲斯复活
