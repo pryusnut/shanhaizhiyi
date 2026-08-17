@@ -4776,26 +4776,15 @@ var qinyin={
 	name:"山海志异",
 	editable:false,
 	content:function (config,pack){
-	/*神，thunder 魏，water 蜀，soil 吴，wood 群，metal 主，fire
-	color/颜色，suit/花色，number/点数，type/类型
-	basic/基本，trick/锦囊，equip/装备，delay/延迟锦囊
-	black/黑色，red/红色
-	heart红桃，spade黑桃，diamond方片，club梅花
-	priority，phaseAfter/4，useCard/1，phaseBefore/2
-	game.countPlayer(function(current){
-	if(player.getEnemies().contains(current)){
-	current.update();
-	}
-	});*/
 	lib.boss=lib.boss||{};
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	var shzy_guanka_preset={//本扩展 12 个关卡预设
-	boss_shzy_huhushengwei:{moshi:'2',renshu:'2',num:4,limit:3},
-	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'2',num:5,limit:4},
-	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'2',num:5,limit:4},
-	boss_shzy_quguibixie:{moshi:'1',renshu:'2',num:5,limit:4},
-	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'2',num:5,limit:4},
-	boss_diyvpanguan:{moshi:'2',renshu:'1',num:10,limit:5},
+	boss_shzy_huhushengwei:{moshi:'2',renshu:'2',num:5,limit:3},
+	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'2',num:6,limit:4},
+	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'2',num:6,limit:4},
+	boss_shzy_quguibixie:{moshi:'1',renshu:'2',num:6,limit:4},
+	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'2',num:6,limit:4},
+	boss_diyvpanguan:{moshi:'2',renshu:'1',num:15,limit:5},
 	boss_aolihagang:{moshi:'2',renshu:'1',num:15,limit:5},
 	boss_qingqingzijin:{moshi:'2',renshu:'1',num:15,limit:6},
 	boss_langqinbiao:{moshi:'2',renshu:'1',num:10,limit:4},
