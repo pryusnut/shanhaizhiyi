@@ -4837,6 +4837,22 @@ var qinyin={
 	if(name) return shzy_guanka_preset[name].limit||4;
 	return lib.config['extension_'+'山海志异_'+'jiawei_limit']||4;
 	};
+	game.shzy_limit_enabled=function(){
+	if(lib.config['extension_'+'山海志异_'+'gl_limit']) return true;
+	var name=game.shzy_gk_name();
+	if(name&&(name=="boss_shzy_dangxieqingxin"||name=="boss_shzy_jianghunjuexing"||name=="boss_shzy_quguibixie"||name=="boss_shzy_ruilinjiangshi")){
+	return !!lib.config['extension_'+'山海志异_'+'gk_limit'];
+	}
+	return false;
+	};
+	game.shzy_juexingji_enabled=function(){
+	if(lib.config['extension_'+'山海志异_'+'gl_juexingji']) return true;
+	var name=game.shzy_gk_name();
+	if(name&&(name=="boss_shzy_dangxieqingxin"||name=="boss_shzy_jianghunjuexing"||name=="boss_shzy_quguibixie"||name=="boss_shzy_ruilinjiangshi")){
+	return !!lib.config['extension_'+'山海志异_'+'gk_juexingji'];
+	}
+	return false;
+	};
 	var gk_list=[
 	["boss_shzy_quguibixie","shzy_gk_quguibixie"],
 	["boss_shzy_dangxieqingxin","shzy_gk_dangxieqingxin"],
@@ -5275,6 +5291,8 @@ var qinyin={
 	if(!lib.translate[list[j]]||!lib.translate[list[j]+'_info']) continue;
 	var info=get.info(list[j]);
 	if(!info||info.zhuSkill||info.charlotte) continue;
+	if(info.limited&&game.shzy_limit_enabled()) continue;
+	if(info.juexingji&&game.shzy_juexingji_enabled()) continue;
 	if(game.hasPlayer(function(current){
 	return current.hasSkill(list[j])
     })) continue
@@ -5341,6 +5359,8 @@ var qinyin={
 	if(!lib.translate[list[j]]||!lib.translate[list[j]+'_info']) continue;
 	var info=get.info(list[j]);
 	if(!info||info.zhuSkill||info.charlotte) continue;
+	if(info.limited&&game.shzy_limit_enabled()) continue;
+	if(info.juexingji&&game.shzy_juexingji_enabled()) continue;
 	if(game.hasPlayer(function(current){
 	return current.hasSkill(list[j])
     })) continue
@@ -5425,6 +5445,8 @@ var qinyin={
 	if(!lib.translate[list[j]]||!lib.translate[list[j]+'_info']) continue;
 	var info=get.info(list[j]);
 	if(!info||info.zhuSkill||info.charlotte) continue;
+	if(info.limited&&game.shzy_limit_enabled()) continue;
+	if(info.juexingji&&game.shzy_juexingji_enabled()) continue;
 	if(game.hasPlayer(function(current){
 	return current.hasSkill(list[j])
     })) continue
@@ -6056,6 +6078,26 @@ var qinyin={
 	"name":"技能数量全局覆盖",
 	"init":false,
 	"intro":"关闭时最大技能数设置仅影响本扩展内置关卡外的挑战模式关卡；<br>打开时将最大技能数设置覆盖挑战模式全部关卡，即使扩展自带关卡已经有默认配置。<br><font color= #46FF28>推荐关闭</font>"
+	},
+	"gk_limit":{
+	"name":"特定关卡屏蔽限定技",
+	"init":true,
+	"intro":"请输入文本"
+	},
+	"gk_juexingji":{
+	"name":"特定关卡屏蔽觉醒技",
+	"init":true,
+	"intro":"请输入文本"
+	},
+	"gl_limit":{
+	"name":"全局屏蔽限定技",
+	"init":false,
+	"intro":"请输入文本"
+	},
+	"gl_juexingji":{
+	"name":"全局屏蔽觉醒技",
+	"init":false,
+	"intro":"请输入文本"
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
