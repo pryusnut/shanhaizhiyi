@@ -5485,7 +5485,9 @@ var qinyin={
 	for(var l=0;l<b.length;l++){
 	if(b[l].name==a.name) d.push(b[l]);
 	}
-	if(d.length>game.shzy_jiawei_limit()){
+	var lmt=game.shzy_jiawei_limit();
+	if(game.shzy_moshi()=="4"&&lmt>1) lmt--;
+	if(d.length>lmt){
 	player.chooseControl(d).set('prompt','请选择一个要失去的技能').set('ai',function (){return 0});
 	}
 	else event.finish()
