@@ -4791,10 +4791,10 @@ var qinyin={
 	lib.boss.global=lib.boss.global||{loopType:1,chongzheng:6};
 	var shzy_guanka_preset={//本扩展 12 个关卡预设
 	boss_shzy_huhushengwei:{moshi:'2',renshu:'2',num:5,limit:3},
-	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'2',num:6,limit:4},
-	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'2',num:6,limit:4},
-	boss_shzy_quguibixie:{moshi:'1',renshu:'2',num:6,limit:4},
-	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'2',num:6,limit:4},
+	boss_shzy_dangxieqingxin:{moshi:'1',renshu:'2',num:5,limit:4},
+	boss_shzy_jianghunjuexing:{moshi:'1',renshu:'2',num:5,limit:4},
+	boss_shzy_quguibixie:{moshi:'1',renshu:'2',num:5,limit:4},
+	boss_shzy_ruilinjiangshi:{moshi:'1',renshu:'2',num:5,limit:4},
 	boss_diyvpanguan:{moshi:'2',renshu:'1',num:15,limit:5},
 	boss_aolihagang:{moshi:'2',renshu:'1',num:15,limit:5},
 	boss_qingqingzijin:{moshi:'2',renshu:'1',num:15,limit:6},
@@ -5252,7 +5252,7 @@ var qinyin={
 	if(player==game.boss) return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
 	var moshi=game.shzy_moshi()
-	if(moshi=="0") return false;
+	if(moshi=="0"||moshi=="3"||moshi=="4") return false;
 	return true;
 	},
 	content:function(){
@@ -5332,7 +5332,7 @@ var qinyin={
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
 	var moshi=game.shzy_moshi()
-	if(moshi!="1") return false;
+	if(moshi!="1"&&moshi!="3") return false;
 	if(player.side==game.boss.side) return false
 	return event.player.side!=game.boss.side||event.player==game.boss
 	},
@@ -5413,7 +5413,7 @@ var qinyin={
 	if(get.mode()!="boss") return false;
 	if(player.name=="boss_qilin1"||player.name=="boss_xiaohu1") return false
 	var moshi=game.shzy_moshi()
-	if(moshi!="2") return false;
+	if(moshi!="2"&&moshi!="4") return false;
 	if(player.side==game.boss.side) return false
 	return player.countMark("boss_zhuguozi")>2
 	},
@@ -5714,7 +5714,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	var moshi=game.shzy_moshi()
-	if(moshi!="2") return false;
+	if(moshi!="2"&&moshi!="4") return false;
 	return player.side!=game.boss.side&&event.player.side==game.boss.side
 	},
 	forced:true,
@@ -5735,7 +5735,7 @@ var qinyin={
 	filter:function (event,player){
 	if(get.mode()!="boss") return false;
 	var moshi=game.shzy_moshi()
-	if(moshi!="2") return false;
+	if(moshi!="2"&&moshi!="4") return false;
 	if(player!=event.player) return false
 	return event.player.side==game.boss.side
 	},
@@ -6014,6 +6014,8 @@ var qinyin={
 	"0":'关闭',
 	"1":'模式①',
 	"2":'模式②',
+	"3":'模式③',
+	"4":'模式④',
 	},
 	},
 	"zhuanshu_override":{
