@@ -4,13 +4,23 @@
 
 本扩展在原作者「浪琴婊」v1.108 基础上进行现代化适配，兼容新版无名杀引擎。
 
-## [Unreleased]
+## [1.21.1] - 2026-08-18
 
 ### 新增
 
 - **随机选技能支持屏蔽限定技/觉醒技（含 4 个菜单开关）**："技能数量全局覆盖"下方新增 4 个开关——"特定关卡屏蔽限定技"（默认开）、"特定关卡屏蔽觉醒技"（默认开）控制荡邪庆新/将魂觉醒/驱鬼辟邪/瑞麟降世 4 关；"全局屏蔽限定技"（默认关）、"全局屏蔽觉醒技"（默认关）控制挑战模式全部关卡（含扩展内置）。技能池收集（开局/模式①/假威 3 处）过滤条件按 `info.limited`/`info.juexingji` 动态判断，经 `game.shzy_limit_enabled()`/`game.shzy_juexingji_enabled()` 解析（全局开关优先 → 特定 4 关开关 → 其余关卡不屏蔽）。
 - **技能发放方式新增模式③/模式④**：模式③与模式①相同（死亡/阵亡时随机选技能），模式④与模式②相同（朱果+假威机制），二者共同点：**游戏开始时不再清空挑战方武将技能、不修改武将血量、不发放开局技能**（使用角色自带技能开局，中后期按模式机制获得技能）。实现：开局选技能技能（_boss_lqb_zhuanshu）filter 排除模式③④；模式①机制（_boss_lqb_zhuanshuyi）接受模式③；模式②机制（_boss_lqb_zhuanshuer/_boss_zhuguo/_boss_zhuguoyi）接受模式④。
+
+### 修复
+
 - **修复模式③/④下死亡选技能报错（Cannot read properties of undefined (reading 'push')）**：`_boss_lqb_zhuanshuyi`（死亡选技能）与 `_boss_lqb_zhuanshuer`（假威）的 step 2 直接 `player.storage.zhuanshuhz.push(...)`、step 3 直接 `b.length`——此前模式①/②开局总会先初始化 `zhuanshuhz`（开局技能 step 3 有防御），模式③/④开局不发放技能导致从未初始化 → 报错。修复：两处 step 2 push 前补 `if(!player.storage.zhuanshuhz) player.storage.zhuanshuhz=[]`，step 3 读取补 `||[]` 防御。
+- **修复界左慈开局被清技能报错**：无名杀本体 refresh.js `rehuashen.intro.onunmark` 缺少 `_status.characterlist` 初始化防御（全库唯一未防御处），扩展开局 `clearSkills` 移除 rehuashen 时触发 undefined 报错。修复：`clearSkills` 前通用初始化 `if(!_status.characterlist) game.initCharacterList()`。
+- **修复熬汤/铁骑禁用技能影响 BOSS 复活链**：`persevereSkill` 仅豁免 skillBlocker 类失效（放逐/唤理），不豁免 `disableSkill`（熬汤 boss_aotang_2/铁骑 boss_tieji1_1 的"遗忘"类禁用，被禁用技能从 getSkills 移除后不再触发）；玩家获得这些技能后对 BOSS 使用会禁掉复活/换人链导致死亡不换人（死循环）。修复：两处禁用逻辑收集技能时过滤 `persevereSkill`/`charlotte` 技能。
+
+### 调整
+
+- **模式④下假威技能上限 -1（最小 1）**：假威（_boss_lqb_zhuanshuer）step 3 上限判断，模式④时有效上限 = `max(1, limit-1)`。
+- **调整地狱判官各阶段 BOSS 初始手牌数**：一阶段孟婆（gameDraw BOSS 10→6）；二阶段主 BOSS（黑白/牛头马面/日夜游神）`_boss_lqb_yvguandraw` 摸 6→4（changeBoss 4+4=8）、二阶段随从（黄蜂/豹尾/鸟嘴/鱼鳃）摸 4→2（4+2=6）；三阶段鬼王摸 8→6（4+6=10）；四阶段阎罗王保持 12（与鬼王名单拆分，单独摸 8）。
 
 ## [1.21] - 2026-08-16
 
