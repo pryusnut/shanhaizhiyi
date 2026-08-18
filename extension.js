@@ -976,6 +976,8 @@ var qinyin={
 	var skills=player.getSkills(true,false);
 	skills.remove('boss_aotang_2')
 	for(var i=0;i<skills.length;i++){
+	var info=get.info(skills[i]);
+	if(info&&(info.persevereSkill||info.charlotte)) continue;
 	if(get.skills[i]){
 	skills.splice(i--,1);
 	} 
@@ -3068,9 +3070,11 @@ var qinyin={
 	skills.remove('boss_tieji1_1')
 	skills.remove('boss_qianji_1')
 	for(var i=0;i<skills.length;i++){
+	var info=get.info(skills[i]);
+	if(info&&(info.persevereSkill||info.charlotte)) continue;
 	if(get.skills[i]){
 	skills.splice(i--,1);
-	} 
+	}
 	}
 	player.disableSkill(skill,skills);
 	},
@@ -5959,6 +5963,7 @@ var qinyin={
 	var more=ui.create.div('.hth_more',
 	'<div style="border: 1px solid white;text-align:left;white-space:normal;word-break:break-all;word-wrap:break-word"><font size=3px>'+
 	'<font color= #F012F0>玩法简介：</font>'+
+	'<br>在无名杀主页点击挑战即可看到本扩展所有内置挑战关卡，玩法配置已经默认设置好，可以点开关卡直接开玩。'+
 	'<br>游戏开始时会清空我方所有技能并将血量调整为4，随后在局内随机获得技能，具体获得方式请参看下方扩展设置内的详细说明。'+
 	'<br>如果仅想挑战扩展内BOSS不需要随机获得技能的玩法，也可前往下方扩展设置处调整。'+
 	'<br><font color= #F012F0>挑战提示：</font>'+
@@ -6013,7 +6018,7 @@ var qinyin={
 	},
 	"zhuanshu_moshi":{
 	"name":"技能发放方式",
-	"intro":"游戏开始时，清空挑战方所有技能，每人从5个系统随机给出的技能中选择1项技能获得。<br>模式①：当boss或队友阵亡时，挑战方每人从5个系统随机给出的技能中选择1项技能获得；<br>模式②，游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从5个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。<br>关闭：局内不再随机获得技能，使用角色自带技能进行原版挑战。<br><font color= #46FF28>推荐设置为模式②</font><br><font color = #FFCD00>注：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>",
+	"intro":"模式①：游戏开始时，清空挑战方所有技能，每人从5个系统随机给出的技能中选择1项技能获得。当boss或队友阵亡时，挑战方每人从5个系统随机给出的技能中选择1项技能获得；<br>模式②：游戏开始时，清空挑战方所有技能，每人从5个系统随机给出的技能中选择1项技能获得。游戏内挑战方对敌方角色造成伤害后可获得1枚“朱果”，boss死亡，挑战方可获得5枚“朱果”，“朱果”为友方共用，出牌阶段，你可以移去三枚“朱果”，从5个系统随机给出的技能中选择1项技能获得。你因此模式而获得的技能大于4个时，你选择一项技能失去。<br>模式③：与模式①完全相同，但游戏开始时挑战方不再失去技能或调整体力值，且此时不再获得技能。<br>模式④：与模式②完全相同，但游戏开始时挑战方不再失去技能或调整体力值，且此时不再获得技能。此模式下挑战方可拥有的技能数上限-1。<br>关闭：局内不再随机获得技能，使用角色自带技能进行原版挑战。<br><font color= #46FF28>推荐设置为模式②</font><br><font color = #FFCD00>注：本扩展自带关卡有默认配置，本设置仅影响其他挑战关卡！</font>",
 	"init":'2',
 	"item":{
 	"0":'关闭',
@@ -6090,22 +6095,22 @@ var qinyin={
 	"gk_limit":{
 	"name":"特定关卡屏蔽限定技",
 	"init":true,
-	"intro":"请输入文本"
+	"intro":"除虎虎生威外的4个山海志异关卡为降低随机到无用技能的概率会默认屏蔽限定技。<br><font color= #46FF28>推荐打开</font>"
 	},
 	"gk_juexingji":{
 	"name":"特定关卡屏蔽觉醒技",
 	"init":true,
-	"intro":"请输入文本"
+	"intro":"除虎虎生威外的4个山海志异关卡为降低随机到无用技能的概率会默认屏蔽觉醒技。<br><font color= #46FF28>推荐打开</font>"
 	},
 	"gl_limit":{
 	"name":"全局屏蔽限定技",
 	"init":false,
-	"intro":"请输入文本"
+	"intro":"打开后对所有挑战模式关卡生效，系统在随机抽取候选技能时会屏蔽所有限定技。<br><font color= #46FF28>推荐关闭</font>"
 	},
 	"gl_juexingji":{
 	"name":"全局屏蔽觉醒技",
 	"init":false,
-	"intro":"请输入文本"
+	"intro":"打开后对所有挑战模式关卡生效，系统在随机抽取候选技能时会屏蔽所有觉醒技。<br><font color= #46FF28>推荐关闭</font>"
 	},
 	"shouqi_ka":{
 	"name":"启用手气卡",
@@ -6204,8 +6209,8 @@ var qinyin={
 	},
 	},
 	intro:"<font color = #F82828>本扩展开源免费，严禁倒卖！</font><li><font color= #F012F0>长按下列功能可查看功能详情</font>",
-	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21</li>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21.1</li>",
 	diskURL:"https://github.com/pryusnut/shanhaizhiyi/releases",
 	forumURL:"",
-	version:"1.21",
+	version:"1.21.1",
 	},files:{"character":[],"card":[],"skill":[]}}})
