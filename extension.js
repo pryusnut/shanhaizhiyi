@@ -521,16 +521,9 @@ var qinyin={
 	game.changeBoss('boss_alhg_xiruonuosizuoshou',game.boss.previousSeat);
 	game.changeBoss('boss_alhg_xiruonuosiyoushou',game.boss.nextSeat);
 	'step 4'
-	while(_status.event.name!='phaseLoop'){
-	_status.event=_status.event.parent;
-	}
-	game.resetSkills();
-	_status.paused=false;
-	_status.event.player=game.boss;
-	_status.event.step=0;
-	_status.roundStart=game.boss;
-	game.phaseNumber=0;
-	game.roundNumber=0;
+	game.boss.insertPhase();
+	var loop=_status.event.getParent('phaseLoop');
+	if(loop&&loop.name=='phaseLoop') loop.player=game.boss;
 	}
 	},
 	boss_aogang3:{
@@ -579,21 +572,9 @@ var qinyin={
 	'step 2'
 	game.changeBoss('boss_alhg_sheshenyi',game.boss.nextSeat);
 	'step 3'
-	var _ev=_status.event,_cnt=0;
-	while(_ev&&_ev.name!='phaseLoop'){
-	_ev=_ev.parent;_cnt++;
-	if(_cnt>200) break;
-	}
-	_status.event=_ev;
-	game.resetSkills();
-	_status.paused=false;
-	if(_status.event){
-	_status.event.player=game.boss;
-	_status.event.step=0;
-	}
-	_status.roundStart=game.boss;
-	game.phaseNumber=0;
-	game.roundNumber=0;
+	game.boss.insertPhase();
+	var loop=_status.event.getParent('phaseLoop');
+	if(loop&&loop.name=='phaseLoop') loop.player=game.boss;
 	}
 	},
 	boss_aogang4:{
@@ -635,16 +616,9 @@ var qinyin={
 	game.changeBoss('boss_alhg_zhishen');
 	game.delay(0.5);
 	'step 2'
-	while(_status.event.name!='phaseLoop'){
-	_status.event=_status.event.parent;
-	}
-	game.resetSkills();
-	_status.paused=false;
-	_status.event.player=game.boss;
-	_status.event.step=0;
-	_status.roundStart=game.boss;
-	game.phaseNumber=0;
-	game.roundNumber=0;
+	game.boss.insertPhase();
+	var loop=_status.event.getParent('phaseLoop');
+	if(loop&&loop.name=='phaseLoop') loop.player=game.boss;
 	}
 	},
 	"boss_yvguan":{
@@ -1735,17 +1709,18 @@ var qinyin={
 	// audio:"rechanhui",
 	forced:true,
 	filter:function (event,player,name){
-	if(name=='damageBegin4') return event.source.hasMark('boss_anchaoa_1')
+	if(name=='damageBegin4') return event.source!=undefined&&event.source.hasMark('boss_anchaoa_1')
 	else return event.player.hasMark('boss_anchaoa_1')&&!event.numFixed;
 	},
 	content:function (){
 	if(event.triggername=='damageBegin4'){
-	var sh=trigger.source.storage.boss_anchaoa_1
+	if(!trigger.source) return;
+	var sh=trigger.source.storage.boss_anchaoa_1||0
 	player.line(trigger.source,'green');
 	trigger.num+=sh;
 	}
 	else{
-	var cp=trigger.player.storage.boss_anchaoa_1 
+	var cp=trigger.player.storage.boss_anchaoa_1||0
 	player.line(trigger.player,'green');
 	trigger.num+=cp;
 	}
@@ -1916,24 +1891,16 @@ var qinyin={
 	audio:"boss_baonu",
 	forced:true,
 	filter:function (event,player){
-	return player.hp<=8&&player.storage.boss_zhennub==true;;
+	return player.hp>0&&player.hp<=8&&player.storage.boss_zhennub==true;
 	},
 	content:function (){
 	'step 0'
 	player.draw(4)
 	player.storage.boss_zhennub=false;
 	'step 1'
-	while(_status.event.name!='phaseLoop'){
-	_status.event=_status.event.parent;
-	}
-	game.resetSkills();
-	_status.paused=false;
-	_status.event.player=player;
-	_status.event.step=0;
-	if(game.bossinfo){
-	game.bossinfo.loopType=1;
-	_status.roundStart=game.boss;
-	}
+	player.insertPhase();
+	var loop=_status.event.getParent('phaseLoop');
+	if(loop&&loop.name=='phaseLoop') loop.player=player;
 	},
 	},
 	"boss_xingpan":{
@@ -2562,26 +2529,21 @@ var qinyin={
 	},
 	fixed:true,
 	forced:true,
+	forceDie:true,
 	filter:function (event,player){
 	return player.countCards('he')>1
 	},
 	content:function (){
 	'step 0'
 	player.chooseToDiscard(2,true,'he')
-	if(player.hp<2) player.hp=2
-	player.update();//刷新
 	'step 1'
-	while(_status.event.name!='phaseLoop'){
-	_status.event=_status.event.parent;
-	}
-	game.resetSkills();
-	_status.paused=false;
-	_status.event.player=player;
-	_status.event.step=0;
-	if(game.bossinfo){
-	game.bossinfo.loopType=1;
-	_status.roundStart=game.boss;
-	}
+	trigger.cancel();
+	if(player.hp<2) player.changeHp(2-player.hp);
+	player.update();//刷新
+	'step 2'
+	player.insertPhase();
+	var loop=_status.event.getParent('phaseLoop');
+	if(loop&&loop.name=='phaseLoop') loop.player=player;
 	},
 	},
 	"boss_shenzong":{
@@ -2606,8 +2568,8 @@ var qinyin={
 	if(cards[0].name=='shunshou') event.count=2
 	"step 1"
 	if(cards[0].name=='wuzhong'){player.draw(4);event.finish();}
-	if(cards[0].name=='nanman'){player.chooseUseTarget('视为使用一张【惊雷闪】',{name:'jingleishan'},true);event.finish();}
-	if(cards[0].name=='wanjian'){player.chooseUseTarget('视为使用一张【炽羽袭】',{name:'chiyuxi'},true);event.finish();}
+	if(cards[0].name=='nanman'){player.chooseUseTarget('视为使用一张【南蛮入侵】',{name:'nanman'},true);event.finish();}
+	if(cards[0].name=='wanjian'){player.chooseUseTarget('视为使用一张【万箭齐发】',{name:'wanjian'},true);event.finish();}
 	if(cards[0].name=='wugu') event.goto(5)
 	if(cards[0].name=='jiedao') event.goto(2)
 	if(cards[0].name=='juedou') event.goto(2)
@@ -4667,7 +4629,7 @@ var qinyin={
 	"boss_xieqv":"邪躯",
 	"boss_xieqv_info":"锁定技，你死亡时，你弃置两张牌，取消之，然后若你的体力值小于2，你将体力值变成2，并立即开始你的回合。",
 	"boss_shenzong":"神踪",
-	"boss_shenzong_info":"出牌阶段，你可以弃置一张手牌，根据弃置的牌名发动效果：【无中生有】，你摸4张牌；【顺手牵羊】，你获得1~2名其他角色合计2张牌；【过河拆桥】，你弃置任意名其他角色一张牌；【借刀杀人】，你获得一名其他角色装备区里的一张装备牌；【铁索连环】，你令任意名其他角色横置，若其他角色均已横置，则你改为摸两张牌，若你已横置，则你解除横置；【桃园结义】，你回复2点体力值，回复超出的值改为获得等量的护甲；【五谷丰登】，你翻开牌堆顶4张牌，并获得其中两张牌；【南蛮入侵】，你视为使用一张【惊雷闪】；【万箭齐发】，你视为使用一张【炽羽袭】；【决斗】，你对一名其他角色造成一点雷电伤害；【火攻】，你对一名其他角色造成一点火焰伤害。",
+	"boss_shenzong_info":"出牌阶段，你可以弃置一张手牌，根据弃置的牌名发动效果：【无中生有】，你摸4张牌；【顺手牵羊】，你获得1~2名其他角色合计2张牌；【过河拆桥】，你弃置任意名其他角色一张牌；【借刀杀人】，你获得一名其他角色装备区里的一张装备牌；【铁索连环】，你令任意名其他角色横置，若其他角色均已横置，则你改为摸两张牌，若你已横置，则你解除横置；【桃园结义】，你回复2点体力值，回复超出的值改为获得等量的护甲；【五谷丰登】，你翻开牌堆顶4张牌，并获得其中两张牌；【南蛮入侵】，你视为使用一张【南蛮入侵】；【万箭齐发】，你视为使用一张【万箭齐发】；【决斗】，你对一名其他角色造成一点雷电伤害；【火攻】，你对一名其他角色造成一点火焰伤害。",
 	"boss_shenyia":"神意",
 	"boss_shenyia_info":"锁定技，敌方角色使用或打出【无懈可击】或【闪】时，你有75%的几率对该角色造成一点火焰伤害。",
 	"boss_shenpo":"神魄",
@@ -6209,8 +6171,8 @@ var qinyin={
 	},
 	},
 	intro:"<font color = #F82828>本扩展开源免费，严禁倒卖！</font><li><font color= #F012F0>长按下列功能可查看功能详情</font>",
-	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21.1</li>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21.1a</li>",
 	diskURL:"https://github.com/pryusnut/shanhaizhiyi/releases",
 	forumURL:"",
-	version:"1.21.1",
+	version:"1.21.1a",
 	},files:{"character":[],"card":[],"skill":[]}}})
