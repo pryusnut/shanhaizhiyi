@@ -6167,8 +6167,8 @@ var qinyin={
 	},
 	},
 	intro:"<font color = #F82828>本扩展开源免费，严禁倒卖！</font><li><font color= #F012F0>长按下列功能可查看功能详情</font>",
-	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21.1a</li>",
+	author:"pryusnut<li>原作者：浪琴婊</li><li>版本：1.21.1b</li>",
 	diskURL:"https://github.com/pryusnut/shanhaizhiyi/releases",
 	forumURL:"",
-	version:"1.21.1a",
+	version:"1.21.1b",
 	},files:{"character":[],"card":[],"skill":[]}}})
