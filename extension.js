@@ -951,10 +951,8 @@ var qinyin={
 	skills.remove('boss_aotang_2')
 	for(var i=0;i<skills.length;i++){
 	var info=get.info(skills[i]);
-	if(info&&(info.persevereSkill||info.charlotte)) continue;
-	if(get.skills[i]){
-	skills.splice(i--,1);
-	} 
+	// 受保护（持恒技/Charlotte）或无技能描述的条目从禁用列表中剔除，而非仅跳过
+	if(!info||info.persevereSkill||info.charlotte||!lib.translate[skills[i]+'_info']) skills.splice(i--,1);
 	}
 	player.disableSkill(skill,skills);
 	},
@@ -3033,10 +3031,8 @@ var qinyin={
 	skills.remove('boss_qianji_1')
 	for(var i=0;i<skills.length;i++){
 	var info=get.info(skills[i]);
-	if(info&&(info.persevereSkill||info.charlotte)) continue;
-	if(get.skills[i]){
-	skills.splice(i--,1);
-	}
+	// 受保护（持恒技/Charlotte）或无技能描述的条目从禁用列表中剔除，而非仅跳过
+	if(!info||info.persevereSkill||info.charlotte||!lib.translate[skills[i]+'_info']) skills.splice(i--,1);
 	}
 	player.disableSkill(skill,skills);
 	},

@@ -4,6 +4,12 @@
 
 本扩展在原作者「浪琴婊」v1.108 基础上进行现代化适配，兼容新版无名杀引擎。
 
+## [未发布]
+
+### 修复
+
+- **修复【熬汤】（boss_aotang_2）/【铁骑】（boss_tieji1_1）技能失效过滤实际未生效、导致目标全部技能被禁用**：两处 `disableSkill` 收集技能时——①`if(info&&(info.persevereSkill||info.charlotte)) continue;` 只跳过循环、**未把受保护技能从待禁用列表中剔除**，这些技能依旧被禁用；②`if(get.skills[i])` 中 `get.skills` 是引擎 `Get` 类的方法（返回界面技能栏列表，非数组），`get.skills[i]` 恒为 `undefined`，该剔除分支永不执行。实际效果为：目标 `getSkills(true,false)` 返回的**全部技能**——包括本应受保护的持恒技/Charlotte 技能与 BOSS 保命/阶段链技能——都会被禁用（v1.21.1 的修复意图正确但实现未生效）。现改为与引擎【亡魂】（boss_wanghun）一致的写法：先把受保护（`persevereSkill`/`charlotte`）或无技能描述（`lib.translate[skill+'_info']` 缺失，同时兼容无定义的条目）的技能从列表 `splice` 剔除，再执行 `disableSkill`。已用 Node 桩模拟验证（两处过滤行为 12 项 + 源码级 3 项共 15 项断言通过）。
+
 ## [1.21.1a] - 2026-09-08
 
 ### 修复
